@@ -14,6 +14,11 @@ type baseController struct {
 	actionName     string
 }
 
+type Json struct {
+	Msg string
+	Status int
+}
+
 func (p *baseController) Prepare()  {
 	controllerName, actionName := p.GetControllerAndAction()
 	p.controllerName = strings.ToLower(controllerName[0 : len(controllerName)-10])
@@ -40,9 +45,18 @@ func (p *baseController) Prepare()  {
 
 func (p *baseController) History(msg string, url string)  {
 	if url == "" {
-		p.Ctx.WriteString("<script>alert('"+msg+"');window.history.go(-1);</script>")
+		p.Ctx.WriteString("<script>swal('"+msg+"');window.history.go(-1);</script>")
 		p.StopRun()
 	} else {
 		p.Redirect(url,302)
 	}
+}
+
+func (p *baseController) MsgBack(msg string, status int)  {
+	data := &Json{
+		msg,
+		status,
+	}
+	p.Data["json"] = data
+	p.ServeJSON()
 }
