@@ -1,10 +1,10 @@
 package main
 
 import (
-	_ "axicoo/routers"
+	_ "beego-demo/routers"
 	"github.com/astaxie/beego"
 	_ "github.com/go-sql-driver/mysql"
-	"axicoo/models"
+	"beego-demo/models"
 )
 
 

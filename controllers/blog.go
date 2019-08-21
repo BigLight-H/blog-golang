@@ -1,7 +1,7 @@
 package controllers
 
 import (
-	"axicoo/models"
+	"beego-demo/models"
 	"github.com/astaxie/beego"
 )
 
