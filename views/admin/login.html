@@ -26,10 +26,10 @@
             <h3>Welcome to AXICOO</h3>
             <form class="m-t" role="form">
                 <div class="form-group">
-                    <input id="name" type="text" class="form-control" placeholder="输入用户名" required="">
+                    <input id="name" type="text" class="form-control" name="username" placeholder="输入用户名" required="">
                 </div>
                 <div class="form-group">
-                    <input id="pwd" type="password" class="form-control" placeholder="输入密码" required="">
+                    <input id="pwd" type="password" class="form-control" name="password" placeholder="输入密码" required="">
                 </div>
             </form>
                 <a class="btn btn-primary block full-width m-b" onclick="submint();" style="color: #FFFFFF">登录</a>
@@ -51,28 +51,24 @@
             uname = $("#name").val();
             pwd = $("#pwd").val();
             if (uname && pwd) {
-                $.ajax({
-                    //请求方式
-                    type : "POST",
-                    //请求的媒体类型
-                    contentType: "application/json;charset=UTF-8",
-                    //请求地址
-                    url : "/login",
-                    //数据，json字符串
-                    data : {username:uname,password:pwd},
-                    //请求成功
-                    success : function(res) {
-                        if (res.Status) {
-                            swal(res.Msg, "", "success");
-                        } else {
-                            swal(res.Msg, "", "error");
+                    $.ajax({
+                        type : "post",
+                        //async : true,            //异步请求（同步请求将会锁住浏览器，用户其他操作必须等待请求完成才可以执行）
+                        url : "/login",    //请求发送到TestServlet处
+                        data : {username:uname,password:pwd},
+                        dataType : "json",        //返回数据形式为json
+                        success : function(res) {
+                            if (res.Status) {
+                                swal(res.Msg, "", "success");
+                            } else {
+                                swal(res.Msg, "", "error");
+                            }
+                        },
+                        error : function(errorMsg) {
+                            //请求失败时执行该函数
+                            alert("图表请求数据失败!");
+                            myChart.hideLoading();
                         }
-                    },
-                    //请求失败，包含具体的错误信息
-                    error : function(e){
-                        console.log(e.status);
-                        console.log(e.responseText);
-                    }
                 });
             } else {
                 swal("用户名或密码为空!", "", "info");

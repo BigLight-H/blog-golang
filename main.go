@@ -11,6 +11,7 @@ import (
 func init() {
 	models.Init()
 	beego.BConfig.WebConfig.Session.SessionOn = true
+	beego.BConfig.CopyRequestBody = true
 }
 
 func main() {

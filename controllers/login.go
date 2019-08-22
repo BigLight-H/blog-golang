@@ -10,14 +10,12 @@ type LoginController struct {
 	baseController
 }
 
-func (this *LoginController) Login() {
+func (this *LoginController) Login()	 {
 	if this.Ctx.Request.Method == "POST" {
 		username := this.GetString("username")
 		password := this.GetString("password")
 		user := models.User{Username:username}
 		this.o.Read(&user,"username")
-		this.Data["json"] = &user
-		this.ServeJSON()
 		if user.Password == "" {
 			this.MsgBack("账号不存在",0)
 		}
