@@ -27,7 +27,7 @@ func (c *BlogController) Home()  {
 	//c.Data["cates"] = categorys
 
 
-	post := models.Post{Id:1}
+	post := models.User{Id:1}
 	c.o.Read(&post) // 返回 QuerySeter
 	c.Data["json"] = &post
 	c.ServeJSON()

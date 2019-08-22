@@ -10,7 +10,7 @@ type User struct {
 	LoginCount int
 	LastTime time.Time
 	LastIp string
-	State int8
+	Status int8
 	Created time.Time
 	Updated time.Time
 }
