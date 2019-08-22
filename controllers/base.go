@@ -24,9 +24,9 @@ func (p *baseController) Prepare()  {
 	p.controllerName = strings.ToLower(controllerName[0 : len(controllerName)-10])
 	p.actionName = strings.ToLower(actionName)
 	p.o = orm.NewOrm()
-	if p.controllerName == "admin" && p.actionName != "login" {
+	if p.controllerName == "admin"{
 		if p.GetSession("user") == nil {
-			p.Ctx.WriteString("回去吧,未登录!")
+			p.TplName = "admin/500.html"
 		}
 	}
 
