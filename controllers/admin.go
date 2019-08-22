@@ -5,7 +5,5 @@ type AdminController struct {
 }
 
 func (p *AdminController) Home()  {
-	if p.GetSession("user") == nil {
-		p.Redirect("/login",302)
-	}
+	p.TplName = "admin/index.html"
 }
