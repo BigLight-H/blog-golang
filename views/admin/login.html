@@ -5,7 +5,7 @@
     <div class="middle-box text-center loginscreen animated fadeInDown">
         <div>
             <div>
-                <h1 class="logo-name">AC</h1>
+                <h1 class="logo-name">AXI</h1>
             </div>
             <h3>Welcome to AXICOO</h3>
             <form class="m-t" role="form">
@@ -40,14 +40,14 @@
                         dataType : "json",        //返回数据形式为json
                         success : function(res) {
                             if (res.Status) {
-                                swal(res.Msg, "", "success");
+                                location.href = "/admin/home";
                             } else {
                                 swal(res.Msg, "", "error");
                             }
                         },
                         error : function(errorMsg) {
                             //请求失败时执行该函数
-                            alert("图表请求数据失败!");
+                            swal("请求失败", "", "error");
                             myChart.hideLoading();
                         }
                 });
