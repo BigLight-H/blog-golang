@@ -26,7 +26,7 @@ func (p *baseController) Prepare()  {
 	p.o = orm.NewOrm()
 	if p.controllerName == "admin"{
 		if p.GetSession("user") == nil {
-			p.History("", "500.html")
+			p.History("", "/error")
 		}
 	}
 

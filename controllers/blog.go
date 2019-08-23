@@ -32,3 +32,7 @@ func (c *BlogController) Home()  {
 	c.Data["json"] = &post
 	c.ServeJSON()
 }
+
+func (c *BlogController) Error()  {
+	c.TplName = "admin/500.html"
+}
