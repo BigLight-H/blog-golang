@@ -23,9 +23,9 @@ func (this *LoginController) Login()	 {
 		if util.Md5(password) != strings.Trim(user.Password, " ") {
 			this.MsgBack("密码错误", 0)
 		} else {
-			this.Redirect("/admin/home",302)
+			this.SetSession("user", user)
+			this.MsgBack("登录成功", 1)
 		}
-		this.SetSession("user", user)
 	} else {
 		this.TplName = "admin/login.html"
 	}
