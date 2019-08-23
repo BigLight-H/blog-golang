@@ -18,3 +18,8 @@ func (p *AdminController) Sidebar()  {
 	p.Data["json"] = permissions
 	p.ServeJSON()
 }
+
+func (p *AdminController) Logout()  {
+	p.DestroySession()
+	p.History("退出登录", "/login")
+}
