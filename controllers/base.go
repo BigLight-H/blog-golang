@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"beego-demo/models"
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/orm"
 	"strings"
@@ -25,9 +26,13 @@ func (p *baseController) Prepare()  {
 	p.o = orm.NewOrm()
 	if p.controllerName == "admin"{
 		if p.GetSession("user") == nil {
-			p.TplName = "admin/500.html"
+			p.History("", "500.html")
 		}
 	}
+
+	permissions := [] *models.Permissions{}
+	p.o.QueryTable(new(models.Permissions).TableName()).All(&permissions)
+	p.Data["sidebar"] = &permissions
 }
 
 func (p *baseController) History(msg string, url string)  {
