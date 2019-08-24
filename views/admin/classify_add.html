@@ -33,10 +33,10 @@
                                 <select class="form-control m-b" name="pid">
                                     <option value="0">一级分类</option>
                                     {{range $v := .class_type}}
-                                        <option value="{{$v.Pid}}">{{$v.TName}}</option>
+                                        <option value="{{$v.Id}}">{{$v.TName}}</option>
                                     {{end}}
                                     {{range .type_data}}
-                                        <option value="{{.Pid}}" selected>{{.TName}}</option>
+                                        <option value="{{.Id}}" selected>{{.TName}}</option>
                                     {{end}}
                                 </select>
                                 <span class="form-text m-b-none">默认选中为一级分类</span>
