@@ -34,6 +34,7 @@ func (p *baseController) Prepare()  {
 	p.o.QueryTable(new(models.Permissions).TableName()).All(&permissions)
 	p.Data["sidebar"] = &permissions
 	p.Data["user"] = p.GetSession("user")
+	p.Data["tag"] = "Admin"
 }
 
 func (p *baseController) History(msg string, url string)  {

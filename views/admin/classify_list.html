@@ -1,0 +1,101 @@
+{{template "admin/index-head.html" .}}
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>分类管理</h2>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="/admin/home">首页</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a>文章分类</a>
+            </li>
+            <li class="breadcrumb-item active">
+                <strong>分类管理</strong>
+            </li>
+        </ol>
+    </div>
+    <div class="col-lg-2">
+
+    </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox ">
+                <div class="ibox-title">
+                    <h5>可对文章分类进行编辑</h5>
+                </div>
+                <div class="ibox-content">
+
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered table-hover dataTables-example" >
+                            <thead>
+                            <tr>
+                                <th>分类ID</th>
+                                <th>上级ID</th>
+                                <th>分类名称</th>
+                                <th>编辑</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {{range .types }}
+                            <tr class="gradeX">
+                                <td>{{ .Id }}</td>
+                                <td>{{ .Pid }}</td>
+                                <td>{{ .TName }}</td>
+                                <td class="center">
+                                    <a onclick="updateType({{ .Id }})" class="btn btn-primary btn-sm" style="color: #FFFFFF" >修改</a>
+                                    <a onclick="delType({{ .Id }},{{ .Pid }},{{ .TName }})" class="btn btn-primary btn-sm" style="color: #FFFFFF" >删除</a>
+                                </td>
+                            </tr>
+                            {{else}}
+                                <td colspan = 4 style="text-align: center">暂无分类</td>
+                            {{end}}
+                            </tfoot>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function updateType(id) {
+        window.location.href="/admin/classify/add/"+id;
+    }
+
+    function delType(id,pid,name) {
+        swal({
+            title: '确定删除吗？',
+            text: '你将无法恢复它！',
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: '确定删除！',
+        }).then(function(){
+            $.ajax({
+                type : "POST",
+                //async : true,            //异步请求（同步请求将会锁住浏览器，用户其他操作必须等待请求完成才可以执行）
+                url : "/admin/classify/list",    //请求发送到TestServlet处
+                data : {id:id,name:name,pid:pid},
+                dataType : "json",        //返回数据形式为json
+                success : function(res) {
+                    if (res.Status) {
+                        swal(
+                            '删除！',
+                            '你的文件已经被删除。',
+                            'success'
+                        );
+                        setTimeout("location.reload()",1500);
+                    } else {
+                        swal(res.Msg, "", "error");
+                    }
+                }
+            });
+        })
+    }
+</script>
+{{template "admin/footer.html" .}}

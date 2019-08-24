@@ -12,4 +12,7 @@ func init() {
 	beego.Router("/login", &controllers.LoginController{}, "post:Login")
 	beego.Router("/admin/home", &controllers.AdminController{}, "*:Home")
 	beego.Router("/admin/logout", &controllers.AdminController{}, "*:Logout")
+	beego.Router("/admin/classify/add/?:id", &controllers.AdminController{}, "get:ClassifyAdd")
+	beego.Router("/admin/classify/add", &controllers.AdminController{}, "post:ClassifyAdd")
+	beego.Router("/admin/classify/list", &controllers.AdminController{}, "*:ClassifyList")
 }

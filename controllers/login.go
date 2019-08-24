@@ -30,6 +30,7 @@ func (this *LoginController) Login()	 {
 			this.MsgBack("登录成功", 1)
 		}
 	} else {
+		this.Data["tag"] = "Login"
 		this.TplName = "admin/login.html"
 	}
 

@@ -34,5 +34,6 @@ func (c *BlogController) Home()  {
 }
 
 func (c *BlogController) Error()  {
+	c.Data["tag"] = "Error"
 	c.TplName = "admin/500.html"
 }

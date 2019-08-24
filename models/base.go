@@ -22,6 +22,7 @@ func Init() {
 		new(Permissions),
 		new(Role),
 		new(HeadImg),
+		new(Type),
 		)
 }
 
