@@ -9,15 +9,18 @@ type AdminController struct {
 	baseController
 }
 
+//后台首页
 func (p *AdminController) Home()  {
 	p.TplName = "admin/index.html"
 }
 
+//退出登录
 func (p *AdminController) Logout()  {
 	p.DestroySession()
 	p.History("退出登录", "/login")
 }
 
+//文章类型添加
 func (p *AdminController) ClassifyAdd() {
 	if p.Ctx.Request.Method == "POST" {
 		types := models.Type{}
@@ -63,6 +66,7 @@ func (p *AdminController) ClassifyAdd() {
 	}
 }
 
+//文章类型列表
 func (p *AdminController) ClassifyList() {
 	if p.Ctx.Request.Method == "POST"{
 		class := models.Type{}

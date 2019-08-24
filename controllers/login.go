@@ -10,6 +10,7 @@ type LoginController struct {
 	baseController
 }
 
+//后台登录
 func (this *LoginController) Login()	 {
 	if this.Ctx.Request.Method == "POST" {
 		username := this.GetString("username")
