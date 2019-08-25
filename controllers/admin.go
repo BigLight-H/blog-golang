@@ -90,3 +90,52 @@ func (p *AdminController) ClassifyList() {
 		p.TplName = "admin/classify_list.html"
 	}
 }
+
+//文章列表渲染
+func (p *AdminController) ArticleList() {
+	p.list()
+	p.TplName = "admin/article_list.html"
+}
+
+//文章列表查询
+func (p *AdminController) list() {
+	article := []*models.Article{}
+	p.o.QueryTable(new(models.Article).TableName()).RelatedSel().All(&article)
+	p.Data["article"] = article
+}
+
+//文章审核确认
+func (p *AdminController) Review()  {
+	id_ := p.GetString("id")
+	id, _ := strconv.Atoi(id_)
+	revs := p.GetString("rev")
+	rev, _ := strconv.Atoi(revs)
+	txt := p.GetString("txt")
+	article := models.Article{}
+	article.Id = id
+	article.Review = rev
+	if txt != "" {
+		article.Cause = txt
+	}
+	_, erro := p.o.Update(&article, "Review", "Cause"); if erro != nil {
+		p.MsgBack("审核失败", 0)
+	}
+	p.MsgBack("审核成功", 1)
+}
+
+//文章上下架操作
+func (p *AdminController) UpDown()  {
+	id_ := p.GetString("id")
+	id, _ := strconv.Atoi(id_)
+	status_ := p.GetString("status")
+	status, _ := strconv.Atoi(status_)
+	article := models.Article{}
+	article.Id = id
+	article.Status = status
+	_, error := p.o.Update(&article, "Status");
+	if error != nil {
+		p.MsgBack("审核失败", 0)
+	}
+	p.MsgBack("审核成功", 1)
+}
+

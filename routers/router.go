@@ -15,4 +15,7 @@ func init() {
 	beego.Router("/admin/classify/add/?:id", &controllers.AdminController{}, "get:ClassifyAdd")
 	beego.Router("/admin/classify/add", &controllers.AdminController{}, "post:ClassifyAdd")
 	beego.Router("/admin/classify/list", &controllers.AdminController{}, "*:ClassifyList")
+	beego.Router("/admin/article/list", &controllers.AdminController{}, "*:ArticleList")
+	beego.Router("/admin/article/review", &controllers.AdminController{}, "post:Review")
+	beego.Router("/admin/article/updown", &controllers.AdminController{}, "post:UpDown")
 }

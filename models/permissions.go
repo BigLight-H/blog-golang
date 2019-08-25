@@ -5,7 +5,7 @@ import "time"
 type Permissions struct {
 	Id 			  int
 	Pid           int
-	Route         string
+	Status        int
 	WebUrl       string
 	DisplayName  string
 	Sort          int

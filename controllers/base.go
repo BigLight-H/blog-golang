@@ -31,7 +31,7 @@ func (p *baseController) Prepare()  {
 	}
 
 	permissions := [] *models.Permissions{}
-	p.o.QueryTable(new(models.Permissions).TableName()).All(&permissions)
+	p.o.QueryTable(new(models.Permissions).TableName()).Filter("status", 1).All(&permissions)
 	p.Data["sidebar"] = &permissions
 	p.Data["user"] = p.GetSession("user")
 	p.Data["tag"] = "Admin"

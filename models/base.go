@@ -23,6 +23,8 @@ func Init() {
 		new(Role),
 		new(HeadImg),
 		new(Type),
+		new(Article),
+		new(Client),
 		)
 }
 
