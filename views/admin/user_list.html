@@ -115,45 +115,8 @@
     function addUser() {
         $('#myModal6').modal('show')
     }
-    //前端验证表单
-    function confirm()
-    {
-        if($("#uname").val() == '')
-        {
-            swal({
-                title: "用户名不能为空!",
-            });
-            return false;
-        }
-        else if($("#pwd").val() == '')
-        {
-            swal({
-                title: "密码不能为空!",
-            });
-            return false;
-        }
-        else if($("#mobile").val() == '')
-        {
-            swal({
-                title: "手机号不能为空!",
-            });
-            return false;
-        }
-        else if($("#email").val() == '')
-        {
-            swal({
-                title: "邮箱不能为空!",
-            });
-            return false;
-        }
-        else
-        {
-            return true;
-        }
-    }
-
+    //异步添加管理员
     function pushUser() {
-        confirm();
         username = $('#uname').val();
         password = $('#pwd').val();
         email = $('#email').val();
