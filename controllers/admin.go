@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"beego-demo/models"
+	"beego-demo/util"
 	"strconv"
 )
 
@@ -138,4 +139,61 @@ func (p *AdminController) UpDown()  {
 	}
 	p.MsgBack("审核成功", 1)
 }
+
+//后台管理员列表
+func (p *AdminController) UserList() {
+	p.users()
+	p.TplName = "admin/user_list.html"
+}
+
+//管理员列表查询
+func (p *AdminController) users() {
+	user := []*models.User{}
+	p.o.QueryTable( new(models.User).TableName() ).RelatedSel().All(&user)
+	p.Data["users_list"] = user
+}
+
+//冻结解冻管理员
+func (p *AdminController) UserStatus() {
+	id_ := p.GetString("id")
+	id, _ := strconv.Atoi(id_)
+	status_ := p.GetString("status")
+	status, _ := strconv.Atoi(status_)
+	user := models.User{}
+	user.Id = id
+	if id == 1 {
+		p.MsgBack("操作失败", 0)
+	}
+	user.Status = status
+	_, err := p.o.Update(&user, "Status");
+	if err != nil {
+		p.MsgBack("操作失败", 0)
+	}
+	p.MsgBack("操作成功", 1)
+}
+
+//添加管理员
+func (p *AdminController) AddUser() {
+	username, password, mobile, email := p.GetString("username"), util.Md5(p.GetString("password")), p.GetString("mobile"), p.GetString("email")
+	status := 1
+	user := models.User{}
+	user.Status = status
+	user.Email = email
+	user.Username = username
+	user.Password = password
+	user.Mobile = mobile
+	user.LastIp = p.getClientIp()
+	user.LoginCount = 0
+	role := models.Role{Id:2}
+	user.Role = &role
+	img := models.HeadImg{Id:1}
+	user.HeadImg = &img
+	_, error := p.o.Insert(&user)
+	if error != nil {
+		p.History("添加管理员失败", " ")
+	}
+	p.History(" ", "/admin/users")
+}
+
+
 
