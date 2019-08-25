@@ -175,24 +175,40 @@ func (p *AdminController) UserStatus() {
 //添加管理员
 func (p *AdminController) AddUser() {
 	username, password, mobile, email := p.GetString("username"), util.Md5(p.GetString("password")), p.GetString("mobile"), p.GetString("email")
-	status := 1
-	user := models.User{}
-	user.Status = status
-	user.Email = email
-	user.Username = username
-	user.Password = password
-	user.Mobile = mobile
-	user.LastIp = p.getClientIp()
-	user.LoginCount = 0
-	role := models.Role{Id:2}
-	user.Role = &role
-	img := models.HeadImg{Id:1}
-	user.HeadImg = &img
-	_, error := p.o.Insert(&user)
-	if error != nil {
-		p.History("添加管理员失败", " ")
+	if len(username) <= 2 {
+		p.MsgBack("用户名长度不能小于2", 0)
+	} else if len(password) <= 6 {
+		p.MsgBack("密码长度不能小于6", 0)
+	} else if p.VerifyEmailFormat(email) == false {
+		p.MsgBack("邮箱格式不对", 0)
+	} else if p.VerifyMobileFormat(mobile) == false {
+		p.MsgBack("手机号码格式不对", 0)
+	} else {
+		u := models.User{Username: username}
+		p.o.Read(&u, "username")
+		if u.Password != "" {
+			p.MsgBack("用户名已存在", 0)
+		} else {
+			status := 1
+			user := models.User{}
+			user.Status = status
+			user.Email = email
+			user.Username = username
+			user.Password = password
+			user.Mobile = mobile
+			user.LastIp = p.getClientIp()
+			user.LoginCount = 0
+			role := models.Role{Id:2}
+			user.Role = &role
+			img := models.HeadImg{Id:1}
+			user.HeadImg = &img
+			_, error := p.o.Insert(&user)
+			if error != nil {
+				p.MsgBack("添加管理员失败", 0)
+			}
+			p.MsgBack("管理员添加成功", 1)
+		}
 	}
-	p.History(" ", "/admin/users")
 }
 
 

@@ -83,30 +83,28 @@
                 <h4 class="modal-title">管理员添加</h4>
             </div>
             <div class="modal-body">
-                <form role="form" action="/admin/add_user" method="post" onSubmit="return confirm();">
-                    <div class="form-group">
-                        <label><font style="color: red">*&nbsp;</font>用户名</label>
-                        <input id="uname" name="username" type="text" placeholder="输入用户名" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <label><font style="color: red">*&nbsp;</font>密码</label>
-                        <input id="pwd" name="password" type="text" placeholder="输入初始密码" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <label><font style="color: red">*&nbsp;</font>电话</label>
-                        <input id="mobile" name="mobile" type="text" placeholder="输入电话" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <label><font style="color: red">*&nbsp;</font>邮箱</label>
-                        <input id="email" name="email" type="email" placeholder="输入邮箱" class="form-control">
-                    </div>
-                    <br>
-                    <div>
-                        <button class="btn btn-sm btn-primary float-right m-t-n-xs" type="submit">
-                            <strong>提交</strong>
-                        </button>
-                    </div>
-                </form>
+                <div class="form-group">
+                    <label><font style="color: red">*&nbsp;</font>用户名</label>
+                    <input id="uname" name="username" type="text" placeholder="输入用户名" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label><font style="color: red">*&nbsp;</font>密码</label>
+                    <input id="pwd" name="password" type="text" placeholder="输入初始密码" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label><font style="color: red">*&nbsp;</font>电话</label>
+                    <input id="mobile" name="mobile" type="text" placeholder="输入电话" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label><font style="color: red">*&nbsp;</font>邮箱</label>
+                    <input id="email" name="email" type="email" placeholder="输入邮箱" class="form-control">
+                </div>
+                <br>
+                <div>
+                    <button onclick="pushUser()" class="btn btn-sm btn-primary float-right m-t-n-xs" type="submit">
+                        <strong>提交</strong>
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -152,6 +150,33 @@
         {
             return true;
         }
+    }
+
+    function pushUser() {
+        confirm();
+        username = $('#uname').val();
+        password = $('#pwd').val();
+        email = $('#email').val();
+        mobile = $('#mobile').val();
+        $.ajax({
+            type : "POST",
+            //async : true,            //异步请求（同步请求将会锁住浏览器，用户其他操作必须等待请求完成才可以执行）
+            url : "/admin/add_user",    //请求发送到TestServlet处
+            data : {username:username,password:password,email:email,mobile:mobile},
+            dataType : "json",        //返回数据形式为json
+            success : function(res) {
+                if (res.Status) {
+                    swal(
+                        res.Msg,
+                        '',
+                        'success'
+                    );
+                    setTimeout("location.reload()",1500);
+                } else {
+                    swal(res.Msg, "", "error");
+                }
+            }
+        });
     }
 
     //管理员冻结解冻
