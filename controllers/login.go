@@ -10,6 +10,7 @@ type LoginController struct {
 	baseController
 }
 
+//后台登录
 func (this *LoginController) Login()	 {
 	if this.Ctx.Request.Method == "POST" {
 		username := this.GetString("username")
@@ -23,10 +24,14 @@ func (this *LoginController) Login()	 {
 		if util.Md5(password) != strings.Trim(user.Password, " ") {
 			this.MsgBack("密码错误", 0)
 		} else {
-			this.SetSession("user", user)
+			data := models.User{}
+			qs := this.o.QueryTable(new(models.User).TableName())
+			qs.Filter("id", user.Id).RelatedSel().All(&data)
+			this.SetSession("user", data)
 			this.MsgBack("登录成功", 1)
 		}
 	} else {
+		this.Data["tag"] = "Login"
 		this.TplName = "admin/login.html"
 	}
 

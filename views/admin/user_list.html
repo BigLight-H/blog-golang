@@ -1,0 +1,182 @@
+{{template "admin/index-head.html" .}}
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>管理员管理</h2>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="/admin/home">首页</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a>管理员列表</a>
+            </li>
+            <li class="breadcrumb-item active">
+                <strong>管理员管理</strong>
+            </li>
+        </ol>
+    </div>
+    <div class="col-lg-2">
+
+    </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox ">
+                <div class="ibox-title">
+                    <h5>管理员管理、冻结、添加</h5>
+                    <a onclick="addUser()" class="btn btn-primary btn-sm pull-right" style="color: #FFFFFF" >添加管理员</a>
+                </div>
+                <div class="ibox-content">
+
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered table-hover dataTables-example" >
+                            <thead>
+                            <tr>
+                                <th>管理员ID</th>
+                                <th>名字</th>
+                                <th>邮箱</th>
+                                <th>电话</th>
+                                <th>状态</th>
+                                <th>等级</th>
+                                <th>操作</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {{range .users_list}}
+                                <tr class="gradeX">
+                                    <td>{{ .Id }}</td>
+                                    <td>{{ .Username }}</td>
+                                    <td>{{ .Email }}</td>
+                                    <td class="center">{{ .Mobile }}</td>
+                                    {{if eq .Status 1}}
+                                        <td class="center">正常</td>
+                                    {{else}}
+                                        <td class="center">冻结</td>
+                                    {{end}}
+                                    <td class="center">{{ .Role.Role }}</td>
+                                    <td class="center">
+                                        {{if eq .Status 1}}
+                                            <a onclick="userStatus({{ .Id }}, 0)" class="btn btn-primary btn-sm" style="color: #FFFFFF" >冻结</a>
+                                        {{else}}
+                                            <a onclick="userStatus({{ .Id }}, 1)" class="btn btn-primary btn-sm" style="color: #FFFFFF" >解冻</a>
+                                        {{end}}
+                                    </td>
+                                </tr>
+                            {{else}}
+                                <td colspan="7" style="text-align: center">暂无管理员,快去添加</td>
+                            {{end}}
+                            </tfoot>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 管理员添加 -->
+<div class="modal inmodal fade" id="myModal6" tabindex="-1" role="dialog"  aria-hidden="true" >
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title">管理员添加</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label><font style="color: red">*&nbsp;</font>用户名</label>
+                    <input id="uname" name="username" type="text" placeholder="输入用户名" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label><font style="color: red">*&nbsp;</font>密码</label>
+                    <input id="pwd" name="password" type="text" placeholder="输入初始密码" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label><font style="color: red">*&nbsp;</font>电话</label>
+                    <input id="mobile" name="mobile" type="text" placeholder="输入电话" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label><font style="color: red">*&nbsp;</font>邮箱</label>
+                    <input id="email" name="email" type="email" placeholder="输入邮箱" class="form-control">
+                </div>
+                <br>
+                <div>
+                    <button onclick="pushUser()" class="btn btn-sm btn-primary float-right m-t-n-xs" type="submit">
+                        <strong>提交</strong>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<input type="hidden" id="rev">
+<script>
+    //管理员添加
+    function addUser() {
+        $('#myModal6').modal('show')
+    }
+    //异步添加管理员
+    function pushUser() {
+        username = $('#uname').val();
+        password = $('#pwd').val();
+        email = $('#email').val();
+        mobile = $('#mobile').val();
+        $.ajax({
+            type : "POST",
+            //async : true,            //异步请求（同步请求将会锁住浏览器，用户其他操作必须等待请求完成才可以执行）
+            url : "/admin/add_user",    //请求发送到TestServlet处
+            data : {username:username,password:password,email:email,mobile:mobile},
+            dataType : "json",        //返回数据形式为json
+            success : function(res) {
+                if (res.Status) {
+                    swal(
+                        res.Msg,
+                        '',
+                        'success'
+                    );
+                    setTimeout("location.reload()",1500);
+                } else {
+                    swal(res.Msg, "", "error");
+                }
+            }
+        });
+    }
+
+    //管理员冻结解冻
+    function userStatus(id, status) {
+        sta = "冻结";
+        if (status){
+            sta = "解冻";
+        }
+        swal({
+            title: '确定'+sta+'吗？',
+            text: '',
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: '确定',
+        }).then(function(){
+            $.ajax({
+                type : "POST",
+                //async : true,            //异步请求（同步请求将会锁住浏览器，用户其他操作必须等待请求完成才可以执行）
+                url : "/admin/users/user_status",    //请求发送到TestServlet处
+                data : {id:id,status:status},
+                dataType : "json",        //返回数据形式为json
+                success : function(res) {
+                    if (res.Status) {
+                        swal(
+                            res.Msg,
+                            '',
+                            'success'
+                        );
+                        setTimeout("location.reload()",1500);
+                    } else {
+                        swal(res.Msg, "", "error");
+                    }
+                }
+            });
+        })
+    }
+</script>
+{{template "admin/footer.html" .}}
