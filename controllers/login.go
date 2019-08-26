@@ -28,6 +28,7 @@ func (this *LoginController) Login()	 {
 			qs := this.o.QueryTable(new(models.User).TableName())
 			qs.Filter("id", user.Id).RelatedSel().All(&data)
 			this.SetSession("user", data)
+			this.SetSession("user_id", data.Id)
 			this.MsgBack("登录成功", 1)
 		}
 	} else {

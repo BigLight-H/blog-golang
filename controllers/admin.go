@@ -215,11 +215,30 @@ func (p *AdminController) AddUser() {
 
 //个人信息修改
 func (p *AdminController) UserMessge() {
-	spew.Dump(p.Data["user"])
-	//if p.Ctx.Request.Method == "POST" {
-	//	spew.Dump()
-	//}
-	p.Ctx.WriteString("个人信息修改")
+	if p.Ctx.Request.Method == "POST" {
+		uid_ := p.GetString("uid")
+		uid, _ := strconv.Atoi(uid_)
+		mobile := p.GetString("mobile")
+		password := p.GetString("password")
+		email := p.GetString("email")
+		spew.Dump(uid)
+		user := models.User{}
+		user.Id = uid
+		user.Mobile = mobile
+		user.Email = email
+		if password != "" {
+			user.Password = util.Md5(password)
+			_, err := p.o.Update(&user, "Mobile", "Email", "Password");if err != nil {
+				p.MsgBack("信息修改失败", 0)
+			}
+		} else {
+			_, err := p.o.Update(&user, "Mobile", "Email");if err != nil {
+				p.MsgBack("信息修改失败", 0)
+			}
+		}
+		p.MsgBack("信息修改成功", 1)
+	}
+	p.TplName = "admin/admin_message.html"
 }
 
 //意见反馈列表
