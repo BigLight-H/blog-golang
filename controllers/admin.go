@@ -3,6 +3,7 @@ package controllers
 import (
 	"beego-demo/models"
 	"beego-demo/util"
+	"github.com/davecgh/go-spew/spew"
 	"strconv"
 )
 
@@ -210,6 +211,25 @@ func (p *AdminController) AddUser() {
 		}
 	}
 }
+
+//个人信息修改
+func (p *AdminController) UserMessge() {
+	spew.Dump(p.Data["user"])
+	//if p.Ctx.Request.Method == "POST" {
+	//	spew.Dump()
+	//}
+	p.Ctx.WriteString("个人信息修改")
+}
+
+//意见反馈列表
+func (p *AdminController) FeedBack() {
+	feedback := []*models.FeedBack{}
+	p.o.QueryTable(new(models.FeedBack).TableName()).OrderBy("-created").All(&feedback)
+	p.Data["feedback"] = feedback
+	spew.Dump(feedback)
+	p.TplName = ""
+}
+
 
 
 

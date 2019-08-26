@@ -25,6 +25,7 @@ func Init() {
 		new(Type),
 		new(Article),
 		new(Client),
+		new(FeedBack),
 		)
 }
 
