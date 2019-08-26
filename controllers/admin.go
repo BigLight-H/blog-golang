@@ -3,6 +3,7 @@ package controllers
 import (
 	"beego-demo/models"
 	"beego-demo/util"
+	"github.com/astaxie/beego"
 	"github.com/davecgh/go-spew/spew"
 	"strconv"
 )
@@ -224,11 +225,39 @@ func (p *AdminController) UserMessge() {
 //意见反馈列表
 func (p *AdminController) FeedBack() {
 	feedback := []*models.FeedBack{}
-	p.o.QueryTable(new(models.FeedBack).TableName()).OrderBy("-created").All(&feedback)
+	p.o.QueryTable(new(models.FeedBack).TableName()).OrderBy("-id").All(&feedback)
 	p.Data["feedback"] = feedback
-	spew.Dump(feedback)
-	p.TplName = ""
+	p.TplName = "admin/feed_back.html"
 }
+
+//发送意见反馈回复
+func (p *AdminController) PushEmail() {
+	txt := p.GetString("txt")
+	id_ := p.GetString("id")
+	email := p.GetString("email")
+	if txt == "" {
+		p.MsgBack("内容不能为空", 0)
+	} else if p.VerifyEmailFormat(email) == false  {
+		p.MsgBack("邮箱格式不对", 0)
+	} else {
+		feed := models.FeedBack{}
+		id, _ := strconv.Atoi(id_)
+		feed.Id = id
+		feed.Reply = txt
+		_, err := p.o.Update(&feed, "Reply");if err != nil {
+			p.MsgBack("回复返回失败", 0)
+		}
+		mailTo := []string{
+			email,
+		}
+		subject := beego.AppConfig.String("set_title")
+		body := txt
+		_ = util.SendEmail(mailTo, subject, body)
+		p.MsgBack("回复成功", 1)
+	}
+}
+
+
 
 
 

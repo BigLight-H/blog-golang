@@ -6,15 +6,13 @@
 */
 package models
 
-import "time"
-
 type FeedBack struct {
 	Id int
 	Email string
 	Title string
 	Content string
 	Reply string
-	Created time.Time
+	Created string
 }
 
 func (m *FeedBack) TableName() string {
