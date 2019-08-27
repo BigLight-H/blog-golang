@@ -3,6 +3,7 @@ package controllers
 import (
 	"beego-demo/models"
 	"beego-demo/util"
+	"github.com/astaxie/beego"
 	"github.com/davecgh/go-spew/spew"
 	"strconv"
 )
@@ -214,31 +215,72 @@ func (p *AdminController) AddUser() {
 
 //个人信息修改
 func (p *AdminController) UserMessge() {
-	spew.Dump(p.Data["user"])
-	//if p.Ctx.Request.Method == "POST" {
-	//	spew.Dump()
-	//}
-	p.Ctx.WriteString("个人信息修改")
+	if p.Ctx.Request.Method == "POST" {
+		uid_ := p.GetString("uid")
+		uid, _ := strconv.Atoi(uid_)
+		mobile := p.GetString("mobile")
+		password := p.GetString("password")
+		email := p.GetString("email")
+		spew.Dump(uid)
+		user := models.User{}
+		user.Id = uid
+		user.Mobile = mobile
+		user.Email = email
+		if password != "" {
+			user.Password = util.Md5(password)
+			_, err := p.o.Update(&user, "Mobile", "Email", "Password");if err != nil {
+				p.MsgBack("信息修改失败", 0)
+			}
+		} else {
+			_, err := p.o.Update(&user, "Mobile", "Email");if err != nil {
+				p.MsgBack("信息修改失败", 0)
+			}
+		}
+		p.MsgBack("信息修改成功", 1)
+	}
+	p.TplName = "admin/admin_message.html"
 }
 
 //意见反馈列表
 func (p *AdminController) FeedBack() {
 	feedback := []*models.FeedBack{}
-	p.o.QueryTable(new(models.FeedBack).TableName()).OrderBy("-created").All(&feedback)
+	p.o.QueryTable(new(models.FeedBack).TableName()).OrderBy("-id").All(&feedback)
 	p.Data["feedback"] = feedback
-	spew.Dump(feedback)
-	p.TplName = ""
-}
-
-//回复意见反馈发送回复邮件
-func (p *AdminController) ReplyEmail() {
-//todo
+	p.TplName = "admin/feed_back.html"
 }
 
 //文章评论列表
 func (p *AdminController) Comment() {
 //	todo
 }
+
+//发送意见反馈回复
+func (p *AdminController) PushEmail() {
+	txt := p.GetString("txt")
+	id_ := p.GetString("id")
+	email := p.GetString("email")
+	if txt == "" {
+		p.MsgBack("内容不能为空", 0)
+	} else if p.VerifyEmailFormat(email) == false  {
+		p.MsgBack("邮箱格式不对", 0)
+	} else {
+		feed := models.FeedBack{}
+		id, _ := strconv.Atoi(id_)
+		feed.Id = id
+		feed.Reply = txt
+		_, err := p.o.Update(&feed, "Reply");if err != nil {
+			p.MsgBack("回复返回失败", 0)
+		}
+		mailTo := []string{
+			email,
+		}
+		subject := beego.AppConfig.String("set_title")
+		body := txt
+		_ = util.SendEmail(mailTo, subject, body)
+		p.MsgBack("回复成功", 1)
+	}
+}
+
 
 
 
