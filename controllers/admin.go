@@ -216,14 +216,13 @@ func (p *AdminController) AddUser() {
 //个人信息修改
 func (p *AdminController) UserMessge() {
 	if p.Ctx.Request.Method == "POST" {
-		uid_ := p.GetString("uid")
-		uid, _ := strconv.Atoi(uid_)
+		uid := p.GetSession("user_id")
 		mobile := p.GetString("mobile")
 		password := p.GetString("password")
 		email := p.GetString("email")
 		spew.Dump(uid)
 		user := models.User{}
-		user.Id = uid
+		user.Id = uid.(int)
 		user.Mobile = mobile
 		user.Email = email
 		if password != "" {
