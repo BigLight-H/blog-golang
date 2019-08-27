@@ -15,6 +15,7 @@ func init() {
 	beego.BConfig.WebConfig.Session.SessionOn = true
 	beego.BConfig.CopyRequestBody = true
 	beego.SetStaticPath("/static","static/")
+	beego.SetStaticPath("/home/","static/home/")
 }
 
 func main() {

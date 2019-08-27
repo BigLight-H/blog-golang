@@ -6,7 +6,7 @@ import (
 )
 
 func init() {
-	beego.Router("/", &controllers.BlogController{}, "*:Home")
+	//后台页面
 	beego.Router("/error", &controllers.BlogController{}, "*:Error")
 	beego.Router("/login", &controllers.LoginController{}, "get:Login")
 	beego.Router("/login", &controllers.LoginController{}, "post:Login")
@@ -25,4 +25,7 @@ func init() {
 	beego.Router("/admin/user/detail_user", &controllers.AdminController{}, "post:UserMessge")
 	beego.Router("/admin/user/feed_back", &controllers.AdminController{}, "*:FeedBack")
 	beego.Router("/admin/user/push_email", &controllers.AdminController{}, "post:PushEmail")
+
+	//前台页面
+	beego.Router("/", &controllers.HomeController{}, "*:Index")
 }

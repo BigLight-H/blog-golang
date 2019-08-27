@@ -29,13 +29,12 @@ func (p *baseController) Prepare()  {
 		if p.GetSession("user") == nil {
 			p.History("", "/error")
 		}
+		permissions := [] *models.Permissions{}
+		p.o.QueryTable(new(models.Permissions).TableName()).Filter("status", 1).All(&permissions)
+		p.Data["sidebar"] = &permissions
+		p.Data["user"] = p.GetSession("user")
+		p.Data["tag"] = "Admin"
 	}
-
-	permissions := [] *models.Permissions{}
-	p.o.QueryTable(new(models.Permissions).TableName()).Filter("status", 1).All(&permissions)
-	p.Data["sidebar"] = &permissions
-	p.Data["user"] = p.GetSession("user")
-	p.Data["tag"] = "Admin"
 }
 
 func (p *baseController) History(msg string, url string)  {

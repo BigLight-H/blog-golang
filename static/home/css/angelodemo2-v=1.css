@@ -1,0 +1,98 @@
+#angelo-demo {
+    color: #fff;
+    bottom: 0;
+    font-family: "HelveticaNeue","Helvetica Neue",Helvetica,Arial,sans-serif;
+    margin: 0;
+    padding: 0;
+    position: fixed;
+    z-index: 10000;
+    left: 0;
+    -moz-animation: groove-slidein 1s;
+    -webkit-animation: groove-slidein 1s;
+    -ms-animation: groove-slidein 1s;
+    animation: groove-slidein 1s;
+    background-color: #f39c12;
+    font-weight: bold;
+
+}
+
+#angelo-demo #theme-buy {
+    font-size: 14px;
+    color: #202020;
+    position: relative;
+    background-color: #9bdf46;
+    padding: 0 20px;
+    line-height: 50px;
+    display: inline-block;
+    float: left
+}
+
+#angelo-demo #theme-buy:hover,#angelo-demo #theme-buy:focus {
+    background-color: #25a55f;
+    text-decoration: none
+}
+
+#angelo-demo p {
+    display: inline-block;
+    line-height: 50px;
+    font-size: 14px;
+    padding: 0 20px;
+    margin-bottom: 0
+}
+
+#angelo-demo #theme-more {
+    display: inline-block;
+    position: relative;
+    padding: 0 20px;
+    line-height: 50px;
+    font-size: 14px;
+    color: #292929;
+    background-color: #e67e22;
+}
+
+#angelo-demo #theme-more:hover,#angelo-demo #theme-more:focus {
+    color: #fff;
+    text-decoration: none
+}
+
+.close-demo {
+    position: relative;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    overflow: hidden;
+    margin: 15px;
+    float: left;
+    cursor: pointer
+}
+
+.close-demo:hover::before,.close-demo:hover::after {
+    background: #ffffff
+}
+
+.close-demo::before,.close-demo::after {
+    content: '';
+    position: absolute;
+    height: 2px;
+    width: 20px;
+    top: 50%;
+    left: 0;
+    margin-top: -1px;
+    background: #202020
+}
+
+.close-demo::before {
+    -webkit-transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    -o-transform: rotate(45deg);
+    transform: rotate(45deg)
+}
+
+.close-demo::after {
+    -webkit-transform: rotate(-45deg);
+    -moz-transform: rotate(-45deg);
+    -ms-transform: rotate(-45deg);
+    -o-transform: rotate(-45deg);
+    transform: rotate(-45deg)
+}
