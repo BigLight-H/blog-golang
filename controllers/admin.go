@@ -230,6 +230,16 @@ func (p *AdminController) FeedBack() {
 	p.TplName = ""
 }
 
+//回复意见反馈发送回复邮件
+func (p *AdminController) ReplyEmail() {
+//todo
+}
+
+//文章评论列表
+func (p *AdminController) Comment() {
+//	todo
+}
+
 
 
 
