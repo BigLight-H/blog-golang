@@ -34,6 +34,10 @@ func (p *baseController) Prepare()  {
 		p.Data["sidebar"] = &permissions
 		p.Data["user"] = p.GetSession("user")
 		p.Data["tag"] = "Admin"
+	} else if p.controllerName == "home" {
+		menu := [] *models.Type{}
+		p.o.QueryTable(new(models.Type).TableName()).Filter("status", 1).All(&menu)
+		p.Data["menu"] = menu
 	}
 }
 

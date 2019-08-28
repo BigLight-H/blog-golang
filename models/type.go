@@ -8,8 +8,11 @@ package models
 
 type Type struct {
 	Id int `orm:"auto"`
-	Pid string
+	Pid int
 	TName string
+	Url string
+	Dir int
+	Icon string
 	Status int
 }
 

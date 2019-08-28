@@ -49,7 +49,43 @@
 
     });
 
-    </script>
+    //表单验证
+    function addCheck(){
+        if($("#type_pid").val() == ''){
+            sweetAlert(
+                '父级分类不能为空',
+                '',
+                'error'
+            );
+            return false;
+        }else if ($("#type_name").val() == '') {
+            sweetAlert(
+                '分类标题不能为空',
+                '',
+                'error'
+            );
+            return false;
+        }else{
+            if ($("#type_url").val() == "") {
+                sweetAlert(
+                    '链接不能为空',
+                    '',
+                    'error'
+                );
+                return false;
+            } else if ($("#type_icon").val() == "" && $("#type_pid").val() == 0) {
+                sweetAlert(
+                    'Icon不能为空',
+                    '',
+                    'error'
+                );
+                return false;//不写此返回值也行，此时就直接提交了
+            }else{
+                return true;
+            }
+        }
+    }
+</script>
 </body>
 
 </html>

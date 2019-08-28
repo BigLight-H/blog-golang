@@ -34,6 +34,8 @@
                                 <th>分类ID</th>
                                 <th>上级ID</th>
                                 <th>分类名称</th>
+                                <th>分类链接</th>
+                                <th>Icon</th>
                                 <th>编辑</th>
                             </tr>
                             </thead>
@@ -43,6 +45,8 @@
                                 <td>{{ .Id }}</td>
                                 <td>{{ .Pid }}</td>
                                 <td>{{ .TName }}</td>
+                                <td>{{ .Url }}</td>
+                                <td>{{ .Icon }}</td>
                                 <td class="center">
                                     <a onclick="updateType({{ .Id }})" class="btn btn-primary btn-sm" style="color: #FFFFFF" >修改</a>
                                     <a onclick="delType({{ .Id }},{{ .Pid }},{{ .TName }})" class="btn btn-primary btn-sm" style="color: #FFFFFF" >删除</a>

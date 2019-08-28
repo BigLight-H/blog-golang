@@ -27,15 +27,25 @@ func (p *AdminController) Logout()  {
 func (p *AdminController) ClassifyAdd() {
 	if p.Ctx.Request.Method == "POST" {
 		types := models.Type{}
-		pid := p.Input().Get("pid")
+		pid_ := p.Input().Get("pid")
+		pid, _ := strconv.Atoi(pid_)
 		name := p.Input().Get("name")
 		id  := p.Input().Get("id")
+		url  := p.Input().Get("url")
+		icon  := p.Input().Get("icon")
 		if id != "" {
 			id, _ := strconv.Atoi(id)
 			types.Id = id
 			types.Pid = pid
 			types.TName = name
 			types.Status = 1
+			types.Url = url
+			types.Icon = icon
+			if pid == 0 {
+				types.Dir = 1
+			} else {
+				types.Dir = 0
+			}
 			if _, err := p.o.Update(&types); err != nil {
 				p.History("", "/admin/classify/add/"+strconv.Itoa(id))
 			} else {
@@ -45,6 +55,13 @@ func (p *AdminController) ClassifyAdd() {
 			types.Pid = pid
 			types.TName = name
 			types.Status = 1
+			types.Icon = icon
+			if pid == 0 {
+				types.Dir = 1
+			} else {
+				types.Dir = 0
+			}
+			types.Url = url
 			_, err := p.o.Insert(&types)
 			if err == nil {
 				p.History("", "/admin/classify/list")
@@ -57,10 +74,16 @@ func (p *AdminController) ClassifyAdd() {
 		class := []*models.Type{}
 		qs := p.o.QueryTable(new(models.Type).TableName())
 		if id != "" {
-			qs.Filter("status",1).FilterRaw("id", "!="+id).All(&class)
+			id_, _ := strconv.Atoi(id)
+			t := models.Type{Id:id_}
+			p.o.Read(&t)
+			pid := strconv.Itoa(t.Pid)
+			qs.Filter("status",1).FilterRaw("id", "!="+pid).All(&class)
 			p.Data["class_type"] = class
 			qs.Filter("id", id).One(&class)
 			p.Data["type_data"] = class
+			qs.FilterRaw("id", "="+pid).One(&class)
+			p.Data["type_title"] = class
 		} else {
 			qs.Filter("status",1).All(&class)
 			p.Data["class_type"] = class
@@ -78,7 +101,9 @@ func (p *AdminController) ClassifyList() {
 		id, _ := strconv.Atoi(ids)
 		class.Status = 0
 		class.Id = id
-		class.Pid = p.Input().Get("pid")
+		pid_ := p.Input().Get("pid")
+		pid, _ := strconv.Atoi(pid_)
+		class.Pid = pid
 		class.TName = p.Input().Get("name")
 		if _, err := p.o.Update(&class); err == nil {
 			p.MsgBack("删除成功", 1)
@@ -88,7 +113,7 @@ func (p *AdminController) ClassifyList() {
 	} else {
 		class := []*models.Type{}
 		qs := p.o.QueryTable(new(models.Type).TableName())
-		qs.Filter("status",1).All(&class)
+		qs.Filter("status",1).OrderBy("pid").All(&class)
 		p.Data["types"] = class
 		p.TplName = "admin/classify_list.html"
 	}

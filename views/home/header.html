@@ -16,6 +16,7 @@
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/home/img/ico/72.png" type="image/png"/>
     <link rel="apple-touch-icon-precomposed" sizes="120x120" href="/home/img/ico/120.png" type="image/png"/>
     <link rel="apple-touch-icon-precomposed" sizes="152x152" href="/home/img/ico/152.png" type="image/png"/>
+    <link href="/home/font-awesome/css/font-awesome.css" rel="stylesheet">
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
@@ -33,10 +34,29 @@
                 </div>
             </form>
         </li>
-        <li><a href="index.html"><i class="icon-lime"></i>首页</a></li>
-        <li><a href="about.html"><i class="icon-user"></i>关于</a></li>
+        {{range $k,$v := .menu}}
+            {{if eq $v.Pid 0}}
+                {{if eq $v.Dir 1}}
+                    <li class="submenu">
+                        <a href="#"><i class="fa fa-address-card-o" aria-hidden="true"></i>{{ $v.TName }}<b class="caret"></b></a>
+                        <ul class="submenu-list">
+                        {{range $m,$u := $.menu}}
+                            {{if eq $u.Pid $v.Id}}
+                            <li><a href="category.html">{{ $u.TName }} <span class="badge golden">2</span></a></li>
+                            {{end}}
+                        {{end}}
+                        </ul>
+                    </li>
+                {{else}}
+                    <li><a href="index.html"><i class="fa fa-address-card-o" aria-hidden="true"></i>{{ $v.TName }}</a></li>
+                {{end}}
+            {{end}}
+        {{end}}
+
+        <li><a href="index.html"><i class="fa fa-address-card-o" aria-hidden="true"></i>首页</a></li>
+        <li><a href="about.html"><i class="fa fa-address-card-o" aria-hidden="true"></i>关于</a></li>
         <li class="submenu">
-            <a href="#"><i class="icon-books"></i>技术分享<b class="caret"></b></a>
+            <a href="#"><i class="fa fa-address-card-o" aria-hidden="true"></i>技术分享<b class="caret"></b></a>
             <ul class="submenu-list">
                 <li><a href="category.html">PHP <span class="badge golden">2</span></a></li>
                 <li><a href="category.html">Go<span class="badge">4</span></a></li>
