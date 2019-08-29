@@ -19,6 +19,7 @@ type Article struct {
 	Cause string
 	Content string
 	Created string
+	Comment []*Comment `orm:"reverse(many)"`
 }
 
 func (m *Article) TableName() string {

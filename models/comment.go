@@ -2,8 +2,8 @@ package models
 
 type Comment struct {
 	Id int
-	//Article
-	//Client
+	Article *Article `orm:"rel(fk)"`
+	Client *Client `orm:"rel(fk)"`
 	Content string
 	Created string
 }
