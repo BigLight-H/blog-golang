@@ -38,7 +38,6 @@ func (p *AdminController) ClassifyAdd() {
 			types.Id = id
 			types.Pid = pid
 			types.TName = name
-			types.Status = 1
 			types.Url = url
 			types.Icon = icon
 			if pid == 0 {

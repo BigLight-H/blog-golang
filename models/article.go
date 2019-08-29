@@ -15,6 +15,7 @@ type Article struct {
 	Description string
 	Status int
 	Review int
+	ClickVolume int
 	Cause string
 	Content string
 	Created string

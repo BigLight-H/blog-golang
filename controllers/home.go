@@ -3,6 +3,7 @@ package controllers
 import (
 	"beego-demo/models"
 	"github.com/davecgh/go-spew/spew"
+	"strconv"
 )
 
 type HomeController struct {
@@ -18,7 +19,21 @@ func (p *HomeController) Index() {
 //文章列表
 func (p *HomeController) article() {
 	article := []*models.Article{}
-	p.o.QueryTable(new(models.Article).TableName()).OrderBy("-id").RelatedSel().All(&article)
+	qs := p.o.QueryTable(new(models.Article).TableName())
+	qs = qs.Filter("status", 1)
+	qs.OrderBy("-id").RelatedSel().All(&article)
 	p.Data["articles"] = article
+	qs.OrderBy("-click_volume").Limit(3).All(&article)
+	p.Data["hot"] = article//热门文章
+}
+
+//文章详情
+func (p *HomeController) Detail() {
+	id_ := p.Ctx.Input.Param(":id")
+	id, _ := strconv.Atoi(id_)
+	article := []*models.Article{}
+	p.o.QueryTable(new(models.Article).TableName()).Filter("id", id).RelatedSel().One(&article)
+	p.Data["article"] = article
 	spew.Dump(article)
+	p.TplName = "home/detail.html"
 }

@@ -16,56 +16,21 @@
 						{{range .articles}}
 							<article class="clearfix">
 								<div class="post-date">
-									{{ .Created }} | <a href="">{{ .Author }} </a> <span><a href="">10 条评论</a></span>
+									{{ .Created }} | <a href="#">{{ .Author }} </a> <span><a href="">10 条评论</a></span>
 								</div>
-								<h2><a href="post-typography.html">{{ .Title }}</a></h2>
-								<p>{{ .Content }} ...&nbsp;<a class="" href="post-image.html">阅读更多</a></p>
+								<h2><a href="/detail/{{ .Id }}">{{ .Title }}</a></h2>
+								<p style="word-break: break-all;">{{ .Content }} ...&nbsp;<a class="" href="/detail/{{ .Id }}">阅读更多</a></p>
 							</article>
 						{{end}}
-						<article class="clearfix">
-							<div class="post-date">
-								May 26, 2014 | <a href="">Melissa Sing </a> <span><a href="">42 Comments</a></span>
-							</div>		
-							<h2><a href="post-image.html">Every other day it's food, food, food.</a></h2>
-							<p>I suppose I could part with 'one' and still be feared… I don't 'need' to drink. I can quit anytime I want! Oh, I think we should just stay friends. Noooooo! Five hours? Aw, man! Couldn't you just get me the death penalty? <a class="" href="post-image.html">Read more</a>
-							</p>
-						</article>
-						<article class="clearfix">
-							<div class="post-date">
-								May 12, 2014 | <a href="">Melissa Sing </a> <span><a href="">2 Comments</a></span>
-							</div>		
-							<h2><a href="post-audio.html">Ah, now the ball's in Farnsworth's court!</a></h2>
-							<p>Bender, hurry! This fuel's expensive! Also, we're dying! Fry, we have a crate to deliver. In your time, yes, but nowadays shut up! Besides, these are adult stemcells, harvested from perfectly healthy adults whom I killed for their stemcells. This is the worst part. The calm before the battle. <a class="" href="post-audio.html">Read more</a>
-							</p>
-						</article>
-						<article class="clearfix last">
-							<div class="post-date">
-								May 10, 2014 | <a href="">Melissa Sing </a> <span><a href="">23 Comments</a></span>
-							</div>		
-							<h2><a href="post-video.html">But I've never been to the moon!</a></h2>
-							<p>But I've never been to the moon! I found what I need. And it's not friends, it's things. Can I use the gun? Incidentally, you have a dime up your nose. One hundred dollars. <a class="" href="post-video.html">Read more</a>
-							</p>
-						</article>
-
 						<div class="post-popular">
 							<div class="row hidden-xs">
-								<div class="col-sm-4 col-md-4">	
+								{{range  .hot}}
+								<div class="col-sm-4 col-md-4">
 									<a href="post-video.html"><img src="img/img2.jpg" class="img-responsive" alt="img2"></a>
-									<h4 class="text-center"><a href="post-video.html">But I've never been to the moon!</a></h4>
-									<p class="post-date text-center">MAY 10, 2014</p>
+									<h4 class="text-center"><a href="post-video.html">{{ .Title}}</a></h4>
+									<p class="post-date text-center">{{ .Created }}</p>
 								</div>
-								<div class="col-sm-4 col-md-4">	
-									<a href="post-typography.html"><img  src="img/img1.jpg" class="img-responsive" alt="img1"></a>
-									<h4 class="text-center"><a href="post-typography.html">We don't have a brig</a></h4>
-									<p class="post-date text-center">september 27, 2014</p>
-									
-								</div>
-								<div class="col-sm-4 col-md-4">	
-									<a href="post-image.html"><img  src="img/img3.jpg" class="img-responsive" alt="img3"></a>
-									<h4 class="text-center"><a href="post-image.html">Every other day it's food, food, food.</a></h4>
-									<p class="post-date text-center">april 2, 2014</p>
-									
-								</div>
+								{{end}}
 							</div>
 							<div class="row visible-xs">
 								<div class="col-sm-12">

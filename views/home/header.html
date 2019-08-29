@@ -42,13 +42,13 @@
                         <ul class="submenu-list">
                         {{range $m,$u := $.menu}}
                             {{if eq $u.Pid $v.Id}}
-                            <li><a href="category.html">{{ $u.TName }} <span class="badge golden">2</span></a></li>
+                            <li><a href="{{ $v.Url }}">{{ $u.TName }} <span class="badge golden">2</span></a></li>
                             {{end}}
                         {{end}}
                         </ul>
                     </li>
                 {{else}}
-                    <li><a href="index.html"><i class="fa fa-address-card-o" aria-hidden="true"></i>{{ $v.TName }}</a></li>
+                    <li><a href="{{ $v.Url }}"><i class="fa fa-address-card-o" aria-hidden="true"></i>{{ $v.TName }}</a></li>
                 {{end}}
             {{end}}
         {{end}}
@@ -88,7 +88,7 @@
     <div id="main-nav" class="">
         <div class="container">
             <div class="nav-header">
-                <a class="nav-brand" href="index.html"><i class="icon-lime"></i>AXICOO BLOG</a>
+                <a class="nav-brand" href="/"><i class="icon-lime"></i>AXICOO BLOG</a>
                 <a class="menu-link nav-icon" href="#"><i class="icon-menu2"></i></a>
                 <a class="btn btn-blog outline-white pull-right" href="#" data-toggle="modal" data-target="#loginModal">登录</a>
             </div>
