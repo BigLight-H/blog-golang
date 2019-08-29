@@ -37,3 +37,15 @@ func (this *LoginController) Login()	 {
 	}
 
 }
+
+func (this *LoginController) HomeLogin() {
+
+}
+
+func (this *LoginController) Register()  {
+
+}
+
+func (this *LoginController) Retrieve() {
+
+}

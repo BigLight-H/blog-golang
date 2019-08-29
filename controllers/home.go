@@ -37,3 +37,13 @@ func (p *HomeController) Detail() {
 	spew.Dump(article)
 	p.TplName = "home/detail.html"
 }
+
+//tag搜索
+func (p *HomeController) SearchTag()  {
+
+}
+
+//文章搜索
+func (p *HomeController) Search()  {
+
+}

@@ -14,6 +14,7 @@ type Type struct {
 	Dir int
 	Icon string
 	Status int
+	Article []*Article  `orm:"reverse(many)"` // 设置一对多的反向关系
 }
 
 func (m *Type) TableName() string {
