@@ -28,5 +28,7 @@ func init() {
 
 	//前台页面
 	beego.Router("/", &controllers.HomeController{}, "*:Index")
+	beego.Router("/home_login", &controllers.LoginController{}, "post:HomeLogin")
+	beego.Router("/home_register", &controllers.LoginController{}, "post:Register")
 	beego.Router("/detail/?:id", &controllers.HomeController{}, "get:Detail")
 }

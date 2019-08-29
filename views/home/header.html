@@ -17,6 +17,7 @@
     <link rel="apple-touch-icon-precomposed" sizes="120x120" href="/home/img/ico/120.png" type="image/png"/>
     <link rel="apple-touch-icon-precomposed" sizes="152x152" href="/home/img/ico/152.png" type="image/png"/>
     <link href="/home/font-awesome/css/font-awesome.css" rel="stylesheet">
+    <link href="/static/css/sweetalert2_.min.css" rel="stylesheet">
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
@@ -90,7 +91,12 @@
             <div class="nav-header">
                 <a class="nav-brand" href="/"><i class="icon-lime"></i>AXICOO BLOG</a>
                 <a class="menu-link nav-icon" href="#"><i class="icon-menu2"></i></a>
-                <a class="btn btn-blog outline-white pull-right" href="#" data-toggle="modal" data-target="#loginModal">登录</a>
+                {{if .client_id}}
+                    <a class="btn btn-blog outline-white pull-right" href="#" data-toggle="modal" data-target="#loginModal">退出</a>
+                {{else}}
+                    <a class="btn btn-blog outline-white pull-right" href="#" data-toggle="modal" data-target="#loginModal1">注册</a>
+                    <a class="btn btn-blog outline-white pull-right" href="#" data-toggle="modal" data-target="#loginModal">登录</a>
+                {{end}}
             </div>
         </div>
     </div>
