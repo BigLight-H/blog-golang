@@ -256,7 +256,7 @@
             $.ajax({
                 type : "POST",
                 url : "/home_register",    //请求发送到TestServlet处
-                data : {'email':email,'uname':uname,'mobile':mobile,'pwd':pwd,'pwd_':pwd_},
+                data : {'email':email,'uname':uname,'mobile':mobile,'pwd':pwd,'pwd_':pwd_,'id':sum(1,13)},
                 dataType : "json",        //返回数据形式为json
                 success : function(res) {
                     if (res.Status) {
@@ -272,6 +272,11 @@
                 }
             });
         }
+    }
+
+    function sum (m,n){
+        var num = Math.floor(Math.random()*(m - n) + n);
+        return num;
     }
 </script>
 </body>
