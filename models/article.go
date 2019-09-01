@@ -9,13 +9,14 @@ package models
 type Article struct {
 	Id int
 	Client *Client `orm:"rel(one)"`
-	Author string
 	Type *Type  `orm:"rel(one)"`
 	Title string
 	Description string
+	Tags string
 	Status int
 	Review int
 	ClickVolume int
+	CommentNum int
 	Cause string
 	Content string
 	Created string

@@ -38,6 +38,8 @@ func (p *baseController) Prepare()  {
 		menu := [] *models.Type{}
 		p.o.QueryTable(new(models.Type).TableName()).Filter("status", 1).All(&menu)
 		p.Data["menu"] = menu
+		p.hot()//热门文章
+		p.tags()//全部标签
 	}
 	if p.GetSession("client") != nil {
 		client_id := p.GetSession("client_id").(int)
@@ -45,6 +47,22 @@ func (p *baseController) Prepare()  {
 		p.Data["client"] = p.GetSession("client")
 	}
 }
+//热门文章
+func (p *baseController) hot() {
+	article := []*models.Article{}
+	qs := p.o.QueryTable(new(models.Article).TableName())
+	qs = qs.Filter("status", 1)
+	qs.OrderBy("-click_volume").Limit(3).All(&article)
+	p.Data["hot"] = article//热门文章
+}
+//文章标签
+func (p *baseController) tags() {
+	tags := []*models.Tags{}
+	p.o.QueryTable(new(models.Tags).TableName()).All(&tags)
+	p.Data["tag_all"] = tags
+}
+
+
 
 func (p *baseController) History(msg string, url string)  {
 	if url == "" {

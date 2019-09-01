@@ -1,0 +1,9 @@
+<div class="row hidden-xs">
+    {{range  .hot}}
+        <div class="col-sm-4 col-md-4">
+            <a href="/detail/{{ .Id }}"><img src="{{ .Picture }}" class="img-responsive" alt="img2"></a>
+            <h4 class="text-center"><a href="/detail/{{ .Id }}">{{ .Title}}</a></h4>
+            <p class="post-date text-center">{{ .Created }}</p>
+        </div>
+    {{end}}
+</div>

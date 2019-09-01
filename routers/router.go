@@ -31,4 +31,5 @@ func init() {
 	beego.Router("/home_login", &controllers.LoginController{}, "post:HomeLogin")
 	beego.Router("/home_register", &controllers.LoginController{}, "post:Register")
 	beego.Router("/detail/?:id", &controllers.HomeController{}, "get:Detail")
+	beego.Router("/author/?:id", &controllers.HomeController{}, "get:Author")
 }

@@ -56,16 +56,11 @@
                 </div>
 
                 <div class="col-sm-4 col-md-4 footer-widget clearfix">
-                    <h3>Tags</h3>
+                    <h3>标签</h3>
                     <ul class="tags">
-                        <li><a href="#">OpenPGP</a></li>
-                        <li><a href="#">Django</a></li>
-                        <li><a href="#">Bitcoin</a></li>
-                        <li><a href="#">Security</a></li>
-                        <li><a href="#">GNU/Linux</a></li>
-                        <li><a href="#">Git</a></li>
-                        <li><a href="#">Homebrew</a></li>
-                        <li><a href="#">Debian</a></li>
+                        {{range .tag_all}}
+                        <li><a href="#">{{ .TagName }}</a></li>
+                        {{end}}
                     </ul>
                 </div>
             </div>

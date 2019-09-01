@@ -32,7 +32,7 @@
 						<div class="col-md-10 col-md-offset-1">
 							{{range .article}}
 							<div class="post-date">
-								{{ .Created }} | <a href="">{{ .Author }} </a> <span>
+								{{ .Created }} | <a href="/author/{{ .Client.Id }}">{{ .Client.Username }} </a> <span>
 									{{if gt $.num 0}}
 										<a href="#comment">{{ $.num }} 条评论</a>
 									{{else}}
@@ -41,35 +41,32 @@
 								</span>
 							</div>
 							<div class="post-intro" style="word-break: break-all;">{{ .Content }}</div>
-							{{end}}
+
 							<div class="post-date">
-								tags | <a href="">JavaScript</a> , <a href="">jQuery</a> , <a href="">Angular</a>
-								<span>
-
-								</span>
-							</div>
-								<ul class="social-links outline text-center">
-										<li><a href="#link"><i class="icon-twitter"></i></a></li>
-										<li><a href="#link"><i class="icon-facebook"></i></a></li>
-										<li><a href="#link"><i class="icon-googleplus"></i></a></li>
-									</ul>
-
-							<div id="author" class="clearfix">
-								{{range .article}}
-								<img class="img-circle" alt="" src="{{ .Client.HeadImg.ImgUrl }}" height="96" width="96">
-								<div class="author-info">
-									<h3>{{ .Author }}</h3>
-									<p>{{ .Client.Motto }}</p>
-								</div>
+								标签 |
+								{{range $k, $v := $.tags}}
+								<a href="">{{ $v }}</a> &nbsp;
 								{{end}}
 							</div>
-
+								<ul class="social-links outline text-center">
+									<li><a href="#link"><i class="icon-twitter"></i></a></li>
+									<li><a href="#link"><i class="icon-facebook"></i></a></li>
+									<li><a href="#link"><i class="icon-googleplus"></i></a></li>
+								</ul>
+							<div id="author" class="clearfix">
+								<img class="img-circle" alt="" src="{{ .Client.HeadImg.ImgUrl }}" height="96" width="96">
+								<div class="author-info">
+									<a href="/author/{{ .Client.Id }}"><h3>{{ .Client.Username }}</h3></a>
+									<p>{{ .Client.Motto }}</p>
+								</div>
+							</div>
+							{{end}}
 							<div class="post-popular">
 								<div class="row hidden-xs">
 									{{range  .hot}}
 										<div class="col-sm-4 col-md-4">
-											<a href="post-video.html"><img src="{{ .Picture }}" class="img-responsive" alt="img2"></a>
-											<h4 class="text-center"><a href="post-video.html">{{ .Title}}</a></h4>
+												<a href="/detail/{{ .Id }}"><img src="{{ .Picture }}" class="img-responsive" alt="img2"></a>
+											<h4 class="text-center"><a href="/detail/{{ .Id }}">{{ .Title}}</a></h4>
 											<p class="post-date text-center">{{ .Created }}</p>
 										</div>
 									{{end}}
@@ -110,11 +107,11 @@
 								<hr>
 								{{range .comment}}
 								<div class="media">
-										<a class="pull-left avatar" href="#">
+										<a class="pull-left avatar" href="/author/{{ .Client.Id }}">
 										  <img class="media-object img-circle" src="{{ .Client.HeadImg.ImgUrl }}" width="40" height="40" alt="">
 										</a>
 										<div class="media-body">
-											<h4 class="media-heading"><a href="">{{ .Client.Username }}</a><span>{{ .Created }}</span></h4>
+											<h4 class="media-heading"><a href="/author/{{ .Client.Id }}">{{ .Client.Username }}</a><span>{{ .Created }}</span></h4>
 											<p>{{ .Content }}</p>
 										</div>
 								</div>
