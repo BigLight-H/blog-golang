@@ -40,6 +40,7 @@ func (p *baseController) Prepare()  {
 		p.Data["menu"] = menu
 		p.hot()//热门文章
 		p.tags()//全部标签
+		p.footData()//footer数据
 	}
 	if p.GetSession("client") != nil {
 		client_id := p.GetSession("client_id").(int)
@@ -61,7 +62,26 @@ func (p *baseController) tags() {
 	p.o.QueryTable(new(models.Tags).TableName()).All(&tags)
 	p.Data["tag_all"] = tags
 }
+//作者数量
+//文章数量
+//评论数量
+//最近文章
+func (p *baseController) footData() {
+	//文章
+	footer_article, _ := p.o.QueryTable(new(models.Article)).Filter("status", 1).Count()
+	p.Data["footer_article"]= footer_article
+	//作者
+	footer_client, _ := p.o.QueryTable(new(models.Client).TableName()).Count()
+	p.Data["footer_client"] = footer_client
+	//评论数量
+	footer_comment, _ := p.o.QueryTable(new(models.Comment).TableName()).Count()
+	p.Data["footer_comment"] = footer_comment
+	//最近文章
+	article :=[]*models.Article{}
+	p.o.QueryTable(new(models.Article).TableName()).Filter("status", 1).OrderBy("-id").Limit(3).All(&article)
+	p.Data["footer_article_data"] = article
 
+}
 
 
 func (p *baseController) History(msg string, url string)  {

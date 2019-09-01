@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"beego-demo/models"
+	"github.com/davecgh/go-spew/spew"
 	"strconv"
 	"strings"
 	"time"
@@ -96,6 +97,11 @@ func (p *HomeController) AddComment()  {
 			if err != nil {
 				p.MsgBack("评论失败", 0)
 			}
+			article := models.Article{Id:aid}
+			p.o.Read(&article)
+			spew.Dump(article.CommentNum)
+			article.CommentNum = article.CommentNum + 1
+			p.o.Update(&article,"CommentNum")
 			p.MsgBack("评论成功", 1)
 		}
 	} else {
