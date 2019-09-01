@@ -4,6 +4,7 @@ import (
 	"beego-demo/models"
 	"strconv"
 	"strings"
+	"time"
 )
 
 type HomeController struct {
@@ -57,6 +58,7 @@ func (p *HomeController) Detail() {
 		}
 	}
 	p.Data["tags"] = tags
+	p.Data["c_id"] = id
 	p.TplName = "home/detail.html"
 }
 
@@ -71,6 +73,37 @@ func (p *HomeController) Author() {
 	p.TplName = "home/author.html"
 }
 
+//添加评论
+func (p *HomeController) AddComment()  {
+	c_id := p.GetString("cid")
+	aid, _ :=strconv.Atoi(c_id)
+	uid := p.GetSession("client_id").(int)
+	if uid > 0 {
+		comment := p.GetString("comments")
+		if comment == "" {
+			p.MsgBack("评论不能为空", 0)
+		} else {
+			ment := models.Comment{}
+			user_id := models.Client{Id:uid}
+			a_id := models.Article{Id:aid}
+			ment.Client = &user_id
+			ment.Article = &a_id
+			ment.Content = comment
+			timestamp := time.Now().Unix()
+			tm := time.Unix(timestamp, 0)
+			ment.Created = tm.Format("2006-01-02 15:04:05")
+			_, err := p.o.Insert(&ment)
+			if err != nil {
+				p.MsgBack("评论失败", 0)
+			}
+			p.MsgBack("评论成功", 1)
+		}
+	} else {
+		p.MsgBack("登录后可评论", 0)
+	}
+
+
+}
 
 //tag搜索
 func (p *HomeController) SearchTag()  {

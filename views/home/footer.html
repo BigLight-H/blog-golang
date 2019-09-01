@@ -273,6 +273,16 @@
         var num = Math.floor(Math.random()*(m - n) + n);
         return num;
     }
+    //提交评论
+    function addComment() {
+        id = $("#comment_id").val();
+        if (id) {
+            setTimeout(function (){
+                window.location.reload();
+            }, 500);
+        }
+    }
+    
 </script>
 </body>
 </html>

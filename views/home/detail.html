@@ -126,56 +126,30 @@
 								<a class="next page-numbers" href="#"><i class="icon-arrow-right2"></i></a>
 							</div>
 -->
+							{{if .client_id}}
 							<h3>添加评论</h3>
-							<form action="index.html" method="post" novalidate class="myform" id="mycomment">
+							<form action="/comment/add" method="post" novalidate class="myform" id="mycomment">
 								<div class="row">
 									<div class="col-xs-12 col-sm-12 col-md-12 wow fadeInUp" >
 										<div class="form-group">
-											<label class="control-label" for="contact-message">Join the discussion...</label>
+											<label class="control-label" for="contact-message">撰写评论...</label>
 											<div class="controls">
-												<textarea name="comments" placeholder="Join the discussion..." class="form-control input-lg requiredField" rows="3" data-error-empty="Please enter comment"></textarea>
+												<textarea id="comment_id" name="comments" placeholder="撰写评论..." class="form-control input-lg requiredField" rows="3" data-error-empty="评论不能为空..."></textarea>
 											</div>
 										</div>
 										<div class="row">
-											<div class="col-xs-12 col-sm-6 col-md-6">
+											<div class="col-xs-12 col-sm-12 col-md-12">
 												<div class="form-group">
-													<label class="control-label">Name</label>
-													<div class="controls">
-														<input name="contactName" placeholder="Name" class="form-control input-lg requiredField " type="text" data-error-empty="Please enter name">
-													</div>
-												</div>
-											</div>
-											<div class="col-xs-12 col-sm-6 col-md-6">
-												<div class="form-group">
-													<label class="control-label" for="contact-mail">Email</label>
-													<div class=" controls">
-														<input name="email" placeholder="Email" class="form-control input-lg requiredField" type="email" data-error-empty="Please enter email" data-error-invalid="Invalid email address">
-													</div>
-												</div>
-											</div>
-										</div>
-										<div class="row">
-											<div class="col-xs-12 col-sm-6 col-md-6">
-												<div class="form-group">
-													<label class="control-label">Website</label>
-													<div class="controls">
-														<input name="contactName" placeholder="Website" class="form-control input-lg " type="text">
-													</div>
-												</div>
-											</div>
-											<div class="col-xs-12 col-sm-6 col-md-6">
-												<div class="form-group">
-													<button name="submit" type="submit" class="btn btn-block" data-error-message="Error!" data-sending-message="Sending..." data-ok-message="Comment Sent">Send Comment</button>
+													<button onclick="addComment();" name="submit" type="submit" class="btn btn-block" data-error-message="失败!" data-sending-message="提交中..." data-ok-message="提交成功">提交评论</button>
 													<input type="hidden" name="submitted" id="submitted3" value="true">
+													<input type="hidden" name="cid" value="{{ .c_id }}">
 												</div>
 											</div>
 										</div>
-
-
 									</div>
 								</div>
 							</form>
-
+							{{end}}
 						</div>
 					</div>
 				</div>
