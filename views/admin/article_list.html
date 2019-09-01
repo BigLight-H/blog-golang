@@ -33,7 +33,6 @@
                             <tr>
                                 <th>文章ID</th>
                                 <th>文章标题</th>
-                                <th>所属用户</th>
                                 <th>文章作者</th>
                                 <th>文章分类</th>
                                 <th>审核状态</th>
@@ -48,7 +47,6 @@
                                 <td>{{ .Id }}</td>
                                 <td>{{ .Title }}</td>
                                 <td>{{ .Client.Username }}</td>
-                                <td class="center">{{ .Author }}</td>
                                 <td class="center">{{ .Type.TName }}</td>
                                 {{if eq .Review 2}}
                                     <td class="center">拒绝</td>

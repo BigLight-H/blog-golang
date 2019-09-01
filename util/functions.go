@@ -11,6 +11,7 @@ import (
 	"encoding/base64"
 	"crypto/rand"
 	"io"
+	"time"
 )
 
 func Md5(str string) string {
@@ -64,3 +65,10 @@ func SendEmail(mailTo []string, subject string, body string) error {
 	return err
 
 }
+
+func TimeSet() string {
+	timestamp := time.Now().Unix()
+	tm := time.Unix(timestamp, 0)
+	return tm.Format("2006-01-02 15:04:05")
+}
+

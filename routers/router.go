@@ -33,4 +33,8 @@ func init() {
 	beego.Router("/detail/?:id", &controllers.HomeController{}, "get:Detail")
 	beego.Router("/author/?:id", &controllers.HomeController{}, "get:Author")
 	beego.Router("/comment/add", &controllers.HomeController{}, "post:AddComment")
+	beego.Router("/leave/comments", &controllers.HomeController{}, "*:SetMessage")
+	beego.Router("/leave/comments", &controllers.HomeController{}, "post:SetMessage")
+	beego.Router("/about", &controllers.HomeController{}, "*:About")
+	beego.Router("/add/article", &controllers.HomeController{}, "*:AddArticle")
 }

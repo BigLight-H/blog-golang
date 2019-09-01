@@ -269,6 +269,32 @@
             }, 500);
         }
     }
+    //留言模块
+    function pushFeedBack(){
+        name_ = $("#contactName").val();
+        email = $("#contactEmail").val();
+        content = $("#ontactComments").val();
+
+        $.ajax({
+            type : "POST",
+            url : "/leave/comments",    //请求发送到TestServlet处
+            data : {name:name_,email:email,content:content},
+            dataType : "json",        //返回数据形式为json
+            success : function(res) {
+                if (res.Status) {
+                    swal(
+                        res.Msg,
+                        '',
+                        'success'
+                    );
+                    setTimeout("location.reload()",2500);
+                } else {
+                    swal(res.Msg, "", "error");
+                }
+            }
+        });
+    }
+
 </script>
 </body>
 </html>

@@ -2,10 +2,10 @@ package controllers
 
 import (
 	"beego-demo/models"
+	"beego-demo/util"
 	"github.com/davecgh/go-spew/spew"
 	"strconv"
 	"strings"
-	"time"
 )
 
 type HomeController struct {
@@ -90,9 +90,7 @@ func (p *HomeController) AddComment()  {
 			ment.Client = &user_id
 			ment.Article = &a_id
 			ment.Content = comment
-			timestamp := time.Now().Unix()
-			tm := time.Unix(timestamp, 0)
-			ment.Created = tm.Format("2006-01-02 15:04:05")
+			ment.Created = util.TimeSet()
 			_, err := p.o.Insert(&ment)
 			if err != nil {
 				p.MsgBack("评论失败", 0)
@@ -110,6 +108,51 @@ func (p *HomeController) AddComment()  {
 
 
 }
+
+//给我留言
+func (p *HomeController) SetMessage() {
+	if p.Ctx.Request.Method == "POST"{
+		name := p.GetString("name")
+		email := p.GetString("email")
+		content := p.GetString("content")
+		if name == "" {
+			p.MsgBack("名字不能为空", 0)
+		} else if p.VerifyEmailFormat(email) != true {
+			p.MsgBack("邮箱格式不对", 0)
+		} else if len(content) < 6 {
+			p.MsgBack("内容太短", 0)
+		} else {
+			feed := models.FeedBack{}
+			feed.Name = name
+			feed.Content = content
+			feed.Email = email
+			feed.Created = util.TimeSet()
+			_, err :=p.o.Insert(&feed)
+			if err != nil {
+				p.MsgBack("留言失败", 0)
+			}
+			p.MsgBack("留言成功,看到后第一时间回复您", 1)
+		}
+	}else {
+		p.TplName = "home/contact.html"
+	}
+}
+
+//关于我自己
+func (p *HomeController) About() {
+	about := models.About{Id:1}
+	p.o.Read(&about)
+	spew.Dump(about)
+	p.Data["abouts"] = about
+	p.TplName = "home/about.html"
+}
+
+//添加文章
+func (p *HomeController) AddArticle() {
+
+	p.TplName = "home/add-article.html"
+}
+
 
 //tag搜索
 func (p *HomeController) SearchTag()  {

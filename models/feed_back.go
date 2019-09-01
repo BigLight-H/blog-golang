@@ -9,7 +9,7 @@ package models
 type FeedBack struct {
 	Id int
 	Email string
-	Title string
+	Name string
 	Content string
 	Reply string
 	Created string
