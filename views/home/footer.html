@@ -144,12 +144,14 @@
     </div>
 </div>
 <script src="/static/js/sweetalert2.js"></script>
-<script type="text/javascript" src="/home/js/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="/home/js/jquery-3.3.1.min.js"></script>
 <script type="text/javascript" src="/home/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="/home/js/placeholders.min.js"></script>
 <script type="text/javascript" src="/home/js/wow.min.js"></script>
 <script type="text/javascript" src="/home/js/custom.js"></script>
 <script type="text/javascript" src="/home/js/ga.js"></script>
+<script type="text/javascript" src="/home/js/fileinput.min.js"></script>
+<script type="text/javascript" src="/static/js/plugins/dropzone/dropzone.js"></script>
 <script>
     $("#wrap").click(function(){
         $("#wrap").removeClass("menu-open");
@@ -294,7 +296,12 @@
             }
         });
     }
-
+    $('#file-0').fileinput({
+        theme: 'fas',
+        language: 'es',
+        uploadUrl: '#',
+        allowedFileExtensions: ['jpg', 'png', 'gif']
+    });
 </script>
 </body>
 </html>
