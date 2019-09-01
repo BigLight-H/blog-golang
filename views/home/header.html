@@ -22,6 +22,21 @@
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <style>
+        .head-img {
+            margin-top: .45rem;
+            margin-right: 1%;
+        }
+        .clearfix:nth-last-of-type(1) {
+            border-bottom: 0px !important;
+        }
+        .post-popular::before {
+            content: '热门文章';
+        }
+        #author::before {
+            content: '作者';
+        }
+    </style>
 </head>
 <body id="home">
 <div id="menu" class="menu-right">
@@ -35,6 +50,11 @@
                 </div>
             </form>
         </li>
+        {{if .client_id}}
+            <li><a href="index.html"><i class="fa fa-user" aria-hidden="true"></i>我的主页</a></li>
+            <li><a href="index.html"><i class="fa fa-bookmark" aria-hidden="true"></i>收藏的文章</a></li>
+            <li><a href="index.html"><i class="fa fa-heart" aria-hidden="true"></i>喜欢的文章</a></li>
+        {{end}}
         {{range $k,$v := .menu}}
             {{if eq $v.Pid 0}}
                 {{if eq $v.Dir 1}}
@@ -53,8 +73,11 @@
                 {{end}}
             {{end}}
         {{end}}
+        {{if .client_id}}
+            <li><a href="index.html"><i class="fa fa-cog" aria-hidden="true"></i>设置</a></li>
+            <li><a href="index.html"><i class="fa fa-sign-out" aria-hidden="true"></i>退出</a></li>
+        {{end}}
 
-        <li><a href="index.html"><i class="fa fa-address-card-o" aria-hidden="true"></i>首页</a></li>
         <li><a href="about.html"><i class="fa fa-address-card-o" aria-hidden="true"></i>关于</a></li>
         <li class="submenu">
             <a href="#"><i class="fa fa-address-card-o" aria-hidden="true"></i>技术分享<b class="caret"></b></a>
@@ -92,8 +115,7 @@
                 <a class="nav-brand" href="/"><i class="icon-lime"></i>AXICOO BLOG</a>
                 <a class="menu-link nav-icon" href="#"><i class="icon-menu2"></i></a>
                 {{if .client_id}}
-                    <a class="btn btn-blog outline-white pull-right" href="#" data-toggle="modal" data-target="#loginModal">退出</a>
-                    <img class="bordered img-circle pull-right" alt="" src="img/author-sing.jpg" height="50" width="50">
+                    <img class="bordered img-circle pull-right head-img" alt="" src="{{ .client.HeadImg.ImgUrl }}" height="40" width="40"/>
                 {{else}}
                     <a class="btn btn-blog outline-white pull-right" href="#" data-toggle="modal" data-target="#loginModal1">注册</a>
                     <a class="btn btn-blog outline-white pull-right" href="#" data-toggle="modal" data-target="#loginModal">登录</a>

@@ -14,8 +14,8 @@ type Client struct {
 	Mobile string
 	Sex int
 	Age int
+	Motto string
 	HeadImg *HeadImg  `orm:"rel(one)"`  //头像一对一
-	Comment []*Comment `orm:"reverse(many)"`
 }
 
 func (m *Client) TableName() string {

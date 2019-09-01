@@ -39,6 +39,11 @@ func (p *baseController) Prepare()  {
 		p.o.QueryTable(new(models.Type).TableName()).Filter("status", 1).All(&menu)
 		p.Data["menu"] = menu
 	}
+	if p.GetSession("client") != nil {
+		client_id := p.GetSession("client_id").(int)
+		p.Data["client_id"] = client_id
+		p.Data["client"] = p.GetSession("client")
+	}
 }
 
 func (p *baseController) History(msg string, url string)  {
