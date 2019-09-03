@@ -147,10 +147,23 @@ func (p *HomeController) About() {
 	p.TplName = "home/about.html"
 }
 
+//个人中心
+func (p *HomeController) Personal()  {
+	p.TplName = "personal/index.html"
+}
+
 //添加文章
 func (p *HomeController) AddArticle() {
-
-	p.TplName = "home/add-article.html"
+	if p.Ctx.Request.Method == "POST"{
+		title := p.GetString("title")
+		logo := p.GetString("logo")
+		content := p.GetString("content")
+		types := p.GetString("select")
+		desc := p.GetString("desc")
+		spew.Dump(title,logo,content,types,desc)
+	} else {
+		p.TplName = "personal/article.html"
+	}
 }
 
 

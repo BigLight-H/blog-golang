@@ -37,4 +37,6 @@ func init() {
 	beego.Router("/leave/comments", &controllers.HomeController{}, "post:SetMessage")
 	beego.Router("/about", &controllers.HomeController{}, "*:About")
 	beego.Router("/add/article", &controllers.HomeController{}, "*:AddArticle")
+	beego.Router("/add/article", &controllers.HomeController{}, "post:AddArticle")
+	beego.Router("/personal", &controllers.HomeController{}, "*:Personal")
 }
