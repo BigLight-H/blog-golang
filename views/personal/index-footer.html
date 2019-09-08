@@ -521,14 +521,10 @@
             focus: true                  // set focus to editable area after initializing summernote
         });
     });
-    $('.custom-file-input').on('change', function() {
-        let fileName = $(this).val().split('\\').pop();
-        $(this).next('.custom-file-label').addClass("selected").html(fileName);
-    });
 
     var myDropzone = new Dropzone("#dropz", {
 
-        url: "/upload", // 文件提交地址
+        url: "/push_img", // 文件提交地址
         method: "post",  // 也可用put
         paramName: "file", // 默认为file
         maxFiles: 1,// 一次性上传的文件数量上限
@@ -544,21 +540,51 @@
         dictFallbackMessage: "浏览器不受支持",
         dictFileTooBig: "文件过大上传文件最大支持.",
         dictRemoveLinks: "删除",
-        dictRemoveFile : "Delete",
+        dictRemoveFile : "删除",
         dictCancelUpload: "取消",
         init: function () {
             this.on("addedfile", function (file) {
                 // 上传文件时触发的事件
+
             });
             this.on("success", function (file, data) {
                 // 上传成功触发的事件
+                if (data.code == 0){
+                    $('#img-name').val(data.message);
+                    sweetAlert(
+                        '图片上传成功',
+                        '',
+                        'success'
+                    );
+                } else {
+                    sweetAlert(
+                        data.message,
+                        '',
+                        'error'
+                    );
+                }
             });
             this.on("error", function (file, data) {
                 // 上传失败触发的事件
             });
             this.on("removedfile", function (file) {
-                alert(111111);
-                // 删除文件时触发的方法
+                $.ajax({
+                    type : "POST",
+                    url : "/del_img",    //请求发送到TestServlet处
+                    data : {'img':file.name},
+                    dataType : "json",        //返回数据形式为json
+                    success : function(res) {
+                        if (res.Status) {
+                            swal(
+                                res.Msg,
+                                '',
+                                'success'
+                            );
+                        } else {
+                            swal(res.Msg, "", "error");
+                        }
+                    }
+                });
             });
         }
     });
@@ -567,10 +593,12 @@
 
     $("#push-article").click(function () {
         title = $('#article-title').val();
+        a_id = $('#a-id').val() ? $('#a-id').val() : '';
         desc = $('#article-desc').val();
         select = $('#article-select').val();
-        logo = $('#article-logo').val();
+        logo = $('#img-name').val();
         text = $('#summernote').summernote('code');
+        articleTags = jqchk();
         if (title == "") {
             sweetAlert(
                 '标题不能为空',
@@ -599,22 +627,18 @@
                 'error'
             );
             return false;
+        }else if (articleTags == "") {
+            sweetAlert(
+                '文章标签不能为空',
+                '',
+                'error'
+            );
+            return false;
         } else {
-            var AllImgExt=".jpg|.jpeg|.gif|.bmp|.png|";
-            var extName = logo.substring(logo.lastIndexOf(".")).toLowerCase();//（把路径中的所有字母全部转换为小写）
-            if(AllImgExt.indexOf(extName+"|")==-1)
-            {
-                sweetAlert(
-                    '图片格式不正确',
-                    '',
-                    'error'
-                );
-                return false;
-            } else {
                 $.ajax({
                     type : "POST",
                     url : "/add/article",    //请求发送到TestServlet处
-                    data : {'title':title,'logo':logo,"content":text,"select":select,"desc":desc},
+                    data : {'aid':a_id, 'title':title,'tags':articleTags,'logo':logo,"content":text,"select":select,"desc":desc},
                     dataType : "json",        //返回数据形式为json
                     success : function(res) {
                         if (res.Status) {
@@ -630,33 +654,28 @@
                     }
                 });
             }
-            // $.ajax({
-            //     type : "get",
-            //     //async : true,            //异步请求（同步请求将会锁住浏览器，用户其他操作必须等待请求完成才可以执行）
-            //     url : "/admin/sidebar",    //请求发送到TestServlet处
-            //     data : {},
-            //     dataType : "json",        //返回数据形式为json
-            //     success : function(res) {
-            //         console.log(res)
-            //     }
-            // });
-        }
     })
 
+    //获取复选框的值
+    function jqchk() {  //jquery获取复选框值
+        var s = '';
+        $('input[name="tags"]:checked').each(function () {
+            s += $(this).val() + ',';
+        });
+        return s.substr(0,s.length-1);
+    }
 
-    // $.ajax({
-    //     type : "get",
-    //     //async : true,            //异步请求（同步请求将会锁住浏览器，用户其他操作必须等待请求完成才可以执行）
-    //     url : "/admin/sidebar",    //请求发送到TestServlet处
-    //     data : {},
-    //     dataType : "json",        //返回数据形式为json
-    //     success : function(res) {
-    //         console.log(res)
-    //     }
-    // });
+    //文章编辑
+    function editArticle(id){
+        window.location.href="/add/article/"+id;
+    }
 
-
-
+    //隐藏老图片
+    function delImg(str) {
+        $("#old-img").val(str);
+        $("#img-p").hide();
+        $("#dropz").show();
+    }
 </script>
 <script>
     $(document).ready(function() {

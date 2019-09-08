@@ -36,7 +36,13 @@ func init() {
 	beego.Router("/leave/comments", &controllers.HomeController{}, "*:SetMessage")
 	beego.Router("/leave/comments", &controllers.HomeController{}, "post:SetMessage")
 	beego.Router("/about", &controllers.HomeController{}, "*:About")
-	beego.Router("/add/article", &controllers.HomeController{}, "*:AddArticle")
-	beego.Router("/add/article", &controllers.HomeController{}, "post:AddArticle")
-	beego.Router("/personal", &controllers.HomeController{}, "*:Personal")
+	beego.Router("/home/error", &controllers.HomeController{}, "*:HomeError")
+
+	//个人中心路由
+	beego.Router("/personal", &controllers.PersonalController{}, "*:PersonalCenter")
+	beego.Router("/push_img", &controllers.PersonalController{}, "post:PushImg")
+	beego.Router("/del_img", &controllers.PersonalController{}, "post:DelImg")
+	beego.Router("/add/article/?:id", &controllers.PersonalController{}, "*:AddArticle")
+	beego.Router("/add/article", &controllers.PersonalController{}, "post:AddArticle")
+	beego.Router("/article/list", &controllers.PersonalController{}, "*:List")
 }

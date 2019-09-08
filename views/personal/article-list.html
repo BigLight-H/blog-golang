@@ -1,0 +1,126 @@
+{{template "personal/index-head.html" .}}
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>文章列表</h2>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="/personal">个人中心</a>
+            </li>
+            <li class="breadcrumb-item active">
+                <strong>文章管理</strong>
+            </li>
+        </ol>
+    </div>
+    <div class="col-lg-2">
+
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="ibox ">
+            <div class="ibox-title">
+                <h5>Custom responsive table </h5>
+                <div class="ibox-tools">
+                    <a class="collapse-link">
+                        <i class="fa fa-chevron-up"></i>
+                    </a>
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        <i class="fa fa-wrench"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-user">
+                        <li><a href="#" class="dropdown-item">Config option 1</a>
+                        </li>
+                        <li><a href="#" class="dropdown-item">Config option 2</a>
+                        </li>
+                    </ul>
+                    <a class="close-link">
+                        <i class="fa fa-times"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="ibox-content">
+                <div class="row">
+                    <div class="col-sm-5 m-b-xs"><select class="form-control-sm form-control input-s-sm inline">
+                            <option value="0">Option 1</option>
+                            <option value="1">Option 2</option>
+                            <option value="2">Option 3</option>
+                            <option value="3">Option 4</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-4 m-b-xs">
+                        <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                            <label class="btn btn-sm btn-white ">
+                                <input type="radio" name="options" id="option1" autocomplete="off" checked> Day
+                            </label>
+                            <label class="btn btn-sm btn-white active">
+                                <input type="radio" name="options" id="option2" autocomplete="off"> Week
+                            </label>
+                            <label class="btn btn-sm btn-white">
+                                <input type="radio" name="options" id="option3" autocomplete="off"> Month
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="input-group"><input placeholder="Search" type="text" class="form-control form-control-sm"> <span class="input-group-append"> <button type="button" class="btn btn-sm btn-primary">Go!
+                                    </button> </span></div>
+
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th></th>
+                            <th>标题</th>
+                            <th>类型</th>
+                            <th>审核状态</th>
+                            <th>发布状态</th>
+                            <th>创建时间</th>
+                            <th>备注</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {{range .article_list}}
+                            <tr>
+                                <td><input type="checkbox"  checked class="i-checks" name="input[]"></td>
+                                <td>{{ .Title }}</td>
+                                <td>{{ .Type.TName }}</td>
+                                {{if eq .Review 0}}
+                                    <td>待审核</td>
+                                {{else if eq .Review 1}}
+                                    <td>通过</td>
+                                {{else}}
+                                    <td>拒绝</td>
+                                {{end}}
+                                {{if eq .Status 0 }}
+                                    <td>已下架</td>
+                                {{else}}
+                                    <td>已上架</td>
+                                {{end}}
+                                <td>{{ .Created }}</td>
+                                <td>{{ .Cause }}</td>
+                                <td>
+                                    <button onclick="editArticle({{ .Id }})" type="button" class="btn btn-outline btn-primary">编辑</button>
+                                    {{if eq .Review 1}}
+                                        {{if eq .Status 0 }}
+                                            <button type="button" class="btn btn-outline btn-success">上架</button>
+                                        {{else}}
+                                            <button type="button" class="btn btn-outline btn-success">上架</button>
+                                        {{end}}
+                                    {{end}}
+                                </td>
+                            </tr>
+                        {{end}}
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+{{template "personal/index-footer.html" .}}

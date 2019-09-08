@@ -1,0 +1,182 @@
+/*
+@Time : 2019-09-05 23:40
+@Author : biglight
+@File : personal
+@Software: GoLand
+*/
+package controllers
+
+import (
+	"beego-demo/models"
+	"beego-demo/util"
+	"github.com/astaxie/beego/orm"
+	"github.com/davecgh/go-spew/spew"
+	"os"
+	"strconv"
+	"strings"
+)
+
+type PersonalController struct {
+	baseController
+}
+
+//个人中心
+func (p *PersonalController) PersonalCenter()  {
+	p.TplName = "personal/index.html"
+}
+
+//添加文章
+func (p *PersonalController) AddArticle() {
+	id := p.GetSession("client_id").(int)
+	if p.Ctx.Request.Method == "POST"{
+		aid_ := p.GetString("aid")
+		aid, _ := strconv.Atoi(aid_)
+		title := p.GetString("title")
+		logo := p.GetString("logo")
+		content := p.GetString("content")
+		types := p.GetString("select")
+		tags := p.GetString("tags")
+		t_id, _ := strconv.Atoi(types)
+		desc := p.GetString("desc")
+		var str string
+		var code int
+		if aid_ != "" {
+			article := models.Article{Id:aid}
+			p.o.Read(&article)
+			article.Title = title
+			article.Picture = logo
+			article.Content = content
+			article.Description = desc
+			article.Picture = logo
+			article.Tags = tags
+			tid := models.Type{Id:t_id}
+			article.Type = &tid
+			article.Title = title
+			article.Created = util.TimeSet()
+			_, err := p.o.Update(&article, "Title","Picture","Description","Type","Tags","Content")
+			if err != nil {
+				str = "文章编辑失败"
+				code = 0
+			} else {
+				str = "文章编辑成功"
+				code = 1
+			}
+		} else {
+			article := models.Article{}
+			article.Title = title
+			article.Picture = logo
+			article.Content = content
+			article.Status = 0
+			article.Review = 0
+			article.CommentNum = 0
+			article.ClickVolume = 0
+			article.Description = desc
+			article.Picture = logo
+			article.Tags = tags
+			c_id := models.Client{Id:id}
+			tid := models.Type{Id:t_id}
+			article.Client = &c_id
+			article.Type = &tid
+			article.Title = title
+			article.Created = util.TimeSet()
+			_, err := p.o.Insert(&article)
+			if err != nil {
+				str = "文章添加失败"
+				code = 0
+			} else {
+				str = "文章添加成功"
+				code = 1
+			}
+		}
+		p.MsgBack(str, code)
+	} else {
+		aid_ := p.Ctx.Input.Param(":id")
+		aid, _ := strconv.Atoi(aid_)
+		types := []*models.Type{}
+		tags := []*models.Tags{}
+		qs := p.o.QueryTable(new(models.Type).TableName()).Filter("status",1).FilterRaw("pid", "!=''")
+		qt := p.o.QueryTable(new(models.Tags).TableName())
+		if aid_ != "" {
+			as := models.Article{Id:aid}
+			p.o.Read(&as)
+			tid := strconv.Itoa(as.Type.Id)
+			qs.FilterRaw("id", "!="+tid).All(&types)
+			p.Data["a_types"] = types
+			qs.Filter("id", tid).All(&types)
+			p.Data["a_type"] = types
+			//tag数组
+			qt.FilterRaw("id","not in ("+as.Tags+")").All(&tags)
+			p.Data["a_tags"] = tags
+			qt.FilterRaw("id","in ("+as.Tags+")").All(&tags)
+			p.Data["a_tag"] = tags
+			spew.Dump(p.Data["a_tag"])
+			p.Data["a_data"] = as
+			p.TplName = "personal/article-edit.html"
+
+		} else {
+			qs.All(&types)
+			p.Data["a_types"] = types
+			qt.All(&tags)
+			p.Data["a_tags"] = tags
+			p.Data["a_data"] = make(map[int]string)
+			p.TplName = "personal/article.html"
+		}
+	}
+}
+
+//添加图片
+func (p *PersonalController) PushImg()  {
+	f, h, err := p.GetFile("file")
+	result := make(map[string]interface{})
+	img := ""
+	old := h.Filename
+	if err == nil {
+		exStrArr := strings.Split(h.Filename, ".")
+		exStr := strings.ToLower(exStrArr[len(exStrArr)-1])
+		if exStr != "jpg" && exStr!="png" && exStr != "gif" {
+			result["code"] = 1
+			result["message"] = "上传只能.jpg 或者png格式"
+		}
+		defer f.Close()
+		img = "static/upload/" + util.UniqueId()+"."+exStr
+		p.SaveToFile("file", img) // 保存位置在 static/upload, 没有文件夹要先创建
+		result["code"] = 0
+		result["message"] =img
+		p.SetSession(old, img)
+	}else{
+		result["code"] = 2
+		result["message"] = "上传异常"+err.Error()
+	}
+	p.Data["json"] = result
+	p.ServeJSON()
+}
+
+//删除图片
+func (p *PersonalController) DelImg() {
+	img := p.GetString("img")
+	img_name := p.GetSession(img).(string)
+	spew.Dump(img_name)
+	err := os.Remove(img_name)
+	if err != nil {
+		p.MsgBack("删除失败!", 0)
+	}
+	cnt, err :=p.o.QueryTable(new(models.Article).TableName()).Filter("picture", img_name).Count()
+	if cnt > 0{
+		p.o.QueryTable(new(models.Article).TableName()).Filter("picture", img_name).Update(orm.Params{
+			"picture" : "",
+		})
+		p.MsgBack("删除成功!", 1)
+	}
+	p.MsgBack("删除成功!", 1)
+}
+
+//文章列表
+func (p *PersonalController) List() {
+	id := p.GetSession("client_id").(int)
+	var article []*models.Article
+	p.o.QueryTable(new(models.Article).TableName()).Filter("client_id", id).RelatedSel().All(&article)
+	p.Data["article_list"] = article
+	spew.Dump(id, p.Data["article_list"])
+	p.TplName = "personal/article-list.html"
+}
+

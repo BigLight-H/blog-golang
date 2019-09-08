@@ -3,7 +3,6 @@ package controllers
 import (
 	"beego-demo/models"
 	"beego-demo/util"
-	"github.com/davecgh/go-spew/spew"
 	"strconv"
 	"strings"
 )
@@ -97,7 +96,6 @@ func (p *HomeController) AddComment()  {
 			}
 			article := models.Article{Id:aid}
 			p.o.Read(&article)
-			spew.Dump(article.CommentNum)
 			article.CommentNum = article.CommentNum + 1
 			p.o.Update(&article,"CommentNum")
 			p.MsgBack("评论成功", 1)
@@ -142,28 +140,13 @@ func (p *HomeController) SetMessage() {
 func (p *HomeController) About() {
 	about := models.About{Id:1}
 	p.o.Read(&about)
-	spew.Dump(about)
 	p.Data["abouts"] = about
 	p.TplName = "home/about.html"
 }
 
-//个人中心
-func (p *HomeController) Personal()  {
-	p.TplName = "personal/index.html"
-}
-
-//添加文章
-func (p *HomeController) AddArticle() {
-	if p.Ctx.Request.Method == "POST"{
-		title := p.GetString("title")
-		logo := p.GetString("logo")
-		content := p.GetString("content")
-		types := p.GetString("select")
-		desc := p.GetString("desc")
-		spew.Dump(title,logo,content,types,desc)
-	} else {
-		p.TplName = "personal/article.html"
-	}
+//错误页面
+func (p *HomeController) HomeError() {
+	p.TplName = "home/404.html"
 }
 
 

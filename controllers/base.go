@@ -41,6 +41,10 @@ func (p *baseController) Prepare()  {
 		p.hot()//热门文章
 		p.tags()//全部标签
 		p.footData()//footer数据
+	} else if p.controllerName == "personal" {
+		if p.GetSession("client") == nil {
+			p.History("", "/home/error")
+		}
 	}
 	if p.GetSession("client") != nil {
 		client_id := p.GetSession("client_id").(int)
