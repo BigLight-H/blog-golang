@@ -161,9 +161,9 @@ func (p *AdminController) UpDown()  {
 	article.Status = status
 	_, error := p.o.Update(&article, "Status");
 	if error != nil {
-		p.MsgBack("审核失败", 0)
+		p.MsgBack("操作失败", 0)
 	}
-	p.MsgBack("审核成功", 1)
+	p.MsgBack("操作成功", 1)
 }
 
 //后台管理员列表

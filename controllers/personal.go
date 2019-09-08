@@ -109,7 +109,6 @@ func (p *PersonalController) AddArticle() {
 			p.Data["a_tags"] = tags
 			qt.FilterRaw("id","in ("+as.Tags+")").All(&tags)
 			p.Data["a_tag"] = tags
-			spew.Dump(p.Data["a_tag"])
 			p.Data["a_data"] = as
 			p.TplName = "personal/article-edit.html"
 
@@ -155,7 +154,6 @@ func (p *PersonalController) PushImg()  {
 func (p *PersonalController) DelImg() {
 	img := p.GetString("img")
 	img_name := p.GetSession(img).(string)
-	spew.Dump(img_name)
 	err := os.Remove(img_name)
 	if err != nil {
 		p.MsgBack("删除失败!", 0)
@@ -176,7 +174,25 @@ func (p *PersonalController) List() {
 	var article []*models.Article
 	p.o.QueryTable(new(models.Article).TableName()).Filter("client_id", id).RelatedSel().All(&article)
 	p.Data["article_list"] = article
-	spew.Dump(id, p.Data["article_list"])
 	p.TplName = "personal/article-list.html"
+}
+
+//文章上下架操作
+func (p *PersonalController) PushPull() {
+	id_ := p.GetString("id")
+	id, _ := strconv.Atoi(id_)
+	article := models.Article{Id:id}
+	p.o.Read(&article)
+	spew.Dump(article)
+	if article.Status > 0 {
+		article.Status = 0
+	} else {
+		article.Status = 1
+	}
+	_, err := p.o.Update(&article, "Status")
+	if err != nil {
+		p.MsgBack("操作失败", 0)
+	}
+	p.MsgBack("操作成功", 1)
 }
 
