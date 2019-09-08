@@ -10,7 +10,6 @@ import (
 	"beego-demo/models"
 	"beego-demo/util"
 	"github.com/astaxie/beego/orm"
-	"github.com/davecgh/go-spew/spew"
 	"os"
 	"strconv"
 	"strings"
@@ -183,16 +182,18 @@ func (p *PersonalController) PushPull() {
 	id, _ := strconv.Atoi(id_)
 	article := models.Article{Id:id}
 	p.o.Read(&article)
-	spew.Dump(article)
-	if article.Status > 0 {
-		article.Status = 0
-	} else {
-		article.Status = 1
+	if article.Review == 1 {
+		if article.Status > 0 {
+			article.Status = 0
+		} else {
+			article.Status = 1
+		}
+		_, err := p.o.Update(&article, "Status")
+		if err != nil {
+			p.MsgBack("操作失败", 0)
+		}
+		p.MsgBack("操作成功", 1)
 	}
-	_, err := p.o.Update(&article, "Status")
-	if err != nil {
-		p.MsgBack("操作失败", 0)
-	}
-	p.MsgBack("操作成功", 1)
+	p.MsgBack("操作失败", 0)
 }
 
