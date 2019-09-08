@@ -6,7 +6,11 @@
             <ul class="nav metismenu" id="side-menu">
                 <li class="nav-header">
                     <div class="dropdown profile-element"  style="text-align: center">
-                        <img alt="image" class="rounded-circle" src="{{ .client.HeadImg.ImgUrl }}" style="width: 60px;"/>
+                        {{if .client.Pic}}
+                            <img alt="image" class="rounded-circle" src="/{{ .client.Pic }}" style="width: 60px;"/>
+                        {{else}}
+                            <img alt="image" class="rounded-circle" src="{{ .client.HeadImg.ImgUrl }}" style="width: 60px;"/>
+                        {{end}}
                         <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                             <span class="block m-t-xs font-bold">{{ .client.Username }}</span>
                             <span class="text-muted text-xs block"> <b class="caret"></b></span>
@@ -29,7 +33,7 @@
                     <a href="/article/list"><i class="fa fa-diamond"></i> <span class="nav-label">文章管理</span></a>
                 </li>
                 <li>
-                    <a href="layouts.html"><i class="fa fa-diamond"></i> <span class="nav-label">个人设置</span></a>
+                    <a href="/personal/settings"><i class="fa fa-diamond"></i> <span class="nav-label">个人设置</span></a>
                 </li>
             </ul>
 

@@ -708,6 +708,71 @@
             });
         })
     }
+    
+    function updateMsg() {
+        uname = $('#per-name').val();
+        mobile = $('#per-mobile').val();
+        email = $('#per-email').val();
+        motto = $('#per-motto').val() ? $('#per-motto').val() : '';
+        img = $('#img-name').val();
+        age = $('#per-age').val();
+        sex = $('#per-sex').val();
+        if (uname == "") {
+            sweetAlert(
+                '名字不能为空',
+                '',
+                'error'
+            );
+            return false;
+        } else if (mobile == "") {
+            sweetAlert(
+                '手机号码不能为空',
+                '',
+                'error'
+            );
+            return false;
+        } else if (email == "") {
+            sweetAlert(
+                '邮箱不能为空',
+                '',
+                'error'
+            );
+            return false;
+        }else if (img == "") {
+            sweetAlert(
+                '头像不能为空',
+                '',
+                'error'
+            );
+            return false;
+        }else if (age > 100 || age < 1) {
+            sweetAlert(
+                '年龄不能大于100且不能小于1',
+                '',
+                'error'
+            );
+            return false;
+        } else {
+            $.ajax({
+                type : "POST",
+                url : "/personal/settings",    //请求发送到TestServlet处
+                data : {'name':uname,'email':email,'mobile':mobile,'motto':motto,"img":img,"age":age,"sex":sex},
+                dataType : "json",        //返回数据形式为json
+                success : function(res) {
+                    if (res.Status) {
+                        swal(
+                            res.Msg,
+                            '',
+                            'success'
+                        );
+                        setTimeout("location.reload()",1500);
+                    } else {
+                        swal(res.Msg, "", "error");
+                    }
+                }
+            });
+        }
+    }
 
 </script>
 <script>

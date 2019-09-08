@@ -89,6 +89,7 @@ func (this *LoginController) Register()  {
 		data.Password = util.Md5(password)
 		data.Username = username
 		data.Sex = 1
+		data.Pic = ""
 		img := models.HeadImg{Id:id}
 		data.HeadImg = &img
 		_, err := this.o.Insert(&data)

@@ -162,7 +162,6 @@ func (p *PersonalController) DelImg() {
 		p.o.QueryTable(new(models.Article).TableName()).Filter("picture", img_name).Update(orm.Params{
 			"picture" : "",
 		})
-		p.MsgBack("删除成功!", 1)
 	}
 	p.MsgBack("删除成功!", 1)
 }
@@ -195,5 +194,39 @@ func (p *PersonalController) PushPull() {
 		p.MsgBack("操作成功", 1)
 	}
 	p.MsgBack("操作失败", 0)
+}
+
+//个人设置
+func (p *PersonalController) Setting() {
+	uid := p.GetSession("client_id").(int)
+	if p.Ctx.Request.Method == "POST" {
+		name := p.GetString("name")
+		email := p.GetString("email")
+		mobile := p.GetString("mobile")
+		motto := p.GetString("motto")
+		img := p.GetString("img")
+		age, _ := strconv.Atoi(p.GetString("age"))
+		sex, _ := strconv.Atoi(p.GetString("sex"))
+		user := models.Client{Id:uid}
+		user.Pic = img
+		user.Email = email
+		user.Username = name
+		user.Mobile = mobile
+		user.Motto = motto
+		user.Age = age
+		user.Sex = sex
+		_,err := p.o.Update(&user,"Pic","Email","Username","Mobile","Motto","Age","Sex")
+		if err != nil {
+			p.MsgBack("修改失败", 0)
+		}
+		p.MsgBack("修改成功", 1)
+	} else {
+		user := models.Client{Id:uid}
+		p.o.Read(&user)
+		if user.Pic != "" {
+			p.Data["u_img"] = user.Pic
+		}
+		p.TplName = "personal/personal-settings.html"
+	}
 }
 

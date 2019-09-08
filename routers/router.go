@@ -46,4 +46,6 @@ func init() {
 	beego.Router("/add/article", &controllers.PersonalController{}, "post:AddArticle")
 	beego.Router("/article/list", &controllers.PersonalController{}, "*:List")
 	beego.Router("/article/push_pull", &controllers.PersonalController{}, "post:PushPull")
+	beego.Router("/personal/settings", &controllers.PersonalController{}, "*:Setting")
+	beego.Router("/personal/settings", &controllers.PersonalController{}, "post:Setting")
 }

@@ -6,7 +6,11 @@
             <ul class="nav metismenu" id="side-menu">
                 <li class="nav-header">
                     <div class="dropdown profile-element"  style="text-align: center">
-                        <img alt="image" class="rounded-circle" src="{{ .user.HeadImg.ImgUrl }}" style="width: 60px;"/>
+                        {{if .client.Pic}}
+                            <img alt="image" class="rounded-circle" src="{{ .client.Pic }}" style="width: 60px;"/>
+                        {{else}}
+                            <img alt="image" class="rounded-circle" src="{{ .client.HeadImg.ImgUrl }}" style="width: 60px;"/>
+                        {{end}}
                         <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                             <span class="block m-t-xs font-bold">{{ .user.Username }}</span>
                             <span class="text-muted text-xs block">{{ .user.Role.Role }} <b class="caret"></b></span>
