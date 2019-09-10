@@ -26,11 +26,11 @@
 				<div class="row">
 					<div class="col-md-10 col-md-offset-1">
 						<div class="row">
-							<form id="" action="search.html" method="POST" class="col-md-6 myform">
+							<form class="col-md-6 myform" onsubmit="return false;">
 								<div class="input-group">
-									<input name="text" placeholder="输入搜索条件..." class="form-control input-lg" type="text" >
+									<input id="home-search2" name="text" placeholder="输入搜索条件..." class="form-control input-lg" type="text" >
 									<span class="input-group-btn">
-										<button name="submit" type="submit" class="btn">搜索</button>
+										<button onclick="homeSearch2()" name="submit" type="submit" class="btn">搜索</button>
 									</span>
 								</div>
 								<input type="hidden" name="submitted" id="submitted2" value="true">
