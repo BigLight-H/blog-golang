@@ -157,5 +157,12 @@ func (p *HomeController) SearchTag()  {
 
 //文章搜索
 func (p *HomeController) Search()  {
-
+	str := p.Ctx.Input.Param(":str")
+	article := []*models.Article{}
+	qs := p.o.QueryTable(new(models.Article).TableName())
+	qs = qs.Filter("title__icontains", str)
+	qs.RelatedSel().All(&article)
+	p.Data["article_search"] = article
+	p.Data["search"] = str
+	p.TplName = "home/search.html"
 }

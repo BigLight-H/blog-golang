@@ -294,6 +294,20 @@
             }
         });
     }
+
+    $(document).ready(function(){
+        $("#home-search").keydown(function(e){
+            var curKey = e.which;
+            if(curKey == 13){
+                str = $("#home-search").val();
+                $("#home-search").click();
+                if (str) {
+                    window.location.href="/home/search/"+str;
+                }
+                return false;
+            }
+        });
+    });
 </script>
 </body>
 </html>

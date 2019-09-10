@@ -37,6 +37,7 @@ func init() {
 	beego.Router("/leave/comments", &controllers.HomeController{}, "post:SetMessage")
 	beego.Router("/about", &controllers.HomeController{}, "*:About")
 	beego.Router("/home/error", &controllers.HomeController{}, "*:HomeError")
+	beego.Router("/home/search/?:str", &controllers.HomeController{}, "*:Search")
 
 	//个人中心路由
 	beego.Router("/personal", &controllers.PersonalController{}, "*:PersonalCenter")
@@ -44,8 +45,9 @@ func init() {
 	beego.Router("/del_img", &controllers.PersonalController{}, "post:DelImg")
 	beego.Router("/add/article/?:id", &controllers.PersonalController{}, "*:AddArticle")
 	beego.Router("/add/article", &controllers.PersonalController{}, "post:AddArticle")
-	beego.Router("/article/list", &controllers.PersonalController{}, "*:List")
+	beego.Router("/article/list/?:str", &controllers.PersonalController{}, "*:List")
 	beego.Router("/article/push_pull", &controllers.PersonalController{}, "post:PushPull")
 	beego.Router("/personal/settings", &controllers.PersonalController{}, "*:Setting")
 	beego.Router("/personal/settings", &controllers.PersonalController{}, "post:Setting")
+	beego.Router("/personal/logout", &controllers.PersonalController{}, "*:Logout")
 }

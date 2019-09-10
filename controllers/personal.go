@@ -168,10 +168,17 @@ func (p *PersonalController) DelImg() {
 
 //文章列表
 func (p *PersonalController) List() {
+	str := p.Ctx.Input.Param(":str")
 	id := p.GetSession("client_id").(int)
 	var article []*models.Article
-	p.o.QueryTable(new(models.Article).TableName()).Filter("client_id", id).RelatedSel().All(&article)
+	qs := p.o.QueryTable(new(models.Article).TableName())
+	qs = qs.Filter("client_id", id)
+	if str != "" {
+		qs = qs.Filter("title__icontains", str)
+	}
+	qs.RelatedSel().All(&article)
 	p.Data["article_list"] = article
+	p.Data["str"] = str
 	p.TplName = "personal/article-list.html"
 }
 
@@ -230,3 +237,8 @@ func (p *PersonalController) Setting() {
 	}
 }
 
+//退出登录
+func (p *PersonalController) Logout()  {
+	p.DestroySession()
+	p.History("退出登录", "/")
+}

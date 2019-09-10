@@ -42,10 +42,10 @@
 <div id="menu" class="menu-right">
     <ul>
         <li>
-            <form class="menu-search" >
+            <form class="menu-search" method="get" action="/">
                 <div class="form-group header">
                     <i class="icon-search searchico"></i>
-                    <input type="text" placeholder="Blog Search">
+                    <input id="home-search" type="text" placeholder="搜索文章">
                     <a href="#" class="close-menu"><i class="icon-close"></i></a>
                 </div>
             </form>
@@ -88,7 +88,11 @@
                 <a class="nav-brand" href="/"><i class="icon-lime"></i>AXICOO BLOG</a>
                 <a class="menu-link nav-icon" href="#"><i class="icon-menu2"></i></a>
                 {{if .client_id}}
-                    <img class="bordered img-circle pull-right head-img" alt="" src="{{ .client.HeadImg.ImgUrl }}" height="40" width="40"/>
+                    {{if .client.Pic}}
+                        <img class="bordered img-circle pull-right head-img" alt="" src="{{ .client.Pic }}" height="40" width="40"/>
+                    {{else}}
+                        <img class="bordered img-circle pull-right head-img" alt="" src="{{ .client.HeadImg.ImgUrl }}" height="40" width="40"/>
+                    {{end}}
                 {{else}}
                     <a class="btn btn-blog outline-white pull-right" href="#" data-toggle="modal" data-target="#loginModal1">注册</a>
                     <a class="btn btn-blog outline-white pull-right" href="#" data-toggle="modal" data-target="#loginModal">登录</a>
