@@ -152,17 +152,26 @@ func (p *HomeController) HomeError() {
 
 //tag搜索
 func (p *HomeController) SearchTag()  {
-
+	str := p.Ctx.Input.Param(":str")
+	p.sou(str,"tags")
+	p.Data["title"] = "标签搜索"
+	p.TplName = "home/search.html"
 }
 
 //文章搜索
 func (p *HomeController) Search()  {
 	str := p.Ctx.Input.Param(":str")
+	p.sou(str,"title")
+	p.Data["title"] = "文章搜索"
+	p.TplName = "home/search.html"
+}
+
+//搜索文章方法
+func (p *HomeController) sou(str string, types string) {
 	article := []*models.Article{}
 	qs := p.o.QueryTable(new(models.Article).TableName())
-	qs = qs.Filter("title__icontains", str)
+	qs = qs.Filter(types+"__icontains", str)
 	qs.RelatedSel().All(&article)
 	p.Data["article_search"] = article
 	p.Data["search"] = str
-	p.TplName = "home/search.html"
 }
