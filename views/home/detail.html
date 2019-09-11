@@ -32,7 +32,7 @@
 						<div class="col-md-10 col-md-offset-1">
 							{{range .article}}
 							<div class="post-date">
-								{{ .Created }} | <a href="/author/{{ .Client.Id }}">{{ .Client.Username }} </a> <span>
+								{{ .Created }} | <a href="/author/{{ .Client.Id }}/1">{{ .Client.Username }} </a> <span>
 									{{if gt $.num 0}}
 										<a href="#comment">{{ $.num }} 条评论</a>
 									{{else}}
@@ -56,7 +56,7 @@
 							<div id="author" class="clearfix">
 								<img class="img-circle" alt="" src="{{ .Client.HeadImg.ImgUrl }}" height="96" width="96">
 								<div class="author-info">
-									<a href="/author/{{ .Client.Id }}"><h3>{{ .Client.Username }}</h3></a>
+									<a href="/author/{{ .Client.Id }}/1"><h3>{{ .Client.Username }}</h3></a>
 									<p>{{ .Client.Motto }}</p>
 								</div>
 							</div>
@@ -81,11 +81,11 @@
 								<hr>
 								{{range .comment}}
 								<div class="media">
-										<a class="pull-left avatar" href="/author/{{ .Client.Id }}">
+										<a class="pull-left avatar" href="/author/{{ .Client.Id }}/1">
 										  <img class="media-object img-circle" src="{{ .Client.HeadImg.ImgUrl }}" width="40" height="40" alt="">
 										</a>
 										<div class="media-body">
-											<h4 class="media-heading"><a href="/author/{{ .Client.Id }}">{{ .Client.Username }}</a><span>{{ .Created }}</span></h4>
+											<h4 class="media-heading"><a href="/author/{{ .Client.Id }}/1">{{ .Client.Username }}</a><span>{{ .Created }}</span></h4>
 											<p>{{ .Content }}</p>
 										</div>
 								</div>

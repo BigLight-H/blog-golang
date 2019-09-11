@@ -41,7 +41,7 @@
 						{{range .article_search}}
 							<article class="clearfix">
 								<div class="post-date">
-									{{ .Created }} | <a href="/author/{{ .Client.Id }}">{{ .Client.Username }} </a> <span><a href="">{{ .CommentNum }} 条评论</a></span>
+									{{ .Created }} | <a href="/author/{{ .Client.Id }}/1">{{ .Client.Username }} </a> <span><a href="">{{ .CommentNum }} 条评论</a></span>
 								</div>
 								<h2><a href="/detail/{{ .Id }}">{{ .Title }}</a></h2>
 								<p style="word-break: break-all;">{{ .Content }} ...&nbsp;<a class="" href="/detail/{{ .Id }}">阅读更多</a></p>

@@ -75,8 +75,8 @@
             {{end}}
         {{end}}
         {{if .client_id}}
-            <li><a href="index.html"><i class="fa fa-cog" aria-hidden="true"></i>设置</a></li>
-            <li><a href="index.html"><i class="fa fa-sign-out" aria-hidden="true"></i>退出</a></li>
+            <li><a href="/personal/settings"><i class="fa fa-cog" aria-hidden="true"></i>设置</a></li>
+            <li><a href="/personal/logout"><i class="fa fa-sign-out" aria-hidden="true"></i>退出</a></li>
         {{end}}
 
     </ul>
@@ -89,7 +89,7 @@
                 <a class="menu-link nav-icon" href="#"><i class="icon-menu2"></i></a>
                 {{if .client_id}}
                     {{if .client.Pic}}
-                        <img class="bordered img-circle pull-right head-img" alt="" src="{{ .client.Pic }}" height="40" width="40"/>
+                        <img class="bordered img-circle pull-right head-img" alt="" src="/{{ .client.Pic }}" height="40" width="40"/>
                     {{else}}
                         <img class="bordered img-circle pull-right head-img" alt="" src="{{ .client.HeadImg.ImgUrl }}" height="40" width="40"/>
                     {{end}}

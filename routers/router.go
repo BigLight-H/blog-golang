@@ -27,11 +27,11 @@ func init() {
 	beego.Router("/admin/user/push_email", &controllers.AdminController{}, "post:PushEmail")
 
 	//前台页面
-	beego.Router("/", &controllers.HomeController{}, "*:Index")
+	beego.Router("/?:page", &controllers.HomeController{}, "*:Index")
 	beego.Router("/home_login", &controllers.LoginController{}, "post:HomeLogin")
 	beego.Router("/home_register", &controllers.LoginController{}, "post:Register")
 	beego.Router("/detail/?:id", &controllers.HomeController{}, "get:Detail")
-	beego.Router("/author/?:id", &controllers.HomeController{}, "get:Author")
+	beego.Router("/author/?:id/?:page", &controllers.HomeController{}, "get:Author")
 	beego.Router("/comment/add", &controllers.HomeController{}, "post:AddComment")
 	beego.Router("/leave/comments", &controllers.HomeController{}, "*:SetMessage")
 	beego.Router("/leave/comments", &controllers.HomeController{}, "post:SetMessage")

@@ -16,7 +16,7 @@
 						{{range .articles}}
 							<article class="clearfix">
 								<div class="post-date">
-									{{ .Created }} | <a href="/author/{{ .Client.Id }}">{{ .Client.Username }} </a> <span><a href="">{{ .CommentNum }} 条评论</a></span>
+									{{ .Created }} | <a href="/author/{{ .Client.Id }}/1">{{ .Client.Username }} </a> <span><a href="">{{ .CommentNum }} 条评论</a></span>
 								</div>
 								<h2><a href="/detail/{{ .Id }}">{{ .Title }}</a></h2>
 								<p style="word-break: break-all;">{{ .Content }} ...&nbsp;<a class="" href="/detail/{{ .Id }}">阅读更多</a></p>
@@ -33,12 +33,16 @@
 								{{end}}
 							</div>
 						</div>
-
-						<div class="paging clearfix">
-							<a class="btn pull-left" href="#"><i class="icon-arrow-left2 left"></i><span>上一页</span></a>
-							<a class="btn pull-right" href="#"><span class="hidden-xs"> 下一页</span><i class="icon-arrow-right2 right"></i></a>
-						</div>
-
+						{{if gt .total 1.0}}
+							<div class="paging clearfix">
+								{{if gt .previous_page 0}}
+								<a class="btn pull-left" href="/{{ .previous_page }}"><i class="icon-arrow-left2 left"></i><span>上一页</span></a>
+								{{end}}
+								{{if lt .current_page .total}}
+								<a class="btn pull-right" href="/{{ .next_page }}"><span class="hidden-xs"> 下一页</span><i class="icon-arrow-right2 right"></i></a>
+								{{end}}
+							</div>
+						{{end}}
 					</div>	
 				</div><!-- end row -->
 			</div>
