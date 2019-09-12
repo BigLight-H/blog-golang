@@ -10,7 +10,6 @@ import (
 	"beego-demo/models"
 	"beego-demo/util"
 	"github.com/astaxie/beego/orm"
-	"github.com/davecgh/go-spew/spew"
 	"os"
 	"strconv"
 	"strings"
@@ -109,7 +108,6 @@ func (p *PersonalController) AddArticle() {
 			p.Data["a_tags"] = tags
 			qt.FilterRaw("id","in ("+as.Tags+")").All(&tags)
 			p.Data["a_tag"] = tags
-			spew.Dump(p.Data["a_tag"])
 			p.Data["a_data"] = as
 			p.TplName = "personal/article-edit.html"
 
@@ -155,7 +153,6 @@ func (p *PersonalController) PushImg()  {
 func (p *PersonalController) DelImg() {
 	img := p.GetString("img")
 	img_name := p.GetSession(img).(string)
-	spew.Dump(img_name)
 	err := os.Remove(img_name)
 	if err != nil {
 		p.MsgBack("删除失败!", 0)
@@ -165,18 +162,84 @@ func (p *PersonalController) DelImg() {
 		p.o.QueryTable(new(models.Article).TableName()).Filter("picture", img_name).Update(orm.Params{
 			"picture" : "",
 		})
-		p.MsgBack("删除成功!", 1)
 	}
 	p.MsgBack("删除成功!", 1)
 }
 
 //文章列表
 func (p *PersonalController) List() {
+	str := p.Ctx.Input.Param(":str")
 	id := p.GetSession("client_id").(int)
 	var article []*models.Article
-	p.o.QueryTable(new(models.Article).TableName()).Filter("client_id", id).RelatedSel().All(&article)
+	qs := p.o.QueryTable(new(models.Article).TableName())
+	qs = qs.Filter("client_id", id)
+	if str != "" {
+		qs = qs.Filter("title__icontains", str)
+	}
+	qs.RelatedSel().All(&article)
 	p.Data["article_list"] = article
-	spew.Dump(id, p.Data["article_list"])
+	p.Data["str"] = str
 	p.TplName = "personal/article-list.html"
 }
 
+//文章上下架操作
+func (p *PersonalController) PushPull() {
+	id_ := p.GetString("id")
+	id, _ := strconv.Atoi(id_)
+	article := models.Article{Id:id}
+	p.o.Read(&article)
+	if article.Review == 1 {
+		if article.Status > 0 {
+			article.Status = 0
+		} else {
+			article.Status = 1
+		}
+		p.SumArticleNum(article.Type.Id, article.Status)
+		_, err := p.o.Update(&article, "Status")
+		if err != nil {
+			p.MsgBack("操作失败", 0)
+		}
+		p.MsgBack("操作成功", 1)
+	}
+	p.MsgBack("操作失败", 0)
+}
+
+//个人设置
+func (p *PersonalController) Setting() {
+	uid := p.GetSession("client_id").(int)
+	if p.Ctx.Request.Method == "POST" {
+		name := p.GetString("name")
+		email := p.GetString("email")
+		mobile := p.GetString("mobile")
+		motto := p.GetString("motto")
+		img := p.GetString("img")
+		age, _ := strconv.Atoi(p.GetString("age"))
+		sex, _ := strconv.Atoi(p.GetString("sex"))
+		user := models.Client{Id:uid}
+		user.Pic = img
+		user.Email = email
+		user.Username = name
+		user.Mobile = mobile
+		user.Motto = motto
+		user.Age = age
+		user.Sex = sex
+		_,err := p.o.Update(&user,"Pic","Email","Username","Mobile","Motto","Age","Sex")
+		if err != nil {
+			p.MsgBack("修改失败", 0)
+		}
+		p.MsgBack("修改成功", 1)
+	} else {
+		user := models.Client{Id:uid}
+		p.o.Read(&user)
+		if user.Pic != "" {
+			p.Data["u_img"] = user.Pic
+		}
+		p.TplName = "personal/personal-settings.html"
+	}
+}
+
+//退出登录
+func (p *PersonalController) Logout()  {
+	p.DestroySession()
+	p.History("退出登录", "/")
+}

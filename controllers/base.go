@@ -87,6 +87,18 @@ func (p *baseController) footData() {
 
 }
 
+//文章类型数量加减
+func (p *baseController) SumArticleNum(typeId int, status int) {
+	types := models.Type{Id:typeId}
+	if status > 0 {
+		types.ArticleNum = types.ArticleNum + 1
+	} else {
+		if types.ArticleNum > 0 {
+			types.ArticleNum = types.ArticleNum - 1
+		}
+	}
+	p.o.Update(&types, "ArticleNum")
+}
 
 func (p *baseController) History(msg string, url string)  {
 	if url == "" {

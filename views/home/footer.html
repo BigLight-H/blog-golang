@@ -46,7 +46,7 @@
                     <h3>标签</h3>
                     <ul class="tags">
                         {{range .tag_all}}
-                        <li><a href="#">{{ .TagName }}</a></li>
+                        <li><a href="/home/search_tag/{{ .Id }}">{{ .TagName }}</a></li>
                         {{end}}
                     </ul>
                 </div>
@@ -294,6 +294,28 @@
             }
         });
     }
+
+    $(document).ready(function(){
+        $("#home-search").keydown(function(e){
+            var curKey = e.which;
+            if(curKey == 13){
+                str = $("#home-search").val();
+                $("#home-search").click();
+                if (str) {
+                    window.location.href="/home/search/"+str;
+                }
+                return false;
+            }
+        });
+    });
+
+    function homeSearch2() {
+        str = $("#home-search2").val();
+        if (str) {
+            window.location.href="/home/search/"+str;
+        }
+    }
+
 </script>
 </body>
 </html>

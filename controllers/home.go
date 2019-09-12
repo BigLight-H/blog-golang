@@ -3,6 +3,7 @@ package controllers
 import (
 	"beego-demo/models"
 	"beego-demo/util"
+	"math"
 	"strconv"
 	"strings"
 )
@@ -11,21 +12,45 @@ type HomeController struct {
 	baseController
 }
 
+const Number int = 3  //每页容量
+const Number_ float64 = 3.0  //每页容量
+
+
 //前台首页面
 func (p *HomeController) Index() {
-	p.article(0)
+	page := p.Ctx.Input.Param(":page")
+	p.article(0, page)
 	p.TplName = "home/index.html"
 }
 
 //文章列表
-func (p *HomeController) article(id int) {
+func (p *HomeController) article(id int, page string) {
+	pgs, _ := strconv.Atoi(page)
+	//分页
+	pages := ( pgs - 1 ) * Number
+	if pages < 1 {
+		pages = 1
+	}
 	article := []*models.Article{}
 	qs := p.o.QueryTable(new(models.Article).TableName())
 	qs = qs.Filter("status", 1)
 	if id > 0 {
 		qs = qs.Filter("client_id", id)
 	}
-	qs.OrderBy("-id").RelatedSel().All(&article)
+	num, _ := qs.Count()
+	//总条数
+	p.Data["all_num"] = num
+	//总页数
+	num_str := strconv.FormatInt(num,10)
+	n, _ := strconv.ParseFloat(num_str, 64)
+	p.Data["total"] = math.Ceil(n / Number_)
+	//上一页
+	p.Data["previous_page"] = pgs - 1
+	//下一页
+	p.Data["next_page"] = pgs + 1
+	//当前页
+	p.Data["current_page"],_ = strconv.ParseFloat(page, 64)
+	qs.OrderBy("-id").RelatedSel().Limit(Number, pages).All(&article)
 	p.Data["articles"] = article
 }
 
@@ -65,11 +90,13 @@ func (p *HomeController) Detail() {
 //作者介绍
 func (p *HomeController) Author() {
 	cid := p.Ctx.Input.Param(":id")
+	page := p.Ctx.Input.Param(":page")
 	id, _ := strconv.Atoi(cid)
 	user := []*models.Client{}
 	p.o.QueryTable(new(models.Client).TableName()).Filter("id", id).RelatedSel().All(&user)
 	p.Data["client_user"] = user
-	p.article(id)
+	p.article(id, page)
+	p.Data["cid"] = id
 	p.TplName = "home/author.html"
 }
 
@@ -152,10 +179,30 @@ func (p *HomeController) HomeError() {
 
 //tag搜索
 func (p *HomeController) SearchTag()  {
-
+	str := p.Ctx.Input.Param(":str")
+	tid, _ :=strconv.Atoi(str)
+	tag_model := models.Tags{Id:tid}
+	p.o.Read(&tag_model)
+	p.Data["search"] = tag_model.TagName
+	p.sou(str,"tags")
+	p.Data["title"] = "标签搜索"
+	p.TplName = "home/search.html"
 }
 
 //文章搜索
 func (p *HomeController) Search()  {
+	str := p.Ctx.Input.Param(":str")
+	p.sou(str,"title")
+	p.Data["title"] = "文章搜索"
+	p.Data["search"] = str
+	p.TplName = "home/search.html"
+}
 
+//搜索文章方法
+func (p *HomeController) sou(str string, types string) {
+	article := []*models.Article{}
+	qs := p.o.QueryTable(new(models.Article).TableName())
+	qs = qs.Filter(types+"__icontains", str)
+	qs.RelatedSel().All(&article)
+	p.Data["article_search"] = article
 }

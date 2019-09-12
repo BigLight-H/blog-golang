@@ -27,16 +27,18 @@ func init() {
 	beego.Router("/admin/user/push_email", &controllers.AdminController{}, "post:PushEmail")
 
 	//前台页面
-	beego.Router("/", &controllers.HomeController{}, "*:Index")
+	beego.Router("/?:page", &controllers.HomeController{}, "*:Index")
 	beego.Router("/home_login", &controllers.LoginController{}, "post:HomeLogin")
 	beego.Router("/home_register", &controllers.LoginController{}, "post:Register")
 	beego.Router("/detail/?:id", &controllers.HomeController{}, "get:Detail")
-	beego.Router("/author/?:id", &controllers.HomeController{}, "get:Author")
+	beego.Router("/author/?:id/?:page", &controllers.HomeController{}, "get:Author")
 	beego.Router("/comment/add", &controllers.HomeController{}, "post:AddComment")
 	beego.Router("/leave/comments", &controllers.HomeController{}, "*:SetMessage")
 	beego.Router("/leave/comments", &controllers.HomeController{}, "post:SetMessage")
 	beego.Router("/about", &controllers.HomeController{}, "*:About")
 	beego.Router("/home/error", &controllers.HomeController{}, "*:HomeError")
+	beego.Router("/home/search/?:str", &controllers.HomeController{}, "*:Search")
+	beego.Router("/home/search_tag/?:str", &controllers.HomeController{}, "*:SearchTag")
 
 	//个人中心路由
 	beego.Router("/personal", &controllers.PersonalController{}, "*:PersonalCenter")
@@ -44,5 +46,9 @@ func init() {
 	beego.Router("/del_img", &controllers.PersonalController{}, "post:DelImg")
 	beego.Router("/add/article/?:id", &controllers.PersonalController{}, "*:AddArticle")
 	beego.Router("/add/article", &controllers.PersonalController{}, "post:AddArticle")
-	beego.Router("/article/list", &controllers.PersonalController{}, "*:List")
+	beego.Router("/article/list/?:str", &controllers.PersonalController{}, "*:List")
+	beego.Router("/article/push_pull", &controllers.PersonalController{}, "post:PushPull")
+	beego.Router("/personal/settings", &controllers.PersonalController{}, "*:Setting")
+	beego.Router("/personal/settings", &controllers.PersonalController{}, "post:Setting")
+	beego.Router("/personal/logout", &controllers.PersonalController{}, "*:Logout")
 }
