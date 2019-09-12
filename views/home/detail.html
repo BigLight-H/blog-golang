@@ -85,7 +85,8 @@
 										  <img class="media-object img-circle" src="{{ .Client.HeadImg.ImgUrl }}" width="40" height="40" alt="">
 										</a>
 										<div class="media-body">
-											<h4 class="media-heading"><a href="/author/{{ .Client.Id }}/1">{{ .Client.Username }}</a><span>{{ .Created }}</span></h4>
+											<h4 class="media-heading"><a href="/author/{{ .Client.Id }}/1">{{ .Client.Username }}</a><span>{{ .Created }}</span>|<a
+														href="#" onclick="replyComment({{ .Client.Path }}, {{ .Client.Username }})" >回复</a></h4>
 											<p>{{ .Content }}</p>
 										</div>
 								</div>
@@ -101,7 +102,7 @@
 							</div>
 -->
 							{{if .client_id}}
-							<h3>添加评论</h3>
+							<h3 id="comment-h3">添加评论</h3>
 							<form action="/comment/add" method="post" novalidate class="myform" id="mycomment">
 								<div class="row">
 									<div class="col-xs-12 col-sm-12 col-md-12 wow fadeInUp" >
@@ -117,6 +118,7 @@
 													<button onclick="addComment();" name="submit" type="submit" class="btn btn-block" data-error-message="失败!" data-sending-message="提交中..." data-ok-message="提交成功">提交评论</button>
 													<input type="hidden" name="submitted" id="submitted3" value="true">
 													<input type="hidden" name="cid" value="{{ .c_id }}">
+													<input id="comment-path" type="hidden" name="path" >
 												</div>
 											</div>
 										</div>

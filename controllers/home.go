@@ -103,6 +103,7 @@ func (p *HomeController) Author() {
 //添加评论
 func (p *HomeController) AddComment()  {
 	c_id := p.GetString("cid")
+	path := p.GetString("path")
 	aid, _ :=strconv.Atoi(c_id)
 	uid := p.GetSession("client_id").(int)
 	if uid > 0 {
@@ -117,7 +118,7 @@ func (p *HomeController) AddComment()  {
 			ment.Article = &a_id
 			ment.Content = comment
 			ment.Created = util.TimeSet()
-			_, err := p.o.Insert(&ment)
+			mid, err := p.o.Insert(&ment)
 			if err != nil {
 				p.MsgBack("评论失败", 0)
 			}
@@ -125,6 +126,14 @@ func (p *HomeController) AddComment()  {
 			p.o.Read(&article)
 			article.CommentNum = article.CommentNum + 1
 			p.o.Update(&article,"CommentNum")
+			//存入评论path
+			comm := models.Comment{Id:mid}
+			if path != "" {
+				comm.Path = path+","+ strconv.FormatInt(mid,10)
+			} else {
+				comm.Path = strconv.FormatInt(mid,10)
+			}
+			p.o.Update(&comm,"Path")
 			p.MsgBack("评论成功", 1)
 		}
 	} else {
