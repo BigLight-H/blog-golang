@@ -161,7 +161,7 @@ func (p *AdminController) UpDown()  {
 	article.Id = id
 	article.Status = status
 	p.SumArticleNum(article.Type.Id, status)
-	_, error := p.o.Update(&article, "Status");
+	_, error := p.o.Update(&article, "Status")
 	if error != nil {
 		p.MsgBack("操作失败", 0)
 	}
