@@ -45,7 +45,7 @@
 							<div class="post-date">
 								标签 |
 								{{range $k, $v := $.tags}}
-								<a href="">{{ $v }}</a> &nbsp;
+								<a href="/home/search_tag/{{ $k }}">{{ $v }}</a> &nbsp;
 								{{end}}
 							</div>
 								<ul class="social-links outline text-center">
@@ -80,16 +80,33 @@
 							<div id="comment" class="media">
 								<hr>
 								{{range .comment}}
-								<div class="media">
-										<a class="pull-left avatar" href="/author/{{ .Client.Id }}/1">
-										  <img class="media-object img-circle" src="{{ .Client.HeadImg.ImgUrl }}" width="40" height="40" alt="">
-										</a>
-										<div class="media-body">
-											<h4 class="media-heading"><a href="/author/{{ .Client.Id }}/1">{{ .Client.Username }}</a><span>{{ .Created }}</span>|<a
-														href="#" onclick="replyComment({{ .Client.Path }}, {{ .Client.Username }})" >回复</a></h4>
-											<p>{{ .Content }}</p>
+									{{if eq .IsReply 0}}
+										<div class="media">
+												<a class="pull-left avatar" href="/author/{{ .Client.Id }}/1">
+												  <img class="media-object img-circle" src="{{ .Client.HeadImg.ImgUrl }}" width="40" height="40" alt="">
+												</a>
+												<div class="media-body">
+													<h4 class="media-heading">
+														<a href="/author/{{ .Client.Id }}/1">{{ .Client.Username }}</a>
+														<span>{{ .Created }} | <a onclick="replyComment({{ .Path }}, {{ .Client.Username }})" >回复</a></span>
+													</h4>
+													<p>{{ .Content }}</p>
+												</div>
 										</div>
-								</div>
+									{{ else }}
+										<div class="media" style="padding-left: 3rem;">
+											<a class="pull-left avatar" href="/author/{{ .Client.Id }}/1">
+												<img class="media-object img-circle" src="{{ .Client.HeadImg.ImgUrl }}" width="40" height="40" alt="">
+											</a>
+											<div class="media-body">
+												<h4 class="media-heading">
+													<a href="/author/{{ .Client.Id }}/1">{{ .Client.Username }}</a>
+													<span>{{ .Created }} | <a onclick="replyComment({{ .Path }}, {{ .Client.Username }})" >回复</a></span>
+												</h4>
+												<p>{{ .Content }}</p>
+											</div>
+										</div>
+									{{end}}
 								{{else}}
 
 								{{end}}

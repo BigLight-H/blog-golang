@@ -70,16 +70,16 @@ func (p *HomeController) Detail() {
 	count, _ := ment.Count()
 	//文章数量
 	p.Data["num"] = count
-	ment.RelatedSel().All(&comment)
+	ment.RelatedSel().OrderBy("path").All(&comment)
 	p.Data["comment"] = comment
 	//遍历出文章标签
 	tags := make(map[int]string)
 	for _, v := range article {
-		for k, tid := range strings.Split(v.Tags, ",") {
+		for _, tid := range strings.Split(v.Tags, ",") {
 			tag_id, _ := strconv.Atoi(tid)
 			tag := models.Tags{Id:tag_id}
 			p.o.Read(&tag)
-			tags[k] = tag.TagName
+			tags[tag.Id] = tag.TagName
 		}
 	}
 	p.Data["tags"] = tags
@@ -117,6 +117,9 @@ func (p *HomeController) AddComment()  {
 			ment.Client = &user_id
 			ment.Article = &a_id
 			ment.Content = comment
+			if path != "" {
+				ment.IsReply = 1
+			}
 			ment.Created = util.TimeSet()
 			mid, err := p.o.Insert(&ment)
 			if err != nil {

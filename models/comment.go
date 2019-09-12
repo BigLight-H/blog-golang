@@ -7,6 +7,7 @@ type Comment struct {
 	Content string
 	Created string
 	Path string
+	IsReply int
 }
 
 func (m *Comment) TableName() string {

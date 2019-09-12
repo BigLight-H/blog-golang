@@ -64,7 +64,7 @@
                         <ul class="submenu-list">
                         {{range $m,$u := $.menu}}
                             {{if eq $u.Pid $v.Id}}
-                            <li><a href="{{ $v.Url }}">{{ $u.TName }} <span class="badge golden">2</span></a></li>
+                            <li><a href="{{ $v.Url }}">{{ $u.TName }} <span class="badge">{{ $u.ArticleNum }}</span></a></li>
                             {{end}}
                         {{end}}
                         </ul>
