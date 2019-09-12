@@ -194,6 +194,7 @@ func (p *PersonalController) PushPull() {
 		} else {
 			article.Status = 1
 		}
+		p.SumArticleNum(article.Type.Id, article.Status)
 		_, err := p.o.Update(&article, "Status")
 		if err != nil {
 			p.MsgBack("操作失败", 0)

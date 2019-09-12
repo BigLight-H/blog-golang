@@ -40,6 +40,7 @@ func (p *AdminController) ClassifyAdd() {
 			types.TName = name
 			types.Url = url
 			types.Icon = icon
+			types.ArticleNum = 0
 			if pid == 0 {
 				types.Dir = 1
 			} else {
@@ -159,6 +160,7 @@ func (p *AdminController) UpDown()  {
 	article := models.Article{}
 	article.Id = id
 	article.Status = status
+	p.SumArticleNum(article.Type.Id, status)
 	_, error := p.o.Update(&article, "Status");
 	if error != nil {
 		p.MsgBack("操作失败", 0)
