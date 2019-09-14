@@ -29,6 +29,8 @@ func Init() {
 		new(Comment),
 		new(Tags),
 		new(About),
+		new(Collection),
+		new(Zan),
 		)
 }
 

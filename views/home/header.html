@@ -53,8 +53,8 @@
         {{if .client_id}}
             <li><a href="/personal"><i class="fa fa-user" aria-hidden="true"></i>个人中心</a></li>
             <li><a href="/about"><i class="fa fa-user" aria-hidden="true"></i>我的主页</a></li>
-            <li><a href="index.html"><i class="fa fa-bookmark" aria-hidden="true"></i>收藏的文章</a></li>
-            <li><a href="index.html"><i class="fa fa-heart" aria-hidden="true"></i>喜欢的文章</a></li>
+            <li><a href="/home/keep"><i class="fa fa-bookmark" aria-hidden="true"></i>收藏的文章</a></li>
+            <li><a href="/home/zan"><i class="fa fa-heart" aria-hidden="true"></i>喜欢的文章</a></li>
         {{end}}
         {{range $k,$v := .menu}}
             {{if eq $v.Pid 0}}

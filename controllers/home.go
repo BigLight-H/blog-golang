@@ -218,3 +218,26 @@ func (p *HomeController) sou(str string, types string) {
 	qs.RelatedSel().All(&article)
 	p.Data["article_search"] = article
 }
+
+
+//收藏的文章
+func (p *HomeController) Keep() {
+	client_id := p.GetSession("client_id").(int)
+	collect := []*models.Collection{}
+	p.o.QueryTable(new(models.Collection).TableName()).Filter("client_id", client_id).RelatedSel().All(&collect)
+	p.Data["article_search"] = collect
+	p.Data["title"] = "收藏的文章"
+	p.Data["search"] = "收藏文章"
+	p.TplName = "home/personal.html"
+}
+
+//点赞的文章
+func (p *HomeController) Zan() {
+	client_id := p.GetSession("client_id").(int)
+	zan := []*models.Zan{}
+	p.o.QueryTable(new(models.Zan).TableName()).Filter("client_id", client_id).RelatedSel().All(&zan)
+	p.Data["article_search"] = zan
+	p.Data["title"] = "喜欢的文章"
+	p.Data["search"] = "喜欢文章"
+	p.TplName = "home/personal.html"
+}

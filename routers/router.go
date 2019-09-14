@@ -39,6 +39,8 @@ func init() {
 	beego.Router("/home/error", &controllers.HomeController{}, "*:HomeError")
 	beego.Router("/home/search/?:str", &controllers.HomeController{}, "*:Search")
 	beego.Router("/home/search_tag/?:str", &controllers.HomeController{}, "*:SearchTag")
+	beego.Router("/home/keep", &controllers.HomeController{}, "*:Keep")
+	beego.Router("/home/zan", &controllers.HomeController{}, "*:Zan")
 
 	//个人中心路由
 	beego.Router("/personal", &controllers.PersonalController{}, "*:PersonalCenter")
@@ -51,4 +53,5 @@ func init() {
 	beego.Router("/personal/settings", &controllers.PersonalController{}, "*:Setting")
 	beego.Router("/personal/settings", &controllers.PersonalController{}, "post:Setting")
 	beego.Router("/personal/logout", &controllers.PersonalController{}, "*:Logout")
+	beego.Router("/personal/like", &controllers.PersonalController{}, "post:Like")
 }

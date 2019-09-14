@@ -1,0 +1,58 @@
+{{template "home/header.html" .}}
+<section id="hero" class="light-typo">
+				<div id="cover-image" class="image-bg3 animated fadeIn"></div>
+				<div class="container welcome-content">
+					<div class="middle-text">
+						<h1>{{ .title }}</h1>
+					</div>
+				</div>
+			</section>
+
+			<section id="breadcrumb">
+				<div class="container">
+					<div class="row">
+						<div class="col-md-10 col-md-offset-1">
+							<ol class="breadcrumb">
+								<li><a href="/">首页</a></li>
+								<li class="active">{{ .search }}</li>
+							</ol>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<div class="search container content">
+				<div class="row">
+					<div class="col-md-10 col-md-offset-1">
+						{{range .article_search}}
+							<article class="clearfix">
+								<div class="post-date">
+									{{ .Article.Created }} | <a href="/author/{{ .Client.Id }}/1">{{ .Client.Username }} </a> <span><a href="">{{ .Article.CommentNum }} 条评论</a></span>
+								</div>
+								<h2><a href="/detail/{{ .Article.Id }}">{{ .Article.Title }}</a></h2>
+								<p style="word-break: break-all;">{{ .Article.Content }} ...&nbsp;<a class="" href="/detail/{{ .Article.Id }}">阅读更多</a></p>
+							</article>
+						{{else}}
+							<!-- <header class="section-header"> -->
+							<h2>暂无文章</h2>
+							<p>抱歉,您暂未添加{{ $.title }}</p>
+							<!-- </header> -->
+						{{end}}
+
+						<p class="clearfix"></p>
+							<div class="post-popular">
+								<div class="row hidden-xs">
+									{{range  .hot}}
+										<div class="col-sm-4 col-md-4">
+											<a href="/detail/{{ .Id }}"><img src="{{ .Picture }}" class="img-responsive" alt="img2"></a>
+											<h4 class="text-center"><a href="/detail/{{ .Id }}">{{ .Title}}</a></h4>
+											<p class="post-date text-center">{{ .Created }}</p>
+										</div>
+									{{end}}
+								</div>
+							</div>
+					</div>
+				</div>
+			</div>
+
+{{template "home/footer.html" .}}

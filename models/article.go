@@ -21,6 +21,8 @@ type Article struct {
 	Content string
 	Created string
 	Picture string
+	ZanNum int
+	CollectNum int
 }
 
 func (m *Article) TableName() string {
