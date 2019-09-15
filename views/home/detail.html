@@ -53,8 +53,16 @@
 									<li><a href="http://v.t.qq.com/share/share.php?url=http://www.axicoo.com/detail/{{ .Id }}&title='{{ .Title }}'" target="_blank"><i class="fa fa-tencent-weibo" aria-hidden="true"></i></a></li>
 									<li><a href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://www.axicoo.com/detail/{{ .Id }}" target="_blank"><i class="fa fa-qq" aria-hidden="true"></i></a></li>
 									{{if $.client_id}}
-										<li><a href="#" onclick="keep({{ .Id }}, 1)"><i class="fa fa-heart-o" aria-hidden="true"></i></a></li>
-										<li><a href="#" onclick="keep({{ .Id }}, 2)"><i class="fa fa-bookmark-o" aria-hidden="true"></i></a></li>
+										{{if gt $.star_num 0}}
+											<li><a href="#" onclick="keep({{ .Id }}, 1)" style="border-color: red;"><i class="fa fa-heart" aria-hidden="true" style="color: red"></i></a></li>
+										{{else}}
+											<li><a href="#" onclick="keep({{ .Id }}, 1)"><i class="fa fa-heart-o" aria-hidden="true"></i></a></li>
+										{{end}}
+										{{if gt $.keep_num 0}}
+											<li><a href="#" onclick="keep({{ .Id }}, 2)" style="border-color: red;"><i class="fa fa-bookmark" aria-hidden="true" style="color: red"></i></a></li>
+										{{else}}
+											<li><a href="#" onclick="keep({{ .Id }}, 2)"><i class="fa fa-bookmark-o" aria-hidden="true"></i></a></li>
+										{{end}}
 									{{end}}
 								</ul>
 							<div id="author" class="clearfix">

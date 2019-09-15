@@ -3,6 +3,7 @@ package controllers
 import (
 	"beego-demo/models"
 	"beego-demo/util"
+	"github.com/davecgh/go-spew/spew"
 	"math"
 	"strconv"
 	"strings"
@@ -82,10 +83,23 @@ func (p *HomeController) Detail() {
 			tags[tag.Id] = tag.TagName
 		}
 	}
+	p.starKeep(id)
 	p.Data["tags"] = tags
 	p.Data["c_id"] = id
 	p.TplName = "home/detail.html"
 }
+
+//文章详情里面的喜欢收藏标签点亮
+func (p *HomeController) starKeep(id int)  {
+	client_id_ := p.GetSession("client_id")
+	if client_id_ != nil {
+		client_id := p.GetSession("client_id").(int)
+		p.Data["keep_num"], _ = p.o.QueryTable(new(models.Collection).TableName()).Filter("client_id", client_id).Filter("article_id", id).Count()
+		p.Data["star_num"], _ = p.o.QueryTable(new(models.Zan).TableName()).Filter("client_id", client_id).Filter("article_id", id).Count()
+		spew.Dump(p.Data["keep_num"], p.Data["star_num"])
+	}
+}
+
 
 //作者介绍
 func (p *HomeController) Author() {
