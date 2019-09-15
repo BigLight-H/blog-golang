@@ -41,6 +41,7 @@ func init() {
 	beego.Router("/home/search_tag/?:str", &controllers.HomeController{}, "*:SearchTag")
 	beego.Router("/home/keep", &controllers.HomeController{}, "*:Keep")
 	beego.Router("/home/zan", &controllers.HomeController{}, "*:Zan")
+	beego.Router("/home/list/?:id/?:str/?:page", &controllers.HomeController{}, "*:TypeList")
 
 	//个人中心路由
 	beego.Router("/personal", &controllers.PersonalController{}, "*:PersonalCenter")

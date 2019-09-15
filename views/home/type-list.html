@@ -3,9 +3,7 @@
 				<div id="cover-image" class="image-bg animated fadeIn"></div>
 				<div class="container welcome-content">
 					<div class="middle-text">
-						<h1>HELLO, I AM BIG LIGHT</h1>
-						<h2><b>Axicoo.Com</b> Is My Blog</h2>
-						<a class="btn smooth-scroll" href="#start">开始吧</a>
+						<h1>{{ .list_title }}</h1>
 					</div>
 				</div>
 			</section>
@@ -42,10 +40,10 @@
 						{{if gt .total 1.0}}
 							<div class="paging clearfix">
 								{{if gt .previous_page 0}}
-								<a class="btn pull-left" href="/{{ .previous_page }}"><i class="icon-arrow-left2 left"></i><span>上一页</span></a>
+								<a class="btn pull-left" href="/home/list/{{ $.t_id }}/{{ $.list_title }}/{{ .previous_page }}"><i class="icon-arrow-left2 left"></i><span>上一页</span></a>
 								{{end}}
 								{{if lt .current_page .total}}
-								<a class="btn pull-right" href="/{{ .next_page }}"><span class="hidden-xs"> 下一页</span><i class="icon-arrow-right2 right"></i></a>
+								<a class="btn pull-right" href="/home/list/{{ $.t_id }}/{{ $.list_title }}/{{ .next_page }}"><span class="hidden-xs"> 下一页</span><i class="icon-arrow-right2 right"></i></a>
 								{{end}}
 							</div>
 						{{end}}

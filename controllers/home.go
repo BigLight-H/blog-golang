@@ -20,12 +20,12 @@ const Number_ float64 = 3.0  //每页容量
 //前台首页面
 func (p *HomeController) Index() {
 	page := p.Ctx.Input.Param(":page")
-	p.article(0, page)
+	p.article(0, page, 0)
 	p.TplName = "home/index.html"
 }
 
 //文章列表
-func (p *HomeController) article(id int, page string) {
+func (p *HomeController) article(id int, page string, types int) {
 	pgs, _ := strconv.Atoi(page)
 	//分页
 	pages := ( pgs - 1 ) * Number
@@ -37,6 +37,9 @@ func (p *HomeController) article(id int, page string) {
 	qs = qs.Filter("status", 1)
 	if id > 0 {
 		qs = qs.Filter("client_id", id)
+	}
+	if types > 0 {
+		qs = qs.Filter("type_id", types)
 	}
 	num, _ := qs.Count()
 	//总条数
@@ -109,7 +112,7 @@ func (p *HomeController) Author() {
 	user := []*models.Client{}
 	p.o.QueryTable(new(models.Client).TableName()).Filter("id", id).RelatedSel().All(&user)
 	p.Data["client_user"] = user
-	p.article(id, page)
+	p.article(id, page,0)
 	p.Data["cid"] = id
 	p.TplName = "home/author.html"
 }
@@ -254,4 +257,15 @@ func (p *HomeController) Zan() {
 	p.Data["title"] = "喜欢的文章"
 	p.Data["search"] = "喜欢文章"
 	p.TplName = "home/personal.html"
+}
+
+//类型文章列表
+func (p *HomeController) TypeList() {
+	id_ := p.GetString(":id")
+	p.Data["list_title"] = p.GetString(":str")
+	page := p.GetString(":page")
+	id, _ := strconv.Atoi(id_)
+	p.article(0, page, id)
+	p.Data["t_id"] = id
+	p.TplName = "home/type-list.html"
 }
