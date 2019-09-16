@@ -310,3 +310,38 @@ func (p *PersonalController) setKeep(id int, status int) {
 	}
 	p.o.Update(&article, "CollectNum")
 }
+
+//个人中心首页数据
+func (p *PersonalController) getPerData() {
+	client_id := p.GetSession("client_id").(int)
+	//conn := myredis.Conn()
+	//defer conn.Close()
+	//conn.Send("PING", client_id)
+	article := []*models.Article{}
+	qs := p.o.QueryTable(new(models.Article).TableName()).Filter("client_id", client_id)
+	//总文章数
+	a_num, _ := qs.Count()
+	p.Data["a_num"] = a_num
+	//被喜欢数,被收藏数,被评论数,被点击数(总量)
+	p.Data["be_like"], p.Data["be_keep"], p.Data["be_comment"], p.Data["be_click"] = 0,0,0,0
+	if a_num > 0 {
+		qs.All(&article)
+		be_like,be_keep,be_comment,be_click := 0,0,0,0
+		for _,v:= range article {
+			be_like = be_like + v.ZanNum
+			be_keep = be_keep + v.CollectNum
+			be_comment = be_comment + v.CommentNum
+			be_click = be_click + v.ClickVolume
+		}
+		p.Data["be_like"], p.Data["be_keep"], p.Data["be_comment"], p.Data["be_click"] = be_like, be_keep, be_comment, be_click
+	}
+	//自己喜欢
+	//自己收藏
+	//已评论文章
+	//上次登录ip
+	//上次登录时间
+	//根据现在ip获取城市
+	//根据城市获取天气
+	//浏览记录(文章点击率,文章历史浏览记录)
+	//音乐播放器
+}
