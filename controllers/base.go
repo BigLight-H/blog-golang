@@ -2,8 +2,10 @@ package controllers
 
 import (
 	"beego-demo/models"
+	"beego-demo/util"
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/orm"
+	jsoniter "github.com/json-iterator/go"
 	"regexp"
 	"strings"
 )
@@ -138,4 +140,40 @@ func (p *baseController) VerifyMobileFormat(mobileNum string) bool {
 
 	reg := regexp.MustCompile(regular)
 	return reg.MatchString(mobileNum)
+}
+
+//获取用户ip
+func (p *baseController) GetUserIp() string {
+	if p.GetSession("ip") == nil {
+		res ,_ := util.DoHttpGetRequest("https://ip.seeip.org/geoip")
+		json := jsoniter.ConfigCompatibleWithStandardLibrary
+		reader := strings.NewReader(res)
+		decoder := json.NewDecoder(reader)
+		params := make(map[string]interface{})
+		err := decoder.Decode(&params)
+		if err == nil {
+			ip := params["ip"].(string)
+			p.SetSession("ip", ip)
+			return ip
+		}
+	}
+	return p.GetSession("ip").(string)
+}
+
+//获取用户所在城市天气
+func (p *baseController) GetUserWeater() {
+
+}
+
+//解析json
+func (p *baseController) AnalyzeJson(src string) map[string]interface{} {
+	json := jsoniter.ConfigCompatibleWithStandardLibrary
+	reader := strings.NewReader(src)
+	decoder := json.NewDecoder(reader)
+	params := make(map[string]interface{})
+	err := decoder.Decode(&params)
+	if err == nil {
+		return params
+	}
+	return params
 }

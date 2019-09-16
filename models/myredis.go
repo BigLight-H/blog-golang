@@ -46,8 +46,8 @@ func newPool(server, password string) *redis.Pool {
 }
 
 func init() {
-	server := beego.AppConfig.String("cache::server")
-	password := beego.AppConfig.String("cache::password")
+	server := beego.AppConfig.String("server")
+	password := beego.AppConfig.String("r_password")
 
 	pool = newPool(server, password)
 }

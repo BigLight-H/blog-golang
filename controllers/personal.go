@@ -9,7 +9,9 @@ package controllers
 import (
 	"beego-demo/models"
 	"beego-demo/util"
+	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/orm"
+	"github.com/davecgh/go-spew/spew"
 	"os"
 	"strconv"
 	"strings"
@@ -21,6 +23,7 @@ type PersonalController struct {
 
 //个人中心
 func (p *PersonalController) PersonalCenter()  {
+	p.getPerData()
 	p.TplName = "personal/index.html"
 }
 
@@ -341,7 +344,15 @@ func (p *PersonalController) getPerData() {
 	//上次登录ip
 	//上次登录时间
 	//根据现在ip获取城市
+	//res ,_ := util.DoHttpGetRequest("https://ip.seeip.org/geoip")
+	spew.Dump(p.GetUserIp())
 	//根据城市获取天气
+	rlt, err := util.DoHttpGetRequest("https://restapi.amap.com/v3/weather/weatherInfo?key="+beego.AppConfig.String("gd_key")+"&city=110101")
+	if err != nil {
+		p.Data["weather"] = ""
+	} else {
+		spew.Dump(rlt)
+	}
 	//浏览记录(文章点击率,文章历史浏览记录)
 	//音乐播放器
 }
