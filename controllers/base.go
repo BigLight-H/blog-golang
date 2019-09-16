@@ -146,23 +146,40 @@ func (p *baseController) VerifyMobileFormat(mobileNum string) bool {
 func (p *baseController) GetUserIp() string {
 	if p.GetSession("ip") == nil {
 		res ,_ := util.DoHttpGetRequest("https://ip.seeip.org/geoip")
-		json := jsoniter.ConfigCompatibleWithStandardLibrary
-		reader := strings.NewReader(res)
-		decoder := json.NewDecoder(reader)
-		params := make(map[string]interface{})
-		err := decoder.Decode(&params)
-		if err == nil {
-			ip := params["ip"].(string)
-			p.SetSession("ip", ip)
-			return ip
-		}
+		params := p.AnalyzeJson(res)
+		ip := params["ip"].(string)
+		p.SetSession("ip", ip)
+		return ip
 	}
 	return p.GetSession("ip").(string)
 }
 
 //获取用户所在城市天气
-func (p *baseController) GetUserWeater() {
+func (p *baseController) GetUserWeater() map[string]interface{} {
+	if p.GetSession("weater") == nil {
+		city := p.GetCityName()
+		res, _ := util.DoHttpGetRequest("https://restapi.amap.com/v3/weather/weatherInfo?key="+beego.AppConfig.String("gd_key")+"&city="+city)
+		params := p.AnalyzeJson(res)
+		lives := params["lives"].([]interface{})
+		data := lives[0].(map[string]interface{})
+		p.SetSession("weater", data)
+		return data
+	}
+	return p.GetSession("weater").(map[string]interface{})
+}
 
+//获取所在城市中文名
+func (p *baseController) GetCityName() string {
+	city_ := p.GetSession("city")
+	if city_ == nil {
+		ip := p.GetUserIp()
+		res, _ := util.DoHttpGetRequest("https://restapi.amap.com/v3/ip?ip="+ip+"&output=json&key="+beego.AppConfig.String("gd_key"))
+		params := p.AnalyzeJson(res)
+		city := params["city"].(string)
+		p.SetSession("city", city)
+		return city
+	}
+	return city_.(string)
 }
 
 //解析json

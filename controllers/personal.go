@@ -9,9 +9,7 @@ package controllers
 import (
 	"beego-demo/models"
 	"beego-demo/util"
-	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/orm"
-	"github.com/davecgh/go-spew/spew"
 	"os"
 	"strconv"
 	"strings"
@@ -339,20 +337,20 @@ func (p *PersonalController) getPerData() {
 		p.Data["be_like"], p.Data["be_keep"], p.Data["be_comment"], p.Data["be_click"] = be_like, be_keep, be_comment, be_click
 	}
 	//自己喜欢
+	p.Data["me_like"], _ = p.o.QueryTable(new(models.Zan).TableName()).Filter("client_id",client_id).Count()
 	//自己收藏
+	p.Data["me_keep"], _ = p.o.QueryTable(new(models.Collection).TableName()).Filter("client_id",client_id).Count()
 	//已评论文章
-	//上次登录ip
-	//上次登录时间
-	//根据现在ip获取城市
-	//res ,_ := util.DoHttpGetRequest("https://ip.seeip.org/geoip")
-	spew.Dump(p.GetUserIp())
+	p.Data["me_comment"], _ = p.o.QueryTable(new(models.Comment).TableName()).Filter("client_id",client_id).Count()
 	//根据城市获取天气
-	rlt, err := util.DoHttpGetRequest("https://restapi.amap.com/v3/weather/weatherInfo?key="+beego.AppConfig.String("gd_key")+"&city=110101")
-	if err != nil {
-		p.Data["weather"] = ""
-	} else {
-		spew.Dump(rlt)
-	}
-	//浏览记录(文章点击率,文章历史浏览记录)
+	p.Data["weater"] = p.GetUserWeater()
+	//根据现在ip获取城市
+	p.Data["ip"] = p.GetSession("ip").(string)
+	client := models.Client{Id:client_id}
+	client.Ip = p.Data["ip"].(string)
+	client.LoginTime = util.TimeSet()
+	p.o.Update(&client, "Ip","LoginTime")
+	//浏览记录(文章历史浏览记录)
+
 	//音乐播放器
 }
