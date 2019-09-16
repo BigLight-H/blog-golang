@@ -25,6 +25,10 @@ func init() {
 	beego.Router("/admin/user/detail_user", &controllers.AdminController{}, "post:UserMessge")
 	beego.Router("/admin/user/feed_back", &controllers.AdminController{}, "*:FeedBack")
 	beego.Router("/admin/user/push_email", &controllers.AdminController{}, "post:PushEmail")
+	beego.Router("/admin/about", &controllers.AdminController{}, "*:About")
+	beego.Router("/admin/about", &controllers.AdminController{}, "post:About")
+	beego.Router("/admin/push_img", &controllers.AdminController{}, "post:PushImg")
+	beego.Router("/admin/del_img", &controllers.AdminController{}, "post:DelImg")
 
 	//前台页面
 	beego.Router("/?:page", &controllers.HomeController{}, "*:Index")

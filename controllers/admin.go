@@ -4,8 +4,11 @@ import (
 	"beego-demo/models"
 	"beego-demo/util"
 	"github.com/astaxie/beego"
+	"github.com/astaxie/beego/orm"
 	"github.com/davecgh/go-spew/spew"
+	"os"
 	"strconv"
+	"strings"
 )
 
 type AdminController struct {
@@ -304,6 +307,70 @@ func (p *AdminController) PushEmail() {
 		_ = util.SendEmail(mailTo, subject, body)
 		p.MsgBack("回复成功", 1)
 	}
+}
+
+//关于我板块
+func (p *AdminController) About() {
+	if p.Ctx.Request.Method == "POST" {
+		img := p.GetString("logo")
+		content := p.GetString("content")
+		about := models.About{Id: 1}
+		about.Content = content
+		about.Img = img
+		if _, err := p.o.Update(&about); err == nil {
+			p.MsgBack("添加成功", 1)
+		}
+		p.MsgBack("添加失败", 0)
+	} else {
+		about := models.About{Id:1}
+		p.o.Read(&about)
+		p.Data["about"] = about
+		p.TplName = "admin/about.html"
+	}
+}
+
+//添加图片
+func (p *AdminController) PushImg()  {
+	f, h, err := p.GetFile("file")
+	result := make(map[string]interface{})
+	img := ""
+	old := h.Filename
+	if err == nil {
+		exStrArr := strings.Split(h.Filename, ".")
+		exStr := strings.ToLower(exStrArr[len(exStrArr)-1])
+		if exStr != "jpg" && exStr!="png" && exStr != "gif" {
+			result["code"] = 1
+			result["message"] = "上传只能.jpg 或者png格式"
+		}
+		defer f.Close()
+		img = "static/upload/" + util.UniqueId()+"."+exStr
+		p.SaveToFile("file", img) // 保存位置在 static/upload, 没有文件夹要先创建
+		result["code"] = 0
+		result["message"] =img
+		p.SetSession(old, img)
+	}else{
+		result["code"] = 2
+		result["message"] = "上传异常"+err.Error()
+	}
+	p.Data["json"] = result
+	p.ServeJSON()
+}
+
+//删除图片
+func (p *AdminController) DelImg() {
+	img := p.GetString("img")
+	img_name := p.GetSession(img).(string)
+	err := os.Remove(img_name)
+	if err != nil {
+		p.MsgBack("删除失败!", 0)
+	}
+	cnt, err :=p.o.QueryTable(new(models.Article).TableName()).Filter("picture", img_name).Count()
+	if cnt > 0{
+		p.o.QueryTable(new(models.Article).TableName()).Filter("picture", img_name).Update(orm.Params{
+			"picture" : "",
+		})
+	}
+	p.MsgBack("删除成功!", 1)
 }
 
 

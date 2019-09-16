@@ -489,7 +489,7 @@
 <script src="/static/js/plugins/pace/pace.min.js"></script>
 
 <!-- jQuery UI -->
-<script src="/static/js/plugins/jquery-ui/jquery-ui.min.js"></script>
+<!--<script src="/static/js/plugins/jquery-ui/jquery-ui.min.js"></script> -->
 
 <!-- GITTER -->
 <script src="/static/js/plugins/gritter/jquery.gritter.min.js"></script>
@@ -505,9 +505,139 @@
 
 <!-- Toastr -->
 <script src="/static/js/plugins/toastr/toastr.min.js"></script>
+<script src="/static/js/plugins/summernote/summernote-bs4.js"></script>
+<script src="/static/js/sweetalert2.js"></script>
+
+<!-- DROPZONE -->
+<script src="/static/js/plugins/dropzone/dropzone.js"></script>
 
 
 <script>
+    $(document).ready(function() {
+        $('#summernote').summernote({
+            height: 250,                 // set editor height
+            minHeight: null,             // set minimum height of editor
+            maxHeight: null,             // set maximum height of editor
+            focus: true                  // set focus to editable area after initializing summernote
+        });
+    });
+
+    var myDropzone = new Dropzone("#dropz", {
+
+        url: "/admin/push_img", // 文件提交地址
+        method: "post",  // 也可用put
+        paramName: "file", // 默认为file
+        maxFiles: 1,// 一次性上传的文件数量上限
+        maxFilesize: 2, // 文件大小，单位：MB
+        acceptedFiles: ".jpg,.gif,.png,.jpeg", // 上传的类型
+        addRemoveLinks: true,
+        parallelUploads: 1,// 一次上传的文件数量
+        //previewsContainer:"#preview", // 上传图片的预览窗口
+        dictDefaultMessage: '拖动文件至此或者点击上传',
+        dictMaxFilesExceeded: "您最多只能上传1个文件！",
+        dictResponseError: '文件上传失败!',
+        dictInvalidFileType: "文件类型只能是*.jpg,*.gif,*.png,*.jpeg。",
+        dictFallbackMessage: "浏览器不受支持",
+        dictFileTooBig: "文件过大上传文件最大支持.",
+        dictRemoveLinks: "删除",
+        dictRemoveFile : "删除",
+        dictCancelUpload: "取消",
+        init: function () {
+            this.on("addedfile", function (file) {
+                // 上传文件时触发的事件
+
+            });
+            this.on("success", function (file, data) {
+                // 上传成功触发的事件
+                if (data.code == 0){
+                    $('#img-name').val(data.message);
+                    sweetAlert(
+                        '图片上传成功',
+                        '',
+                        'success'
+                    );
+                } else {
+                    sweetAlert(
+                        data.message,
+                        '',
+                        'error'
+                    );
+                }
+            });
+            this.on("error", function (file, data) {
+                // 上传失败触发的事件
+            });
+            this.on("removedfile", function (file) {
+                $.ajax({
+                    type : "POST",
+                    url : "/admin/del_img",    //请求发送到TestServlet处
+                    data : {'img':file.name},
+                    dataType : "json",        //返回数据形式为json
+                    success : function(res) {
+                        if (res.Status) {
+                            swal(
+                                res.Msg,
+                                '',
+                                'success'
+                            );
+                        } else {
+                            swal(res.Msg, "", "error");
+                        }
+                    }
+                });
+            });
+        }
+    });
+
+    //隐藏老图片
+    function delImg(str) {
+        $("#old-img").val('');
+        $("#img-p").hide();
+        $("#dropz").show();
+    }
+
+    $("#push-article").click(function () {
+        logo = $('#img-name').val();
+        old_logo = $('#old-img').val();
+        text = $('#summernote').summernote('code');
+        if (text.length < 50) {
+            sweetAlert(
+                '文章长度不能小于50个字符',
+                '',
+                'error'
+            );
+            return false;
+        }else {
+            if (old_logo == '' && logo == '') {
+                sweetAlert(
+                    '主图不能为空',
+                    '',
+                    'error'
+                );
+                return false;
+            }else{
+                $.ajax({
+                    type : "POST",
+                    url : "/admin/about",    //请求发送到TestServlet处
+                    data : {'logo':logo ? logo : old_logo,"content":text},
+                    dataType : "json",        //返回数据形式为json
+                    success : function(res) {
+                        if (res.Status) {
+                            swal(
+                                res.Msg,
+                                '',
+                                'success'
+                            );
+                            //setTimeout("location.reload()",1500);
+                        } else {
+                            swal(res.Msg, "", "error");
+                        }
+                    }
+                });
+            }
+        }
+    });
+
     $(document).ready(function() {
         setTimeout(function() {
             toastr.options = {
