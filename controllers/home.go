@@ -87,6 +87,7 @@ func (p *HomeController) Detail() {
 		}
 	}
 	p.starKeep(id)
+	p.AddClickVolume(id)//添加点击量
 	p.Data["tags"] = tags
 	p.Data["c_id"] = id
 	p.TplName = "home/detail.html"

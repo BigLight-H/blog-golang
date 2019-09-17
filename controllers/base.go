@@ -180,3 +180,10 @@ func (p *baseController) AnalyzeJson(src string) map[string]interface{} {
 	}
 	return params
 }
+
+//增加点击量
+func (p *baseController) AddClickVolume(aid int) {
+	_, _ = p.o.QueryTable(new(models.Article).TableName()).Filter("id", aid).Update(orm.Params{
+		"click_volume": orm.ColValue(orm.ColAdd, 1),
+	})
+}
