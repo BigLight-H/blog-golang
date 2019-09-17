@@ -23,11 +23,48 @@
                 <div class="widget style1 navy-bg">
                     <div class="row">
                         <div class="col-4">
-                            <i class="fa fa-cloud fa-5x"></i>
+                            <img src="/static/heweather/{{ .weater.now.cond_code }}.png" alt="天气图标" >
                         </div>
                         <div class="col-8 text-right">
-                            <span> 城市天气：深圳 </span>
-                            <h2 class="font-bold">26'C</h2>
+                            <span> 城市天气：{{ .weater.basic.location }} </span>
+                            <h2 class="font-bold">{{ .weater.now.cond_txt }}</h2>
+                            <h2 class="font-bold">{{ .weater.now.tmp }}'C</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2">
+                <div class="widget style1 lazur-bg">
+                    <div class="row vertical-align">
+                        <div class="col-3">
+                            <i class="fa fa-phone fa-3x"></i>
+                        </div>
+                        <div class="col-9 text-right">
+                            <h2 class="font-bold">{{ .be_comment }}</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2">
+                <div class="widget style1 lazur-bg">
+                    <div class="row vertical-align">
+                        <div class="col-3">
+                            <i class="fa fa-euro fa-3x"></i>
+                        </div>
+                        <div class="col-9 text-right">
+                            <h2 class="font-bold">462</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2">
+                <div class="widget style1 yellow-bg">
+                    <div class="row vertical-align">
+                        <div class="col-3">
+                            <i class="fa fa-shield fa-3x"></i>
+                        </div>
+                        <div class="col-9 text-right">
+                            <h2 class="font-bold">{{ .be_click }}</h2>
                         </div>
                     </div>
                 </div>

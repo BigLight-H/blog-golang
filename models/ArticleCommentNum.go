@@ -1,6 +1,7 @@
 package models
 
 type ArticleCommentNum struct {
+	Id int
 	ClientId int
 	ArticleId int
 	Number int

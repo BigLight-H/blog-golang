@@ -345,7 +345,7 @@ func (p *PersonalController) getPerData() {
 	//根据城市获取天气
 	p.Data["weater"] = p.GetUserWeater()
 	//根据现在ip获取城市
-	p.Data["ip"] = p.GetSession("ip").(string)
+	p.Data["ip"] = p.GetUserIp()
 	client := models.Client{Id:client_id}
 	client.Ip = p.Data["ip"].(string)
 	client.LoginTime = util.TimeSet()
