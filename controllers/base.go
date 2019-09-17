@@ -187,3 +187,41 @@ func (p *baseController) AddClickVolume(aid int) {
 		"click_volume": orm.ColValue(orm.ColAdd, 1),
 	})
 }
+
+//添加评论通知数量
+func (p *baseController) AddCommentNum(aid int) {
+	cid := p.GetSession("client_id").(int)
+	if cid > 0  {
+		a := models.ArticleCommentNum{ArticleId:aid}
+		p.o.Read(&a)
+		if a.ClientId > 0 {
+			_, _ = p.o.QueryTable(new(models.ArticleCommentNum).TableName()).Filter("article_id", aid).Update(orm.Params{
+				"number": orm.ColValue(orm.ColAdd, 1),
+			})
+		} else {
+			a.ArticleId = aid
+			a.ClientId = cid
+			a.Number = 1
+			p.o.Insert(&a)
+		}
+	}
+}
+
+//已读某文章评论
+func (p *baseController) ReadArticle(aid int) {
+	cid := p.GetSession("client_id").(int)
+	if cid > 0 {
+		_,_ = p.o.QueryTable(new(models.ArticleCommentNum).TableName()).Filter("client_id", cid).Filter("article_id",aid).Delete()
+	}
+}
+
+//记录文章浏览记录
+func (p *baseController) AddLook(aid int) {
+	cid := p.GetSession("client_id").(int)
+	if cid > 0 {
+		browse := models.Browse{}
+		browse.Client = &models.Client{Id:cid}
+		browse.Article = &models.Article{Id:aid}
+		p.o.Insert(&browse)
+	}
+}

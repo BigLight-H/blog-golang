@@ -31,6 +31,8 @@ func Init() {
 		new(About),
 		new(Collection),
 		new(Zan),
+		new(ArticleCommentNum),
+		new(Browse),
 		)
 }
 
