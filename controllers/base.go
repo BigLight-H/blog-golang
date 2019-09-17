@@ -157,30 +157,16 @@ func (p *baseController) GetUserIp() string {
 //获取用户所在城市天气
 func (p *baseController) GetUserWeater() map[string]interface{} {
 	if p.GetSession("weater") == nil {
-		city := p.GetCityName()
-		res, _ := util.DoHttpGetRequest("https://restapi.amap.com/v3/weather/weatherInfo?key="+beego.AppConfig.String("gd_key")+"&city="+city)
+		res, _ := util.DoHttpGetRequest(beego.AppConfig.String("hf_api"))
 		params := p.AnalyzeJson(res)
-		lives := params["lives"].([]interface{})
-		data := lives[0].(map[string]interface{})
+		HeWeather6 := params["HeWeather6"].([]interface{})
+		data := HeWeather6[0].(map[string]interface{})
 		p.SetSession("weater", data)
 		return data
 	}
 	return p.GetSession("weater").(map[string]interface{})
 }
 
-//获取所在城市中文名
-func (p *baseController) GetCityName() string {
-	city_ := p.GetSession("city")
-	if city_ == nil {
-		ip := p.GetUserIp()
-		res, _ := util.DoHttpGetRequest("https://restapi.amap.com/v3/ip?ip="+ip+"&output=json&key="+beego.AppConfig.String("gd_key"))
-		params := p.AnalyzeJson(res)
-		city := params["city"].(string)
-		p.SetSession("city", city)
-		return city
-	}
-	return city_.(string)
-}
 
 //解析json
 func (p *baseController) AnalyzeJson(src string) map[string]interface{} {
