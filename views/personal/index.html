@@ -1,263 +1,500 @@
 {{template "personal/index-head.html" .}}
-<div class="row  border-bottom white-bg dashboard-header">
-
-    <div class="col-md-3">
-        <h2>AXICOO 活跃成员</h2>
-        <small>最后48小时内活跃的部分用户</small>
-        &nbsp;
-        &nbsp;
-        &nbsp;
-        <a href="#">
-            <small>查看更多</small>
-            <i class="fa fa-free-code-camp" aria-hidden="true"></i>
-        </a>
-        <ul class="list-group clear-list m-t">
-            <li class="list-group-item fist-item">
-                                <span class="float-right">
-                                    09:00 pm
-                                </span>
-                <span class="label label-success">1</span> Please contact me
-            </li>
-            <li class="list-group-item">
-                                <span class="float-right">
-                                    10:16 am
-                                </span>
-                <span class="label label-info">2</span> Sign a contract
-            </li>
-            <li class="list-group-item">
-                                <span class="float-right">
-                                    08:22 pm
-                                </span>
-                <span class="label label-primary">3</span> Open new shop
-            </li>
-            <li class="list-group-item">
-                                <span class="float-right">
-                                    11:06 pm
-                                </span>
-                <span class="label label-default">4</span> Call back to Sylvia
-            </li>
-            <li class="list-group-item">
-                                <span class="float-right">
-                                    12:00 am
-                                </span>
-                <span class="label label-primary">5</span> Write a letter to Sandra
-            </li>
-        </ul>
-    </div>
-    <div class="col-md-6">
-        <div class="flot-chart dashboard-chart">
-            <div class="flot-chart-content" id="flot-dashboard-chart"></div>
-        </div>
-        <div class="row text-left">
-            <div class="col">
-                <div class=" m-l-md">
-                    <span class="h5 font-bold m-t block">406,100/人</span>
-                    <small class="text-muted m-b block">平台年度访问量</small>
+            <div class="row wrapper border-bottom white-bg page-heading">
+                <div class="col-lg-9">
+                    <h2>个人中心首页</h2>
                 </div>
             </div>
-            <div class="col">
-                <span class="h5 font-bold m-t block">150,401/人</span>
-                <small class="text-muted m-b block">平台季度访问量</small>
-            </div>
-            <div class="col">
-                <span class="h5 font-bold m-t block">16,822/人</span>
-                <small class="text-muted m-b block">平台月度访问量</small>
-            </div>
-
-        </div>
-    </div>
-    <div class="col-md-3">
-        <div class="statistic-box">
-            <h4>
-                Project Beta progress
-            </h4>
-            <p>
-                You have two project with not compleated task.
-            </p>
-            <div class="row text-center">
-                <div class="col-lg-6">
-                    <canvas id="doughnutChart2" width="80" height="80" style="margin: 18px auto 0"></canvas>
-                    <h5 >Kolter</h5>
-                </div>
-                <div class="col-lg-6">
-                    <canvas id="doughnutChart" width="80" height="80" style="margin: 18px auto 0"></canvas>
-                    <h5 >Maxtor</h5>
-                </div>
-            </div>
-            <div class="m-t">
-                <small>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</small>
-            </div>
-
-        </div>
-    </div>
-
-</div>
-<div class="wrapper wrapper-content">
-
-    <div class="row">
-        <div class="col-lg-4">
-            <div class="ibox ">
-                <div class="ibox-title">
-                    <h5>用户评论</h5>
-                    <div class="ibox-tools">
-                        <span class="label label-warning-light float-right">10 条</span>
-                    </div>
-                </div>
-                <div class="ibox-content">
-
-                    <div>
-                        <div class="feed-activity-list">
-
-                            <div class="feed-element">
-                                <a class="float-left" href="profile.html">
-                                    <img alt="image" class="rounded-circle" src="img/profile.jpg">
-                                </a>
-                                <div class="media-body ">
-                                    <small class="float-right">5m ago</small>
-                                    <strong>Monica Smith</strong> posted a new blog. <br>
-                                    <small class="text-muted">Today 5:60 pm - 12.06.2014</small>
-                                </div>
+        <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="col-lg-3">
+                <div class="widget style1">
+                        <div class="row">
+                            <div class="col-4 text-center">
+                                <i class="fa fa-trophy fa-5x"></i>
                             </div>
-
-                            <div class="feed-element">
-                                <a class="float-left" href="profile.html">
-                                    <img alt="image" class="rounded-circle" src="img/a2.jpg">
-                                </a>
-                                <div class="media-body ">
-                                    <small class="float-right">2h ago</small>
-                                    <strong>Mark Johnson</strong> posted message on <strong>Monica Smith</strong> site. <br>
-                                    <small class="text-muted">Today 2:10 pm - 12.06.2014</small>
-                                </div>
-                            </div>
-                            <div class="feed-element">
-                                <a class="float-left" href="profile.html">
-                                    <img alt="image" class="rounded-circle" src="img/a3.jpg">
-                                </a>
-                                <div class="media-body ">
-                                    <small class="float-right">2h ago</small>
-                                    <strong>Janet Rosowski</strong> add 1 photo on <strong>Monica Smith</strong>. <br>
-                                    <small class="text-muted">2 days ago at 8:30am</small>
-                                </div>
-                            </div>
-                            <div class="feed-element">
-                                <a class="float-left" href="profile.html">
-                                    <img alt="image" class="rounded-circle" src="img/a4.jpg">
-                                </a>
-                                <div class="media-body ">
-                                    <small class="float-right text-navy">5h ago</small>
-                                    <strong>Chris Johnatan Overtunk</strong> started following <strong>Monica Smith</strong>. <br>
-                                    <small class="text-muted">Yesterday 1:21 pm - 11.06.2014</small>
-                                    <div class="actions">
-                                        <a href=""  class="btn btn-xs btn-white"><i class="fa fa-thumbs-up"></i> Like </a>
-                                        <a href=""  class="btn btn-xs btn-white"><i class="fa fa-heart"></i> Love</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="feed-element">
-                                <a class="float-left" href="profile.html">
-                                    <img alt="image" class="rounded-circle" src="img/a5.jpg">
-                                </a>
-                                <div class="media-body ">
-                                    <small class="float-right">2h ago</small>
-                                    <strong>Kim Smith</strong> posted message on <strong>Monica Smith</strong> site. <br>
-                                    <small class="text-muted">Yesterday 5:20 pm - 12.06.2014</small>
-                                    <div class="well">
-                                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.
-                                        Over the years, sometimes by accident, sometimes on purpose (injected humour and the like).
-                                    </div>
-                                    <div class="float-right">
-                                        <a href=""  class="btn btn-xs btn-white"><i class="fa fa-thumbs-up"></i> Like </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="feed-element">
-                                <a class="float-left" href="profile.html">
-                                    <img alt="image" class="rounded-circle" src="img/profile.jpg">
-                                </a>
-                                <div class="media-body ">
-                                    <small class="float-right">23h ago</small>
-                                    <strong>Monica Smith</strong> love <strong>Kim Smith</strong>. <br>
-                                    <small class="text-muted">2 days ago at 2:30 am - 11.06.2014</small>
-                                </div>
-                            </div>
-                            <div class="feed-element">
-                                <a class="float-left" href="profile.html">
-                                    <img alt="image" class="rounded-circle" src="img/a7.jpg">
-                                </a>
-                                <div class="media-body ">
-                                    <small class="float-right">46h ago</small>
-                                    <strong>Mike Loreipsum</strong> started following <strong>Monica Smith</strong>. <br>
-                                    <small class="text-muted">3 days ago at 7:58 pm - 10.06.2014</small>
-                                </div>
+                            <div class="col-8 text-right">
+                                <span> 文章总点击量 </span>
+                                <h2 class="font-bold">{{ .be_click }}</h2>
                             </div>
                         </div>
-
-                        <button class="btn btn-primary btn-block m-t"><i class="fa fa-arrow-down"></i> Show More</button>
-
-                    </div>
-
                 </div>
             </div>
-
-        </div>
-        <div class="col-lg-8">
-            <div class="ibox ">
-                <div class="ibox-title">
-                    <h5>用户意见反馈</h5>
-                    <div class="ibox-tools">
-                        <a class="collapse-link">
-                            <i class="fa fa-chevron-up"></i>
-                        </a>
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                            <i class="fa fa-wrench"></i>
-                        </a>
-                        <ul class="dropdown-menu dropdown-user">
-                            <li><a href="#" class="dropdown-item">Config option 1</a>
-                            </li>
-                            <li><a href="#" class="dropdown-item">Config option 2</a>
-                            </li>
-                        </ul>
-                        <a class="close-link">
-                            <i class="fa fa-times"></i>
-                        </a>
+            <div class="col-lg-3">
+                <div class="widget style1 navy-bg">
+                    <div class="row">
+                        <div class="col-4">
+                            <img src="/static/heweather/{{ .weater.now.cond_code }}.png" alt="天气图标" >
+                        </div>
+                        <div class="col-8 text-right">
+                            <span> 城市天气：{{ .weater.basic.location }} </span>
+                            <h2 class="font-bold">{{ .weater.now.cond_txt }}</h2>
+                            <h2 class="font-bold">{{ .weater.now.tmp }}'C</h2>
+                        </div>
                     </div>
                 </div>
-                <div class="ibox-content">
+            </div>
+            <div class="col-lg-2">
+                <div class="widget style1 lazur-bg">
+                    <div class="row vertical-align">
+                        <div class="col-3">
+                            <i class="fa fa-phone fa-3x"></i>
+                        </div>
+                        <div class="col-9 text-right">
+                            <h2 class="font-bold">{{ .be_comment }}</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2">
+                <div class="widget style1 lazur-bg">
+                    <div class="row vertical-align">
+                        <div class="col-3">
+                            <i class="fa fa-euro fa-3x"></i>
+                        </div>
+                        <div class="col-9 text-right">
+                            <h2 class="font-bold">462</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2">
+                <div class="widget style1 yellow-bg">
+                    <div class="row vertical-align">
+                        <div class="col-3">
+                            <i class="fa fa-shield fa-3x"></i>
+                        </div>
+                        <div class="col-9 text-right">
+                            <h2 class="font-bold">{{ .be_click }}</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+            <div class="row">
+                <div class="col-lg-2">
+                    <div class="widget style1 navy-bg">
+                        <div class="row vertical-align">
+                            <div class="col-3">
+                                <i class="fa fa-user fa-3x"></i>
+                            </div>
+                            <div class="col-9 text-right">
+                                <h2 class="font-bold">{{ .a_num }}</h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-2">
+                    <div class="widget style1 navy-bg">
+                        <div class="row vertical-align">
+                            <div class="col-3">
+                                <i class="fa fa-thumbs-up fa-3x"></i>
+                            </div>
+                            <div class="col-9 text-right">
+                                <h2 class="font-bold">{{ .be_like }}</h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-2">
+                    <div class="widget style1 navy-bg">
+                        <div class="row vertical-align">
+                            <div class="col-3">
+                                <i class="fa fa-rss fa-3x"></i>
+                            </div>
+                            <div class="col-9 text-right">
+                                <h2 class="font-bold">{{ .be_keep }}</h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-2">
+                    <div class="widget style1 lazur-bg">
+                        <div class="row vertical-align">
+                            <div class="col-3">
+                                <i class="fa fa-phone fa-3x"></i>
+                            </div>
+                            <div class="col-9 text-right">
+                                <h2 class="font-bold">{{ .be_comment }}</h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-2">
+                    <div class="widget style1 lazur-bg">
+                        <div class="row vertical-align">
+                            <div class="col-3">
+                                <i class="fa fa-euro fa-3x"></i>
+                            </div>
+                            <div class="col-9 text-right">
+                                <h2 class="font-bold">462</h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-2">
+                    <div class="widget style1 yellow-bg">
+                        <div class="row vertical-align">
+                            <div class="col-3">
+                                <i class="fa fa-shield fa-3x"></i>
+                            </div>
+                            <div class="col-9 text-right">
+                                <h2 class="font-bold">{{ .be_click }}</h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4">
+                        <div class="widget-head-color-box navy-bg p-lg text-center">
+                            <div class="m-b-md">
+                            <h2 class="font-bold no-margins">
+                                Alex Smith
+                            </h2>
+                                <small>Founder of Groupeq</small>
+                            </div>
+                            <img src="img/a4.jpg" class="rounded-circle circle-border m-b-md" alt="profile">
+                            <div>
+                                <span>100 Tweets</span> |
+                                <span>350 Following</span> |
+                                <span>610 Followers</span>
+                            </div>
+                        </div>
+                        <div class="widget-text-box">
+                            <h4 class="media-heading">Alex Smith</h4>
+                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                            <div class="text-right">
+                                <a href=""  class="btn btn-xs btn-white"><i class="fa fa-thumbs-up"></i> Like </a>
+                                <a href="" class="btn btn-xs btn-primary"><i class="fa fa-heart"></i> Love</a>
+                            </div>
+                        </div>
+                </div>
+                <div class="col-lg-2">
+                    <div class="widget navy-bg p-lg text-center">
+                        <div class="m-b-md">
+                            <i class="fa fa-shield fa-4x"></i>
+                            <h1 class="m-xs">456</h1>
+                            <h3 class="font-bold no-margins">
+                                Shield
+                            </h3>
+                            <small>power</small>
+                        </div>
+                    </div>
+                    <div class="widget  p-lg text-center">
+                        <div class="m-b-md">
+                            <i class="fa fa-flash fa-4x"></i>
+                            <h1 class="m-xs">612</h1>
+                            <h3 class="font-bold no-margins">
+                                Thunder
+                            </h3>
+                            <small>amount</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="widget lazur-bg p-xl">
 
+                                <h2>
+                                    Janet Smith
+                                </h2>
+                        <ul class="list-unstyled m-t-md">
+                            <li>
+                                <span class="fa fa-envelope m-r-xs"></span>
+                                <label>Email:</label>
+                                mike@mail.com
+                            </li>
+                            <li>
+                                <span class="fa fa-home m-r-xs"></span>
+                                <label>Address:</label>
+                                Street 200, Avenue 10
+                            </li>
+                            <li>
+                                <span class="fa fa-phone m-r-xs"></span>
+                                <label>Contact:</label>
+                                (+121) 678 3462
+                            </li>
+                        </ul>
+
+                    </div>
+                    <div class="widget red-bg p-lg text-center">
+                        <div class="m-b-md">
+                            <i class="fa fa-bell fa-4x"></i>
+                            <h1 class="m-xs">47</h1>
+                            <h3 class="font-bold no-margins">
+                                Notification
+                            </h3>
+                            <small>We detect the error.</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-2">
+                <div class="widget yellow-bg p-lg text-center">
+                    <div class="m-b-md">
+                        <i class="fa fa-thumbs-up fa-4x"></i>
+                        <h1 class="m-xs">520</h1>
+                        <h3 class="font-bold no-margins">
+                            Likes
+                        </h3>
+                        <small>amount</small>
+                    </div>
+                </div>
+                    <div class="widget yellow-bg p-lg text-center">
+                        <div class="m-b-md">
+                            <i class="fa fa-warning fa-4x"></i>
+                            <h1 class="m-xs">Alarm</h1>
+                            <h3 class="font-bold no-margins">
+                                Do
+                            </h3>
+                            <small>something</small>
+                        </div>
+                    </div>
+                    </div>
+            </div>
+        <div class="row m-t-lg">
+            <div class="col-lg-6">
+                <div class="ibox ">
+
+                    <div class="ibox-content">
+
+                        <div>
+                <div class="chat-activity-list">
+
+                    <div class="chat-element">
+                        <a href="#" class="float-left">
+                            <img alt="image" class="rounded-circle" src="img/a2.jpg">
+                        </a>
+                        <div class="media-body ">
+                            <small class="float-right text-navy">1m ago</small>
+                            <strong>Mike Smith</strong>
+                            <p class="m-b-xs">
+                                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been
+                            </p>
+                            <small class="text-muted">Today 4:21 pm - 12.06.2014</small>
+                        </div>
+                    </div>
+
+                    <div class="chat-element right">
+                        <a href="#" class="float-right">
+                            <img alt="image" class="rounded-circle" src="img/a4.jpg">
+                        </a>
+                        <div class="media-body text-right ">
+                            <small class="float-left">5m ago</small>
+                            <strong>John Smith</strong>
+                            <p class="m-b-xs">
+                                Lorem Ipsum is simply dummy text of the printing.
+                            </p>
+                            <small class="text-muted">Today 4:21 pm - 12.06.2014</small>
+                        </div>
+                    </div>
+
+                    <div class="chat-element ">
+                        <a href="#" class="float-left">
+                            <img alt="image" class="rounded-circle" src="img/a2.jpg">
+                        </a>
+                        <div class="media-body ">
+                            <small class="float-right">2h ago</small>
+                            <strong>Mike Smith</strong>
+                            <p class="m-b-xs">
+                                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been
+                            </p>
+                            <small class="text-muted">Today 4:21 pm - 12.06.2014</small>
+                        </div>
+                    </div>
+                </div>
+                </div>
+                        <div class="chat-form">
+                            <form role="form">
+                                <div class="form-group">
+                                    <textarea class="form-control" placeholder="Message"></textarea>
+                                </div>
+                                <div class="text-right">
+                                    <button type="submit" class="btn btn-sm btn-primary m-t-n-xs"><strong>Send message</strong></button>
+                                </div>
+                            </form>
+                        </div>
+                </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div>
                     <table class="table">
-                        <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>First Name</th>
-                            <th>Last Name</th>
-                            <th>Username</th>
-                        </tr>
-                        </thead>
                         <tbody>
                         <tr>
-                            <td>1</td>
-                            <td>Mark</td>
-                            <td>Otto</td>
-                            <td>@mdo</td>
+                            <td>
+                                <button type="button" class="btn btn-danger m-r-sm">12</button>
+                                Total messages
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-primary m-r-sm">28</button>
+                                Posts
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-info m-r-sm">15</button>
+                               Comments
+                            </td>
                         </tr>
                         <tr>
-                            <td>2</td>
-                            <td>Jacob</td>
-                            <td>Thornton</td>
-                            <td>@fat</td>
+                            <td>
+                                <button type="button" class="btn btn-info m-r-sm">20</button>
+                                News
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-success m-r-sm">40</button>
+                                Likes
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-danger m-r-sm">30</button>
+                                Notifications
+                            </td>
                         </tr>
                         <tr>
-                            <td>3</td>
-                            <td>Larry</td>
-                            <td>the Bird</td>
-                            <td>@twitter</td>
+                            <td>
+                                <button type="button" class="btn btn-warning m-r-sm">20</button>
+                                Albums
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-default m-r-sm">40</button>
+                                Groups
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-warning m-r-sm">30</button>
+                                Permissions
+                            </td>
                         </tr>
                         </tbody>
                     </table>
+                </div>
+                <div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="ibox-content text-center">
+                                <h1>Nicki Smith</h1>
+                                <div class="m-b-sm">
+                                        <img alt="image" class="rounded-circle" src="img/a8.jpg">
+                                </div>
+                                        <p class="font-bold">Consectetur adipisicing</p>
+
+                                <div class="text-center">
+                                    <a href=""  class="btn btn-xs btn-white"><i class="fa fa-thumbs-up"></i> Like </a>
+                                    <a href="" class="btn btn-xs btn-primary"><i class="fa fa-heart"></i> Love</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="ibox-content">
+                                <div>
+                                    <div>
+                                        <span>Memory</span>
+                                        <small class="float-right">10/200 GB</small>
+                                    </div>
+                                    <div class="progress progress-small">
+                                        <div style="width: 60%;" class="progress-bar"></div>
+                                    </div>
+
+                                    <div>
+                                        <span>Bandwidth</span>
+                                        <small class="float-right">20 GB</small>
+                                    </div>
+                                    <div class="progress progress-small">
+                                        <div style="width: 50%;" class="progress-bar"></div>
+                                    </div>
+
+                                    <div>
+                                        <span>Activity</span>
+                                        <small class="float-right">73%</small>
+                                    </div>
+                                    <div class="progress progress-small">
+                                        <div style="width: 40%;" class="progress-bar"></div>
+                                    </div>
+
+                                    <div>
+                                        <span>FTP</span>
+                                        <small class="float-right">400 GB</small>
+                                    </div>
+                                    <div class="progress progress-small">
+                                        <div style="width: 20%;" class="progress-bar progress-bar-danger"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
                 </div>
             </div>
         </div>
-    </div>
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="ibox-content">
+                    <h2>TODO List</h2>
+                    <small>This is example of task list</small>
+                    <ul class="todo-list m-t">
+                        <li>
+                            <input type="checkbox" value="" name="" class="i-checks"/>
+                            <span class="m-l-xs">Buy a milk</span>
+                            <small class="label label-primary"><i class="fa fa-clock-o"></i> 1 mins</small>
+                        </li>
+                        <li>
+                            <input type="checkbox" value="" name="" class="i-checks" checked/>
+                            <span class="m-l-xs">Go to shop and find some products.</span>
+                            <small class="label label-info"><i class="fa fa-clock-o"></i> 3 mins</small>
+                        </li>
+                        <li>
+                            <input type="checkbox" value="" name="" class="i-checks" />
+                            <span class="m-l-xs">Send documents to Mike</span>
+                            <small class="label label-warning"><i class="fa fa-clock-o"></i> 2 mins</small>
+                        </li>
+                        <li>
+                            <input type="checkbox" value="" name="" class="i-checks"/>
+                            <span class="m-l-xs">Go to the doctor dr Smith</span>
+                            <small class="label label-danger"><i class="fa fa-clock-o"></i> 42 mins</small>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="ibox ">
+                    <div class="ibox-content">
+                        <h2>TODO Small version</h2>
+                        <small>This is example of small version of todo list</small>
+                        <ul class="todo-list m-t small-list">
+                            <li>
+                                <a href="#" class="check-link"><i class="fa fa-check-square"></i> </a>
+                                <span class="m-l-xs todo-completed">Buy a milk</span>
+
+                            </li>
+                            <li>
+                                <a href="#" class="check-link"><i class="fa fa-check-square"></i> </a>
+                                <span class="m-l-xs  todo-completed">Go to shop and find some products.</span>
+
+                            </li>
+                            <li>
+                                <a href="#" class="check-link"><i class="fa fa-square-o"></i> </a>
+                                <span class="m-l-xs">Send documents to Mike</span>
+                                <small class="label label-primary"><i class="fa fa-clock-o"></i> 1 mins</small>
+                            </li>
+                            <li>
+                                <a href="#" class="check-link"><i class="fa fa-square-o"></i> </a>
+                                <span class="m-l-xs">Go to the doctor dr Smith</span>
+                            </li>
+                            <li>
+                                <a href="#" class="check-link"><i class="fa fa-square-o"></i> </a>
+                                <span class="m-l-xs">Plan vacation</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row m-t-lg">
+            <div class="col-lg-12">
+                <div class="ibox-content">
+                    <h2>Word map</h2>
+                    <small>This is simple example of map</small>
+                <div id="world-map" style="height: 300px;"></div>
+                    </div>
+            </div>
+
+        </div>
+
         </div>
 {{template "personal/index-footer.html" .}}

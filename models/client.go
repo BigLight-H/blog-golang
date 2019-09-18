@@ -16,6 +16,8 @@ type Client struct {
 	Age int
 	Motto string
 	Pic string
+	Ip string
+	LoginTime string
 	HeadImg *HeadImg  `orm:"rel(one)"`  //头像一对一
 }
 

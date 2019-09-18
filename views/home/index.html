@@ -16,11 +16,20 @@
 						{{range .articles}}
 							<article class="clearfix">
 								<div class="post-date">
-									{{ .Created }} | <a href="/author/{{ .Client.Id }}/1">{{ .Client.Username }} </a> <span><a href="">{{ .CommentNum }} 条评论</a></span>
+									{{ .Created }} | <a href="/author/{{ .Client.Id }}/1">{{ .Client.Username }} </a>
+									<span>
+										<a href="/detail/{{ .Id }}"><i class="fa fa-eye" aria-hidden="true"></i> {{ .ClickVolume }}</a>&nbsp;&nbsp;
+										<a href="/detail/{{ .Id }}"><i class="fa fa-comment" aria-hidden="true"></i> {{ .CommentNum }}</a>&nbsp;&nbsp;
+										<a href="/detail/{{ .Id }}"><i class="fa fa-heart" aria-hidden="true"></i> {{ .ZanNum }}</a>&nbsp;&nbsp;
+										<a href="/detail/{{ .Id }}"><i class="fa fa-bookmark" aria-hidden="true"></i> {{ .CollectNum }}</a>
+									</span>
 								</div>
 								<h2><a href="/detail/{{ .Id }}">{{ .Title }}</a></h2>
 								<p style="word-break: break-all;">{{ .Content }} ...&nbsp;<a class="" href="/detail/{{ .Id }}">阅读更多</a></p>
 							</article>
+						{{else}}
+							<h2>暂无文章</h2>
+							<br>
 						{{end}}
 						<div class="post-popular">
 							<div class="row hidden-xs">

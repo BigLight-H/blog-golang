@@ -25,6 +25,10 @@ func init() {
 	beego.Router("/admin/user/detail_user", &controllers.AdminController{}, "post:UserMessge")
 	beego.Router("/admin/user/feed_back", &controllers.AdminController{}, "*:FeedBack")
 	beego.Router("/admin/user/push_email", &controllers.AdminController{}, "post:PushEmail")
+	beego.Router("/admin/about", &controllers.AdminController{}, "*:About")
+	beego.Router("/admin/about", &controllers.AdminController{}, "post:About")
+	beego.Router("/admin/push_img", &controllers.AdminController{}, "post:PushImg")
+	beego.Router("/admin/del_img", &controllers.AdminController{}, "post:DelImg")
 
 	//前台页面
 	beego.Router("/?:page", &controllers.HomeController{}, "*:Index")
@@ -39,6 +43,9 @@ func init() {
 	beego.Router("/home/error", &controllers.HomeController{}, "*:HomeError")
 	beego.Router("/home/search/?:str", &controllers.HomeController{}, "*:Search")
 	beego.Router("/home/search_tag/?:str", &controllers.HomeController{}, "*:SearchTag")
+	beego.Router("/home/keep", &controllers.HomeController{}, "*:Keep")
+	beego.Router("/home/zan", &controllers.HomeController{}, "*:Zan")
+	beego.Router("/home/list/?:id/?:str/?:page", &controllers.HomeController{}, "*:TypeList")
 
 	//个人中心路由
 	beego.Router("/personal", &controllers.PersonalController{}, "*:PersonalCenter")
@@ -51,4 +58,5 @@ func init() {
 	beego.Router("/personal/settings", &controllers.PersonalController{}, "*:Setting")
 	beego.Router("/personal/settings", &controllers.PersonalController{}, "post:Setting")
 	beego.Router("/personal/logout", &controllers.PersonalController{}, "*:Logout")
+	beego.Router("/personal/like", &controllers.PersonalController{}, "post:Like")
 }

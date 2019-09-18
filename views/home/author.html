@@ -40,6 +40,9 @@
 								<h2><a href="/detail/{{ .Id }}">{{ .Title }}</a></h2>
 								<p style="word-break: break-all;">{{ .Content }} ...&nbsp;<a class="" href="/detail/{{ .Id }}">阅读更多</a></p>
 							</article>
+						{{else}}
+							<h2>暂无文章,快去添加吧...</h2>
+							<br>
 						{{end}}
 						<div class="post-popular">
                             <div class="row hidden-xs">

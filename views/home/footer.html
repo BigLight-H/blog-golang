@@ -316,6 +316,33 @@
         }
     }
 
+    function replyComment(str,name) {
+        $('#comment-path').val(str);
+        $('#comment-h3').text('回复'+name+'的评论');
+    }
+    
+    //收藏/喜欢文章
+    function keep(id,status) {
+        $.ajax({
+            type : "POST",
+            url : "/personal/like",    //请求发送到TestServlet处
+            data : {id:id,status:status},
+            dataType : "json",        //返回数据形式为json
+            success : function(res) {
+                if (res.Status) {
+                    swal(
+                        res.Msg,
+                        '',
+                        'success'
+                    );
+                    setTimeout("location.reload()",2500);
+                } else {
+                    swal(res.Msg, "", "error");
+                }
+            }
+        });
+    }
+
 </script>
 </body>
 </html>

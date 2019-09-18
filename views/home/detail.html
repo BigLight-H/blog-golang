@@ -45,13 +45,25 @@
 							<div class="post-date">
 								标签 |
 								{{range $k, $v := $.tags}}
-								<a href="">{{ $v }}</a> &nbsp;
+								<a href="/home/search_tag/{{ $k }}">{{ $v }}</a> &nbsp;
 								{{end}}
 							</div>
 								<ul class="social-links outline text-center">
 									<li><a href="http://v.t.sina.com.cn/share/share.php?url=http://www.axicoo.com/detail/{{ .Id }}&title='{{ .Title }}'" target="_blank"><i class="fa fa-weibo" aria-hidden="true"></i></a></li>
 									<li><a href="http://v.t.qq.com/share/share.php?url=http://www.axicoo.com/detail/{{ .Id }}&title='{{ .Title }}'" target="_blank"><i class="fa fa-tencent-weibo" aria-hidden="true"></i></a></li>
 									<li><a href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://www.axicoo.com/detail/{{ .Id }}" target="_blank"><i class="fa fa-qq" aria-hidden="true"></i></a></li>
+									{{if $.client_id}}
+										{{if gt $.star_num 0}}
+											<li><a href="#" onclick="keep({{ .Id }}, 1)" style="border-color: red;"><i class="fa fa-heart" aria-hidden="true" style="color: red"></i></a></li>
+										{{else}}
+											<li><a href="#" onclick="keep({{ .Id }}, 1)"><i class="fa fa-heart-o" aria-hidden="true"></i></a></li>
+										{{end}}
+										{{if gt $.keep_num 0}}
+											<li><a href="#" onclick="keep({{ .Id }}, 2)" style="border-color: red;"><i class="fa fa-bookmark" aria-hidden="true" style="color: red"></i></a></li>
+										{{else}}
+											<li><a href="#" onclick="keep({{ .Id }}, 2)"><i class="fa fa-bookmark-o" aria-hidden="true"></i></a></li>
+										{{end}}
+									{{end}}
 								</ul>
 							<div id="author" class="clearfix">
 								<img class="img-circle" alt="" src="{{ .Client.HeadImg.ImgUrl }}" height="96" width="96">
@@ -80,15 +92,33 @@
 							<div id="comment" class="media">
 								<hr>
 								{{range .comment}}
-								<div class="media">
-										<a class="pull-left avatar" href="/author/{{ .Client.Id }}/1">
-										  <img class="media-object img-circle" src="{{ .Client.HeadImg.ImgUrl }}" width="40" height="40" alt="">
-										</a>
-										<div class="media-body">
-											<h4 class="media-heading"><a href="/author/{{ .Client.Id }}/1">{{ .Client.Username }}</a><span>{{ .Created }}</span></h4>
-											<p>{{ .Content }}</p>
+									{{if eq .IsReply 0}}
+										<div class="media">
+												<a class="pull-left avatar" href="/author/{{ .Client.Id }}/1">
+												  <img class="media-object img-circle" src="{{ .Client.HeadImg.ImgUrl }}" width="40" height="40" alt="">
+												</a>
+												<div class="media-body">
+													<h4 class="media-heading">
+														<a href="/author/{{ .Client.Id }}/1">{{ .Client.Username }}</a>
+														<span>{{ .Created }} | <a onclick="replyComment({{ .Path }}, {{ .Client.Username }})" >回复</a></span>
+													</h4>
+													<p>{{ .Content }}</p>
+												</div>
 										</div>
-								</div>
+									{{ else }}
+										<div class="media" style="padding-left: 3rem;">
+											<a class="pull-left avatar" href="/author/{{ .Client.Id }}/1">
+												<img class="media-object img-circle" src="{{ .Client.HeadImg.ImgUrl }}" width="40" height="40" alt="">
+											</a>
+											<div class="media-body">
+												<h4 class="media-heading">
+													<a href="/author/{{ .Client.Id }}/1">{{ .Client.Username }}</a>
+													<span>{{ .Created }} | <a onclick="replyComment({{ .Path }}, {{ .Client.Username }})" >回复</a></span>
+												</h4>
+												<p>{{ .Content }}</p>
+											</div>
+										</div>
+									{{end}}
 								{{else}}
 
 								{{end}}
@@ -101,7 +131,7 @@
 							</div>
 -->
 							{{if .client_id}}
-							<h3>添加评论</h3>
+							<h3 id="comment-h3">添加评论</h3>
 							<form action="/comment/add" method="post" novalidate class="myform" id="mycomment">
 								<div class="row">
 									<div class="col-xs-12 col-sm-12 col-md-12 wow fadeInUp" >
@@ -117,6 +147,7 @@
 													<button onclick="addComment();" name="submit" type="submit" class="btn btn-block" data-error-message="失败!" data-sending-message="提交中..." data-ok-message="提交成功">提交评论</button>
 													<input type="hidden" name="submitted" id="submitted3" value="true">
 													<input type="hidden" name="cid" value="{{ .c_id }}">
+													<input id="comment-path" type="hidden" name="path" >
 												</div>
 											</div>
 										</div>

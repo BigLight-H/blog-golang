@@ -2,8 +2,10 @@ package controllers
 
 import (
 	"beego-demo/models"
+	"beego-demo/util"
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/orm"
+	jsoniter "github.com/json-iterator/go"
 	"regexp"
 	"strings"
 )
@@ -138,4 +140,91 @@ func (p *baseController) VerifyMobileFormat(mobileNum string) bool {
 
 	reg := regexp.MustCompile(regular)
 	return reg.MatchString(mobileNum)
+}
+
+//获取用户ip
+func (p *baseController) GetUserIp() string {
+	if p.GetSession("ip") == nil {
+		res ,_ := util.DoHttpGetRequest("https://ip.seeip.org/geoip")
+		params := p.AnalyzeJson(res)
+		ip := params["ip"].(string)
+		p.SetSession("ip", ip)
+		return ip
+	}
+	return p.GetSession("ip").(string)
+}
+
+//获取用户所在城市天气
+func (p *baseController) GetUserWeater() map[string]interface{} {
+	if p.GetSession("weater") == nil {
+		res, _ := util.DoHttpGetRequest(beego.AppConfig.String("hf_api"))
+		params := p.AnalyzeJson(res)
+		HeWeather6 := params["HeWeather6"].([]interface{})
+		data := HeWeather6[0].(map[string]interface{})
+		p.SetSession("weater", data)
+		return data
+	}
+	return p.GetSession("weater").(map[string]interface{})
+}
+
+
+//解析json
+func (p *baseController) AnalyzeJson(src string) map[string]interface{} {
+	json := jsoniter.ConfigCompatibleWithStandardLibrary
+	reader := strings.NewReader(src)
+	decoder := json.NewDecoder(reader)
+	params := make(map[string]interface{})
+	err := decoder.Decode(&params)
+	if err == nil {
+		return params
+	}
+	return params
+}
+
+//增加点击量
+func (p *baseController) AddClickVolume(aid int) {
+	_, _ = p.o.QueryTable(new(models.Article).TableName()).Filter("id", aid).Update(orm.Params{
+		"click_volume": orm.ColValue(orm.ColAdd, 1),
+	})
+}
+
+//添加评论通知数量
+func (p *baseController) AddCommentNum(aid int) {
+	if p.GetSession("client_id") != nil  {
+		cid := p.GetSession("client_id").(int)
+		a := models.ArticleCommentNum{ArticleId:aid}
+		p.o.Read(&a)
+		if a.ClientId > 0 {
+			_, _ = p.o.QueryTable(new(models.ArticleCommentNum).TableName()).Filter("article_id", aid).Update(orm.Params{
+				"number": orm.ColValue(orm.ColAdd, 1),
+			})
+		} else {
+			a.ArticleId = aid
+			a.ClientId = cid
+			a.Number = 1
+			p.o.Insert(&a)
+		}
+	}
+}
+
+//已读某文章评论
+func (p *baseController) ReadArticle(aid int) {
+	if p.GetSession("client_id") != nil {
+		cid := p.GetSession("client_id").(int)
+		_,_ = p.o.QueryTable(new(models.ArticleCommentNum).TableName()).Filter("client_id", cid).Filter("article_id",aid).Delete()
+	}
+}
+
+//记录文章浏览记录
+func (p *baseController) AddLook(aid int) {
+	if p.GetSession("client_id") != nil {
+		cid := p.GetSession("client_id").(int)
+		num, _ := p.o.QueryTable(new(models.Browse).TableName()).Filter("client_id", cid).Filter("article_id", aid).Count()
+		if num < 1 {
+			browse := models.Browse{}
+			browse.Client = &models.Client{Id:cid}
+			browse.Article = &models.Article{Id:aid}
+			p.o.Insert(&browse)
+		}
+	}
 }

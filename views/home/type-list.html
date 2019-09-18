@@ -1,0 +1,53 @@
+{{template "home/header.html" .}}
+			<section id="hero" class="light-typo">
+				<div id="cover-image" class="image-bg animated fadeIn"></div>
+				<div class="container welcome-content">
+					<div class="middle-text">
+						<h1>{{ .list_title }}</h1>
+					</div>
+				</div>
+			</section>
+
+			<div id="start" class="container content">
+				<div class="row">
+					<div class="col-md-10 col-md-offset-1">
+						{{range .articles}}
+							<article class="clearfix">
+								<div class="post-date">
+									{{ .Created }} | <a href="/author/{{ .Client.Id }}/1">{{ .Client.Username }} </a>
+									<span>
+										<a href="/detail/{{ .Id }}"><i class="fa fa-eye" aria-hidden="true"></i> {{ .ClickVolume }}</a>&nbsp;&nbsp;
+										<a href="/detail/{{ .Id }}"><i class="fa fa-comment" aria-hidden="true"></i> {{ .CommentNum }}</a>&nbsp;&nbsp;
+										<a href="/detail/{{ .Id }}"><i class="fa fa-heart" aria-hidden="true"></i> {{ .ZanNum }}</a>&nbsp;&nbsp;
+										<a href="/detail/{{ .Id }}"><i class="fa fa-bookmark" aria-hidden="true"></i> {{ .CollectNum }}</a>
+									</span>
+								</div>
+								<h2><a href="/detail/{{ .Id }}">{{ .Title }}</a></h2>
+								<p style="word-break: break-all;">{{ .Content }} ...&nbsp;<a class="" href="/detail/{{ .Id }}">阅读更多</a></p>
+							</article>
+						{{end}}
+						<div class="post-popular">
+							<div class="row hidden-xs">
+								{{range  .hot}}
+								<div class="col-sm-4 col-md-4">
+									<a href="post-video.html"><img src="{{ .Picture }}" class="img-responsive" alt="img2"></a>
+									<h4 class="text-center"><a href="post-video.html">{{ .Title}}</a></h4>
+									<p class="post-date text-center">{{ .Created }}</p>
+								</div>
+								{{end}}
+							</div>
+						</div>
+						{{if gt .total 1.0}}
+							<div class="paging clearfix">
+								{{if gt .previous_page 0}}
+								<a class="btn pull-left" href="/home/list/{{ $.t_id }}/{{ $.list_title }}/{{ .previous_page }}"><i class="icon-arrow-left2 left"></i><span>上一页</span></a>
+								{{end}}
+								{{if lt .current_page .total}}
+								<a class="btn pull-right" href="/home/list/{{ $.t_id }}/{{ $.list_title }}/{{ .next_page }}"><span class="hidden-xs"> 下一页</span><i class="icon-arrow-right2 right"></i></a>
+								{{end}}
+							</div>
+						{{end}}
+					</div>	
+				</div><!-- end row -->
+			</div>
+{{template "home/footer.html" .}}

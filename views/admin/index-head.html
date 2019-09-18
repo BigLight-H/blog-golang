@@ -22,24 +22,33 @@
                         AXI
                     </div>
                 </li>
+                <li>
+                    <a href="/admin/home"><i class="fa fa-list" aria-hidden="true"></i> <span class="nav-label">后台首页</span></a>
+                </li>
                 {{range $a,$b := .sidebar}}
-                    {{if $b.Icon}}
-                        <li class="active">
-                            <a href="#">
-                                <i class="{{ $b.Icon }}"></i>
-                                <span class="nav-label">{{ $b.DisplayName }}</span>
-                                <span class="fa arrow"></span>
-                            </a>
-                            <ul class="nav nav-second-level">
-                                {{range $k,$v := $.sidebar}}
-                                    {{if eq $v.Pid $b.Id}}
-                                        <li>
-                                            <a href="{{ $v.WebUrl }}">{{ $v.DisplayName }}</a>
-                                        </li>
+                    {{if eq $b.Pid 0 }}
+                        {{if eq $b.IsMenu 0}}
+                            <li>
+                                <a href="{{ $b.WebUrl }}"><i class="{{ $b.Icon }}"></i> <span class="nav-label">{{ $b.DisplayName }}</span></a>
+                            </li>
+                        {{else}}
+                            <li>
+                                <a href="#">
+                                    <i class="{{ $b.Icon }}"></i>
+                                    <span class="nav-label">{{ $b.DisplayName }}</span>
+                                    <span class="fa arrow"></span>
+                                </a>
+                                <ul class="nav nav-second-level">
+                                    {{range $k,$v := $.sidebar}}
+                                        {{if eq $v.Pid $b.Id}}
+                                            <li>
+                                                <a href="{{ $v.WebUrl }}">{{ $v.DisplayName }}</a>
+                                            </li>
+                                        {{end}}
                                     {{end}}
-                                {{end}}
-                            </ul>
-                        </li>
+                                </ul>
+                            </li>
+                        {{end}}
                     {{end}}
                 {{end}}
             </ul>
