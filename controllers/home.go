@@ -70,7 +70,7 @@ func (p *HomeController) Detail() {
 	//文章评论
 	comment := []*models.Comment{}
 	ment := p.o.QueryTable(new(models.Comment).TableName())
-	ment = ment.Filter("article_id", id)
+	ment = ment.Filter("article_id", id).Filter("deleted__isnull",true)
 	count, _ := ment.Count()
 	//文章数量
 	p.Data["num"] = count

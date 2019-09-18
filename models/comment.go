@@ -6,6 +6,7 @@ type Comment struct {
 	Client *Client `orm:"rel(one)"`
 	Content string
 	Created string
+	Deleted string
 	Path string
 	IsReply int
 }
