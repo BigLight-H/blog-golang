@@ -190,8 +190,8 @@ func (p *baseController) AddClickVolume(aid int) {
 
 //添加评论通知数量
 func (p *baseController) AddCommentNum(aid int) {
-	cid := p.GetSession("client_id").(int)
-	if cid > 0  {
+	if p.GetSession("client_id") != nil  {
+		cid := p.GetSession("client_id").(int)
 		a := models.ArticleCommentNum{ArticleId:aid}
 		p.o.Read(&a)
 		if a.ClientId > 0 {
@@ -209,19 +209,22 @@ func (p *baseController) AddCommentNum(aid int) {
 
 //已读某文章评论
 func (p *baseController) ReadArticle(aid int) {
-	cid := p.GetSession("client_id").(int)
-	if cid > 0 {
+	if p.GetSession("client_id") != nil {
+		cid := p.GetSession("client_id").(int)
 		_,_ = p.o.QueryTable(new(models.ArticleCommentNum).TableName()).Filter("client_id", cid).Filter("article_id",aid).Delete()
 	}
 }
 
 //记录文章浏览记录
 func (p *baseController) AddLook(aid int) {
-	cid := p.GetSession("client_id").(int)
-	if cid > 0 {
-		browse := models.Browse{}
-		browse.Client = &models.Client{Id:cid}
-		browse.Article = &models.Article{Id:aid}
-		p.o.Insert(&browse)
+	if p.GetSession("client_id") != nil {
+		cid := p.GetSession("client_id").(int)
+		num, _ := p.o.QueryTable(new(models.Browse).TableName()).Filter("client_id", cid).Filter("article_id", aid).Count()
+		if num < 1 {
+			browse := models.Browse{}
+			browse.Client = &models.Client{Id:cid}
+			browse.Article = &models.Article{Id:aid}
+			p.o.Insert(&browse)
+		}
 	}
 }
