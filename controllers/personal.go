@@ -350,7 +350,6 @@ func (p *PersonalController) getPerData() {
 	client.Ip = p.Data["ip"].(string)
 	client.LoginTime = util.TimeSet()
 	p.o.Update(&client, "Ip","LoginTime")
-	//浏览记录(文章历史浏览记录)
-
-	//音乐播放器
+	//文章浏览数
+	p.Data["look_num"], _ = p.o.QueryTable(new(models.Browse).TableName()).Filter("client_id",client_id).Count()
 }
