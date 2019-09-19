@@ -1,7 +1,7 @@
 package controllers
 
 import (
-	"beego-demo/models"
+	"axicoo/models"
 )
 
 type BlogController struct {

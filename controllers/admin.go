@@ -1,8 +1,8 @@
 package controllers
 
 import (
-	"beego-demo/models"
-	"beego-demo/util"
+	"axicoo/models"
+	"axicoo/util"
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/orm"
 	"github.com/davecgh/go-spew/spew"
