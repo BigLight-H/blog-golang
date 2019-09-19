@@ -1,7 +1,7 @@
 package routers
 
 import (
-	"beego-demo/controllers"
+	"axicoo/controllers"
 	"github.com/astaxie/beego"
 )
 
